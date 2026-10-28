@@ -124,7 +124,7 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   relics = relics.filter((x) => x.equippedBy == request.characterId)
   relics = clone(relics)
   RelicFilters.calculateWeightScore(request, relics)
-  relics = RelicFilters.applyMainStatsFilter(request, relics)
+  relics = RelicFilters.applyMainStatsUpgrade(request, relics)
   const relicsByPart = RelicFilters.splitRelicsByPart(relics) as RelicsByPart | SimulationRelicByPart
   RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart as RelicsByPart)
   Object.keys(relicsByPart).map((key) =>
@@ -171,7 +171,7 @@ export const Optimizer = {
     relics = RelicFilters.applyMainFilter(request, relics)
     relics = clone(relics) // Past this point we modify relics, clone it first
     RelicFilters.mergePreviewSubstats(request, relics)
-    relics = RelicFilters.applyMainStatsFilter(request, relics)
+    relics = RelicFilters.applyMainStatsUpgrade(request, relics)
     relics = RelicFilters.applySetFilter(request, relics)
 
     // Post-split filters
@@ -220,6 +220,8 @@ export const Optimizer = {
       pSize: relics.PlanarSphere.length,
       lSize: relics.LinkRope.length,
     }
+
+    console.log(sizes)
 
     const permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize
     OptimizerTabController.setMetadata(sizes, relics)
@@ -281,6 +283,7 @@ export const Optimizer = {
     const computeEngine = useGlobalStore.getState().savedSession[SavedSessionKeys.computeEngine]
 
     if (computeEngine != COMPUTE_ENGINE_CPU && !shouldForceCpu(permutations)) {
+      console.log('GPU')
       void getWebgpuDevice(true).then((device) => {
         if (!ownsRun()) return
         if (device == null) {
@@ -312,6 +315,7 @@ export const Optimizer = {
     }
 
     if (computeEngine == COMPUTE_ENGINE_CPU || shouldForceCpu(permutations)) {
+      console.log('CPU')
       // Generate runs
       const runs: { skip: number, runSize: number }[] = []
       for (let currentSkip = 0; currentSkip < permutations; currentSkip += runSize) {
@@ -572,5 +576,6 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
 }
 
 function shouldForceCpu(perms: number) {
-  return perms <= 50_000 && !WEBGPU_DEBUG
+  // 5^6
+  return perms <= 15625 && !WEBGPU_DEBUG
 }

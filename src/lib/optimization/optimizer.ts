@@ -280,7 +280,7 @@ export const Optimizer = {
 
     const computeEngine = useGlobalStore.getState().savedSession[SavedSessionKeys.computeEngine]
 
-    if (computeEngine != COMPUTE_ENGINE_CPU) {
+    if (computeEngine != COMPUTE_ENGINE_CPU && !shouldForceCpu(permutations)) {
       void getWebgpuDevice(true).then((device) => {
         if (!ownsRun()) return
         if (device == null) {
@@ -311,7 +311,7 @@ export const Optimizer = {
       })
     }
 
-    if (computeEngine == COMPUTE_ENGINE_CPU) {
+    if (computeEngine == COMPUTE_ENGINE_CPU || shouldForceCpu(permutations)) {
       // Generate runs
       const runs: { skip: number, runSize: number }[] = []
       for (let currentSkip = 0; currentSkip < permutations; currentSkip += runSize) {
@@ -569,4 +569,8 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   }
 
   return d as OptimizerDisplayData
+}
+
+function shouldForceCpu(perms: number) {
+  return perms <= 50_000 && !WEBGPU_DEBUG
 }

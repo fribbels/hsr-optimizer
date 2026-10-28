@@ -1,4 +1,7 @@
-import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants/constants'
+import {
+  COMPUTE_ENGINE_GPU_EXPERIMENTAL,
+  type ComputeEngine,
+} from 'lib/constants/constants'
 import { FixedSizeNumericMinQueue } from 'lib/dataStructures/fixedSizeMinQueue'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 import {
@@ -36,7 +39,7 @@ export async function initializeGpuPipeline(
   request: Form,
   context: OptimizerContext,
   permutations: number,
-  computeEngine: string,
+  computeEngine: ComputeEngine,
   relicSetSolutions: number[],
   ornamentSetSolutions: number[],
   debug = false,

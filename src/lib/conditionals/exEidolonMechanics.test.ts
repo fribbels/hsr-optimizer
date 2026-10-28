@@ -168,37 +168,36 @@ describe('EX-only follow-up actions', () => {
   })
 })
 
-test('Acheron EX1 retains distinct direct FUA and Additional hits, with toughness once and no Ult-only buffs', () => {
+test('Acheron EX1 uses FUA and Ult damage with the Nihility trace but no talent penetration', () => {
   const form = formFor(Acheron)
   form.teammate0 = generateFullDefaultForm(Jiaoqiu.id, Jiaoqiu.defaultLightCone, 0, 1, true)
   form.enemyCount = 5
   const context = generateContext(form)
   const fua = actionFor(context, AbilityKind.FUA)
-  expect(fua.hits).toHaveLength(2)
-  expect(fua.hits?.map((hit) => [hit.damageType, hit.damageFunctionType, hit.atkScaling, hit.damageElement]))
+  expect(fua.hits).toHaveLength(1)
+  expect(fua.hits?.map((hit) => [hit.damageType, hit.damageFunctionType, hit.damageElement]))
     .toEqual([
-      [DamageTag.FUA, DamageFunctionType.Crit, 3, ElementTag.Lightning],
-      [DamageTag.ADDITIONAL, DamageFunctionType.Additional, 0.8, ElementTag.Lightning],
+      [DamageTag.FUA | DamageTag.ULT, DamageFunctionType.Crit, ElementTag.Lightning],
     ])
+  expect(fua.hits?.[0].atkScaling).toBeCloseTo(3.96)
   expect(fua.hits?.[0].directHit).toBe(true)
-  expect(fua.hits?.map((hit) => hit.toughnessDmg ?? 0)).toEqual([10, 0])
-  expect(fua.precomputedStats.getValue(StatKey.RES_PEN, 0)).toBe(0)
-  expect(fua.precomputedStats.getValue(StatKey.FINAL_DMG_BOOST, 0)).toBe(0)
+  expect(fua.hits?.map((hit) => hit.toughnessDmg ?? 0)).toEqual([10])
+  expect(fua.precomputedStats.getValue(StatKey.RES_PEN, 0)).toBeCloseTo(0.2)
+  expect(fua.precomputedStats.getValue(StatKey.FINAL_DMG_BOOST, 0)).toBeCloseTo(0.6)
   expect(actionFor(context, AbilityKind.BASIC).precomputedStats.getValue(StatKey.FINAL_DMG_BOOST, 0)).toBeCloseTo(0.6)
 
-  const before = fua.precomputedStats.getValue(StatKey.BOOST, 1)
+  const before = fua.precomputedStats.getValue(StatKey.BOOST, 0)
   fua.precomputedStats.buff(StatKey.BOOST, 1, fua.precomputedStats.damageType(DamageTag.FUA).source(Source.NONE))
-  expect(fua.precomputedStats.getValue(StatKey.BOOST, 1)).toBe(before)
   expect(fua.precomputedStats.getValue(StatKey.BOOST, 0)).toBe(before + 1)
 })
 
-test('DHIL EX1 keeps FUA action identity with Basic damage, free SP, and no Fulgurant Leap E6 penetration', () => {
+test('DHIL EX1 uses Basic and FUA damage, free SP, and no Fulgurant Leap E6 penetration', () => {
   const form = formFor(ImbibitorLunae)
   const context = generateContext(form)
   const fua = actionFor(context, AbilityKind.FUA)
   const hit = fua.hits?.[0]
   if (!hit || hit.damageFunctionType !== DamageFunctionType.Crit) throw new Error('Expected crit FUA hit')
-  expect(hit.damageType).toBe(DamageTag.BASIC)
+  expect(hit.damageType).toBe(DamageTag.BASIC | DamageTag.FUA)
   expect(hit.atkScaling).toBe(5)
   expect(hit.toughnessDmg).toBe(10)
   expect(hit.skillPointsUsed).toBe(0)
@@ -207,9 +206,9 @@ test('DHIL EX1 keeps FUA action identity with Basic damage, free SP, and no Fulg
 
   const before = fua.precomputedStats.getValue(StatKey.BOOST, 0)
   fua.precomputedStats.buff(StatKey.BOOST, 1, fua.precomputedStats.damageType(DamageTag.FUA).source(Source.NONE))
-  expect(fua.precomputedStats.getValue(StatKey.BOOST, 0)).toBe(before)
-  fua.precomputedStats.buff(StatKey.BOOST, 1, fua.precomputedStats.damageType(DamageTag.BASIC).source(Source.NONE))
   expect(fua.precomputedStats.getValue(StatKey.BOOST, 0)).toBe(before + 1)
+  fua.precomputedStats.buff(StatKey.BOOST, 1, fua.precomputedStats.damageType(DamageTag.BASIC).source(Source.NONE))
+  expect(fua.precomputedStats.getValue(StatKey.BOOST, 0)).toBe(before + 2)
 
   form.characterConditionals.ex1DmgBuff = false
   const disabledBuff = generateContext(form)

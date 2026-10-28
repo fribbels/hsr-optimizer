@@ -1,6 +1,7 @@
 import {
   aoe,
   ashblazingMulti,
+  bounce,
   single,
 } from 'lib/conditionals/ashblazingCompute'
 import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
@@ -9,8 +10,8 @@ import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import {
-  boostUltAshblazingAtk,
-  gpuBoostUltAshblazingAtk,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
@@ -108,6 +109,9 @@ const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterC
   const talentResPen = talent(e, 0.2, 0.22)
 
   const maxCrimsonKnotStacks = 9
+  const ex1AoeScaling = 3.00
+  const ex1BounceScaling = 0.80
+  const ex1BounceCount = 6
 
   // Precompute ashblazing hitMulti for each possible knot stack count (0-9)
   // ULT sequence: 3 Rainblades (single + AoE knot removal each) → Stygian Resurge (AoE) → 6 Thunder Core (single)
@@ -128,6 +132,11 @@ const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterC
       ...Array(6).fill(single(ultThunderCoreScaling)),
     ])
   })
+
+  const fuaHitMulti = ashblazingMulti([
+    aoe(ex1AoeScaling),
+    bounce(ex1BounceScaling, ex1BounceCount),
+  ])
 
   const nihilityTeammateScaling: Record<number, number> = {
     0: 0,
@@ -212,6 +221,13 @@ const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterC
     e4UltVulnerability: content.e4UltVulnerability,
   }
 
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals as Conditionals<typeof content>
+    return action.actionType === AbilityKind.FUA
+      ? fuaHitMulti(context)
+      : ultHitMultis[r.crimsonKnotStacks](context)
+  }
+
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
@@ -280,16 +296,11 @@ const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterC
           ? {
             [AbilityKind.FUA]: {
               hits: [
-                // Put the FUA first: the engine uses the first hit to check
-                // whether direct-attack buffs apply to this action.
                 HitDefinitionBuilder.standardFua()
+                  .damageType(DamageTag.FUA | DamageTag.ULT)
                   .damageElement(ElementTag.Lightning)
-                  .atkScaling(3.00)
+                  .atkScaling(ex1AoeScaling + ex1BounceScaling * ex1BounceCount / context.enemyCount)
                   .toughnessDmg(10)
-                  .build(),
-                HitDefinitionBuilder.standardAdditional()
-                  .damageElement(ElementTag.Lightning)
-                  .atkScaling(0.80)
                   .build(),
               ],
             },
@@ -305,7 +316,7 @@ const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterC
       x.buff(StatKey.CR_BOOST, (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0, x.source(SOURCE_E1))
 
       x.buff(StatKey.BOOST, r.thunderCoreStacks * 0.30, x.source(SOURCE_TRACE))
-      x.buff(StatKey.RES_PEN, talentResPen, x.damageType(DamageTag.ULT).source(SOURCE_TALENT))
+      x.buff(StatKey.RES_PEN, action.actionType !== AbilityKind.FUA ? talentResPen : 0, x.damageType(DamageTag.ULT).source(SOURCE_TALENT))
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6UltBuffs) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
 
       const originalDmgBoost = r.nihilityTeammatesBuff
@@ -321,12 +332,10 @@ const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterC
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      boostUltAshblazingAtk(x, action, ultHitMultis[r.crimsonKnotStacks](context))
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      return gpuBoostUltAshblazingAtk(action, ultHitMultis[r.crimsonKnotStacks](context))
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

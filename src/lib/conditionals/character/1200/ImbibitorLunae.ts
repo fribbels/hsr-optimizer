@@ -1,5 +1,6 @@
 import i18next from 'i18next'
 import {
+  aoe,
   ashblazingMulti,
   blast,
 } from 'lib/conditionals/ashblazingCompute'
@@ -8,8 +9,8 @@ import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
-  boostUltAshblazingAtk,
-  gpuBoostUltAshblazingAtk,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
@@ -114,6 +115,7 @@ const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterC
     blast(0.30),
     blast(0.40),
   ])
+  const fuaHitMulti = ashblazingMulti([aoe(1.00)])
 
   const defaults = {
     basicEnhanced: 3,
@@ -228,7 +230,8 @@ const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterC
           ? {
             [AbilityKind.FUA]: {
               hits: [
-                HitDefinitionBuilder.standardBasic()
+                HitDefinitionBuilder.standardFua()
+                  .damageType(DamageTag.BASIC | DamageTag.FUA)
                   .damageElement(ElementTag.Imaginary)
                   .atkScaling(5.00)
                   .toughnessDmg(10)
@@ -265,10 +268,12 @@ const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterC
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+      const hitMulti = action.actionType === AbilityKind.FUA ? fuaHitMulti(context) : ultHitMulti(context)
+      boostAshblazingAtkContainer(x, action, hitMulti)
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+      const hitMulti = action.actionType === AbilityKind.FUA ? fuaHitMulti(context) : ultHitMulti(context)
+      return gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
   }
 }

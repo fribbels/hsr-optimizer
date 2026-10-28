@@ -101,7 +101,7 @@
 /* ── Glass feed panel ── */
 
 .glassPanel {
-  flex: 0 0 400px;
+  width: calc(380px + var(--leaderboard-timeline-grid-width));
   display: flex;
   overflow: hidden;
   background: rgba(10, 11, 16, 0.30);
@@ -112,7 +112,7 @@
 }
 
 .userRanksPanel {
-  flex-basis: 350px;
+  width: 350px;
 }
 
 /* ── Saved UID ranks ── */
@@ -234,7 +234,7 @@
 .feedGrid {
   display: grid;
   font-size: 14px;
-  grid-template-columns: 20px 1px 36px 20px 1fr 52px 42px;
+  grid-template-columns: var(--leaderboard-timeline-grid-width) 1px 36px 20px 1fr 52px 42px;
   gap: 4px 7px;
   align-content: start;
   flex: 1;
@@ -288,6 +288,7 @@
 .cellTime {
   color: rgba(255, 255, 255, 0.32);
   font-size: 12px;
+  white-space: nowrap;
 }
 
 .cellDivider {

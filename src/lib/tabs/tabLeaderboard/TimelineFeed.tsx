@@ -8,8 +8,9 @@ import { Assets } from 'lib/rendering/assets'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
 import { getLeaderboardRankColor } from 'lib/tabs/tabLeaderboard/leaderboardRankColor'
 import { selectLeaderboardBuild } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
-import { percentageToLocaleString } from 'lib/utils/i18nUtils'
+import { type Languages, percentageToLocaleString } from 'lib/utils/i18nUtils'
 import { truncate10ths } from 'lib/utils/mathUtils'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const MAX_FEED_ENTRIES = 100
@@ -44,10 +45,21 @@ function handleRowClick(event: TimelineEvent) {
   })
 }
 
+function getTimeColWidth(resolvedLanguage?: string) {
+  switch (resolvedLanguage as Languages | undefined) {
+    case 'zh_CN':
+    case 'zh_TW':
+      return '40px'
+    default: return '20px'
+  }
+}
+
 export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
-  const { t: tGame } = useTranslation('gameData')
+  const { t: tGame, i18n } = useTranslation('gameData')
   const { t } = useTranslation('leaderboardTab', { keyPrefix: 'Timeline' })
   const displayed = events.slice(0, MAX_FEED_ENTRIES)
+
+  document.documentElement.style.setProperty('--leaderboard-timeline-grid-width', getTimeColWidth(i18n.resolvedLanguage))
 
   if (displayed.length === 0) return null
 

@@ -316,7 +316,7 @@ const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterC
       x.buff(StatKey.CR_BOOST, (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0, x.source(SOURCE_E1))
 
       x.buff(StatKey.BOOST, r.thunderCoreStacks * 0.30, x.source(SOURCE_TRACE))
-      x.buff(StatKey.RES_PEN, action.actionType !== AbilityKind.FUA ? talentResPen : 0, x.damageType(DamageTag.ULT).source(SOURCE_TALENT))
+      x.buff(StatKey.RES_PEN, talentResPen, x.actionKind(AbilityKind.ULT).source(SOURCE_TALENT))
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6UltBuffs) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
 
       const originalDmgBoost = r.nihilityTeammatesBuff

@@ -183,6 +183,8 @@ test('Acheron EX1 uses FUA and Ult damage with the Nihility trace but no talent 
   expect(fua.hits?.[0].directHit).toBe(true)
   expect(fua.hits?.map((hit) => hit.toughnessDmg ?? 0)).toEqual([10])
   expect(fua.precomputedStats.getValue(StatKey.RES_PEN, 0)).toBeCloseTo(0.2)
+  expect(actionFor(context, AbilityKind.BASIC).precomputedStats.getValue(StatKey.RES_PEN, 0)).toBeCloseTo(0.2)
+  expect(actionFor(context, AbilityKind.ULT).precomputedStats.getValue(StatKey.RES_PEN, 0)).toBeCloseTo(0.42)
   expect(fua.precomputedStats.getValue(StatKey.FINAL_DMG_BOOST, 0)).toBeCloseTo(0.6)
   expect(actionFor(context, AbilityKind.BASIC).precomputedStats.getValue(StatKey.FINAL_DMG_BOOST, 0)).toBeCloseTo(0.6)
 

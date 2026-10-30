@@ -33,6 +33,7 @@ CharacterList:
   Empty: 該当するキャラクターがいません
   InsufficientData: データが不足しています
 Filters:
+  ExOff: Off
   EidolonLabel: 星魂
   TeamLabel: チーム
   AllEidolons: 全て

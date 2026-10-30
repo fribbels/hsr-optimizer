@@ -33,6 +33,7 @@ CharacterList:
   Empty: 无匹配的角色
   InsufficientData: 数据不足
 Filters:
+  ExOff: Off
   EidolonLabel: 星魂
   TeamLabel: 队伍
   AllEidolons: 全部

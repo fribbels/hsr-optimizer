@@ -2287,6 +2287,8 @@ Characters:
         content: '「協奏」状態の時、味方全体の速度+16%。'
   RobinSummeretto:
     Content:
+      techniqueDmgBuff:
+        text: 秘技によるスキル強化
       e2ResPen:
         text: 2凸 全属性耐性貫通
       e4MemoSpdBuff:

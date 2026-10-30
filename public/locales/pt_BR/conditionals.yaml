@@ -1785,6 +1785,8 @@ Characters:
         content: Enquanto o estado Concerto estiver ativo, a SPD de todos os aliados aumenta em 16%.
   RobinSummeretto:
     Content:
+      techniqueDmgBuff:
+        text: DMG buff da técnica
       e2ResPen:
         text: E2 RES PEN
       e4MemoSpdBuff:

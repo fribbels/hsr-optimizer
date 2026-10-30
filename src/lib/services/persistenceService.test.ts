@@ -5,6 +5,7 @@ import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { Pela } from 'lib/conditionals/character/1100/Pela'
 import { FuXuan } from 'lib/conditionals/character/1200/FuXuan'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
+import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { TrailblazerHarmonyStelle } from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import {
   Parts,
@@ -15,11 +16,14 @@ import {
   DefaultSettingOptions,
   SettingOptions,
 } from 'lib/constants/settingsConstants'
+import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
+import { getDefaultForm } from 'lib/optimization/defaultForm'
 import {
   loadSaveData,
   mergePartialRelics,
   mergeRelics,
   resetAll,
+  upsertCharacterFromForm,
 } from 'lib/services/persistenceService'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
@@ -36,14 +40,20 @@ import {
   getRelics,
   useRelicStore,
 } from 'lib/stores/relic/relicStore'
-import { useScoringStore } from 'lib/stores/scoring/scoringStore'
+import {
+  getScoringMetadata,
+  useScoringStore,
+} from 'lib/stores/scoring/scoringStore'
 import { useScannerState } from 'lib/tabs/tabImport/scannerStore'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import type {
   Character,
   CharacterId,
 } from 'types/character'
-import type { Form } from 'types/form'
+import type {
+  Form,
+  ImportedCharacterForm,
+} from 'types/form'
 import type { LightConeId } from 'types/lightCone'
 import type { ScoringMetadata } from 'types/metadata'
 import type { Relic } from 'types/relic'
@@ -148,6 +158,141 @@ beforeEach(() => {
 
 // ---- Tests ----
 
+describe('EX import ownership', () => {
+  it('preserves absent import ownership but accepts an explicit zero', () => {
+    const importForm = (mask?: number): ImportedCharacterForm => {
+      return {
+        characterId: Kafka.id,
+        characterEx: mask,
+      }
+    }
+    const initial = importForm(1)
+    upsertCharacterFromForm(initial)
+    const absent = importForm()
+    expect(absent.characterEx).toBeUndefined()
+    expect(upsertCharacterFromForm(absent).form.characterEx).toBe(1)
+    const disabled = importForm(0)
+    expect(upsertCharacterFromForm(disabled).form.characterEx).toBe(0)
+  })
+
+  it('initializes a fresh import without EX as off', () => {
+    const imported = upsertCharacterFromForm({ characterId: Kafka.id })
+    expect(imported.form.characterEx).toBe(0)
+  })
+
+  it.each([undefined, 1])('scanner imports preserve saved EX or initialize a new character (%s)', (savedEx) => {
+    if (savedEx != null) upsertCharacterFromForm({ ...getDefaultForm({ id: Acheron.id }), characterEx: savedEx })
+    const parsed = ReliquaryArchiverParser.parseCharacter(
+      {
+        id: Acheron.id,
+        name: 'Acheron',
+        path: 'Nihility',
+        level: 80,
+        ascension: 6,
+        eidolon: 0,
+      },
+      {},
+      [],
+    )
+    if (!parsed) throw new Error('Scanner character was not parsed')
+    expect(parsed).not.toHaveProperty('characterEx')
+    mergeRelics([], [parsed])
+    expect(getCharacters()[0].form.characterEx).toBe(savedEx ?? 0)
+    expect(parsed).not.toHaveProperty('characterEx')
+  })
+
+  it.each([undefined, 0, 1])('Showcase imports copy the form EX setting (%s)', async (characterEx) => {
+    const { CharacterConverter } = await import('lib/importer/characterConverter')
+    const { importShowcaseCharacters } = await import('lib/tabs/tabShowcase/showcaseTabController')
+    const { useShowcaseTabStore } = await import('lib/tabs/tabShowcase/useShowcaseTabStore')
+    upsertCharacterFromForm({ ...getDefaultForm({ id: Kafka.id }), characterEx: 1 })
+    const converted = CharacterConverter.convert({ avatarId: Kafka.id, characterEx })
+    expect(converted.form.characterEx).toBe(characterEx ?? 0)
+    useShowcaseTabStore.getState().setFetchResult([converted])
+    importShowcaseCharacters('multiCharacter')
+    expect(getCharacters()[0].form.characterEx).toBe(characterEx ?? 0)
+  })
+
+  it.each([0, 1])('imports a manually edited Showcase EX setting (%s)', async (characterEx) => {
+    const { CharacterConverter } = await import('lib/importer/characterConverter')
+    const { handleCharacterModalOk, importShowcaseCharacters } = await import('lib/tabs/tabShowcase/showcaseTabController')
+    const { useShowcaseTabStore } = await import('lib/tabs/tabShowcase/useShowcaseTabStore')
+    upsertCharacterFromForm({ ...getDefaultForm({ id: Acheron.id }), characterEx: 1 - characterEx })
+    const converted = CharacterConverter.convert({ avatarId: Acheron.id, equipment: { tid: '23024', rank: 1, level: 80 } })
+    useShowcaseTabStore.getState().setFetchResult([converted])
+    expect(handleCharacterModalOk({ ...converted.form, characterEx })).toBe(true)
+    importShowcaseCharacters('singleCharacter')
+    expect(getCharacters()[0].form.characterEx).toBe(characterEx)
+  })
+
+  it.each(['singleCharacter', 'multiCharacter'] as const)('Showcase copies EX and eidolon with the rest of the form during %s import', async (mode) => {
+    const { CharacterConverter } = await import('lib/importer/characterConverter')
+    const { handleCharacterModalOk, importShowcaseCharacters } = await import('lib/tabs/tabShowcase/showcaseTabController')
+    const { useShowcaseTabStore } = await import('lib/tabs/tabShowcase/useShowcaseTabStore')
+    upsertCharacterFromForm({ ...getDefaultForm({ id: Acheron.id }), characterEx: 1, characterEidolon: 6 })
+    const converted = CharacterConverter.convert({ avatarId: Acheron.id, equipment: { tid: '23024', rank: 1, level: 80 } })
+    useShowcaseTabStore.getState().setFetchResult([converted])
+    expect(handleCharacterModalOk({ ...converted.form, lightConeSuperimposition: 2 })).toBe(true)
+    importShowcaseCharacters(mode)
+    expect(getCharacters()[0].form.characterEx).toBe(0)
+    expect(getCharacters()[0].form.characterEidolon).toBe(0)
+  })
+
+  it('retains manual EX through later edits and uses the fetched form after refresh', async () => {
+    const { CharacterConverter } = await import('lib/importer/characterConverter')
+    const { handleCharacterModalOk, importShowcaseCharacters } = await import('lib/tabs/tabShowcase/showcaseTabController')
+    const { useShowcaseTabStore } = await import('lib/tabs/tabShowcase/useShowcaseTabStore')
+    const raw = { avatarId: Acheron.id, equipment: { tid: '23024' as LightConeId, rank: 1, level: 80 } }
+    const converted = CharacterConverter.convert(raw)
+    useShowcaseTabStore.getState().setFetchResult([converted])
+    handleCharacterModalOk({ ...converted.form, characterEx: 1 })
+    handleCharacterModalOk({ ...converted.form, characterEx: 1, lightConeSuperimposition: 2 })
+    importShowcaseCharacters('multiCharacter')
+    expect(getCharacters()[0].form.characterEx).toBe(1)
+
+    useShowcaseTabStore.getState().setFetchResult([CharacterConverter.convert(raw)])
+    importShowcaseCharacters('multiCharacter')
+    expect(getCharacters()[0].form.characterEx).toBe(0)
+  })
+
+  it.each([undefined, 0, 1, 3])('loadSaveData initializes every saved EX field and preserves supplied flags (%s)', (characterEx) => {
+    const characterId = Acheron.id
+    const teammate = {
+      characterId,
+      characterEidolon: 0,
+      characterEx,
+      lightCone: '20000',
+      lightConeSuperimposition: 1,
+    }
+    const saved = JSON.parse(JSON.stringify({
+      relics: [],
+      characters: [{
+        id: characterId,
+        equipped: {},
+        form: { ...getDefaultForm({ id: characterId }), characterEx, teammate0: teammate },
+        builds: [{ source: BuildSource.Character, name: 'EX', equipped: {}, ...teammate, team: [teammate, null, null] }],
+      }],
+      scoringMetadataOverrides: { [characterId]: { simulation: { teammates: [teammate, teammate, teammate] } } },
+      savedSession: {
+        global: {
+          teamShowcaseSavedTeams: [{ id: 'ex-team', name: 'EX', characterIds: [characterId], benchmarkSnapshot: { members: [teammate] } }],
+        },
+      },
+    })) as HsrOptimizerSaveFormat
+
+    loadSaveData(saved, false, false)
+
+    const expected = characterEx ?? 0
+    const character = getCharacters()[0]
+    expect(character.form.characterEx).toBe(expected)
+    expect(character.form.teammate0.characterEx).toBe(expected)
+    expect(character.builds![0].characterEx).toBe(expected)
+    expect(character.builds![0].team[0]?.characterEx).toBe(expected)
+    expect(getScoringMetadata(characterId).simulation?.teammates[0].characterEx).toBe(expected)
+    expect(useGlobalStore.getState().savedSession.teamShowcaseSavedTeams[0].benchmarkSnapshot?.members[0].characterEx).toBe(expected)
+  })
+})
+
 describe('mergeRelics', () => {
   // Remap loop must accumulate across parts, not spread from the original each time
   it('mergeRelics accumulates remap across multiple equipped parts', () => {
@@ -230,6 +375,7 @@ describe('mergeRelics', () => {
         name: 'Test Build',
         characterId: Kafka.id,
         characterEidolon: 0,
+        characterEx: 0,
         lightCone: '21001' as LightConeId,
         lightConeSuperimposition: 1,
         equipped: { [Parts.Head]: RELIC_HEAD_OLD },

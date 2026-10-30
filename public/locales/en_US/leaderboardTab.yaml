@@ -33,6 +33,9 @@ CharacterList:
   Empty: No matching characters
   InsufficientData: Insufficient data
 Filters:
+  ExLabel: EX
+  ExOff: Off
+  EX1: EX1
   EidolonLabel: Eidolon
   TeamLabel: Team
   AllEidolons: All

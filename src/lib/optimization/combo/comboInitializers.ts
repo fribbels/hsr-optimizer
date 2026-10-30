@@ -121,6 +121,7 @@ export function generateConditionalResolverMetadata(request: BasicForm, dbMetada
   return {
     characterId: request.characterId,
     characterEidolon: request.characterEidolon,
+    characterEx: request.characterEx,
     path: dbMetadata.characters[request.characterId]?.path,
     lightCone: request.lightCone,
     lightConeSuperimposition: request.lightConeSuperimposition,

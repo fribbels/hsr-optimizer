@@ -1,4 +1,6 @@
+import i18next from 'i18next'
 import {
+  aoe,
   ashblazingMulti,
   blast,
 } from 'lib/conditionals/ashblazingCompute'
@@ -7,8 +9,8 @@ import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
-  boostUltAshblazingAtk,
-  gpuBoostUltAshblazingAtk,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
@@ -16,6 +18,7 @@ import {
   type ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { hasExEidolon } from 'lib/conditionals/exEidolons'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
@@ -24,6 +27,7 @@ import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapad
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
+  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -37,6 +41,7 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
+  DEFAULT_FUA,
   END_BASIC,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
@@ -50,7 +55,11 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
-import { type Eidolon } from 'types/character'
+import {
+  type Eidolon,
+  ExEidolon,
+  type ExFlags,
+} from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import {
   type ScoringMetadata,
@@ -71,7 +80,9 @@ export const ImbibitorLunaeAbilities: AbilityKind[] = [
   AbilityKind.BREAK,
 ]
 
-const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterConditionalsController => {
+  const ex1 = hasExEidolon(ex, ExEidolon.EX1)
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.ImbibitorLunae')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -86,6 +97,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
+    SOURCE_UNIQUE,
   } = Source.character('1213')
 
   const righteousHeartStackMax = (e >= 1) ? 10 : 6
@@ -103,15 +115,24 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     blast(0.30),
     blast(0.40),
   ])
+  const fuaHitMulti = ashblazingMulti([aoe(1.00)])
 
   const defaults = {
     basicEnhanced: 3,
     skillOutroarStacks: 4,
     talentRighteousHeartStacks: righteousHeartStackMax,
     e6ResPenStacks: 3,
+    ex1DmgBuff: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
+    ex1DmgBuff: {
+      id: 'ex1DmgBuff',
+      formItem: 'switch',
+      text: 'EX1 DMG buff',
+      content: betaContent,
+      disabled: !ex1,
+    },
     basicEnhanced: {
       id: 'basicEnhanced',
       formItem: 'slider',
@@ -165,7 +186,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => [...ImbibitorLunaeAbilities],
+    actionDeclaration: () => ex1 ? [...ImbibitorLunaeAbilities, AbilityKind.FUA] : [...ImbibitorLunaeAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -205,6 +226,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
           ],
         },
+        ...(ex1
+          ? {
+            [AbilityKind.FUA]: {
+              hits: [
+                HitDefinitionBuilder.standardFua()
+                  .damageType(DamageTag.BASIC | DamageTag.FUA)
+                  .damageElement(ElementTag.Imaginary)
+                  .atkScaling(5.00)
+                  .toughnessDmg(10)
+                  .build(),
+              ],
+            },
+          }
+          : {}),
       }
     },
     actionModifiers: () => [],
@@ -221,15 +256,24 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Talent - Righteous Heart DMG boost
       x.buff(StatKey.BOOST, r.talentRighteousHeartStacks * righteousHeartDmgValue, x.source(SOURCE_TALENT))
 
+      // EX1 damage boost
+      x.buff(StatKey.BOOST, ex1 && r.ex1DmgBuff ? 2.40 : 0, x.source(SOURCE_UNIQUE))
+
       // E6 - RES PEN for enhanced basic 3
-      x.buff(StatKey.RES_PEN, (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0, x.damageType(DamageTag.BASIC).source(SOURCE_E6))
+      x.buff(
+        StatKey.RES_PEN,
+        (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0,
+        x.actionKind(AbilityKind.BASIC).damageType(DamageTag.BASIC).source(SOURCE_E6),
+      )
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+      const hitMulti = action.actionType === AbilityKind.FUA ? fuaHitMulti(context) : ultHitMulti(context)
+      boostAshblazingAtkContainer(x, action, hitMulti)
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+      const hitMulti = action.actionType === AbilityKind.FUA ? fuaHitMulti(context) : ultHitMulti(context)
+      return gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
   }
 }
@@ -266,6 +310,7 @@ const simulation = (): SimulationMetadata => ({
     END_BASIC,
     WHOLE_BASIC,
     WHOLE_BASIC,
+    DEFAULT_FUA,
   ],
   relicSets: [
     [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
@@ -351,7 +396,6 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,
-    SortOption.FUA,
     SortOption.DOT,
   ],
   simulation: simulation(),
@@ -369,6 +413,7 @@ const display = {
 
 export const ImbibitorLunae: CharacterConfig = {
   id: '1213',
+  supportedExFlags: ExEidolon.EX1,
   defaultLightCone: BrighterThanTheSun.id,
   display,
   conditionals,

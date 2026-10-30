@@ -30,6 +30,7 @@ import {
 import { switchToCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import { ExEidolonPill } from 'lib/ui/selectors/ExEidolonPill'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
@@ -69,6 +70,7 @@ export function CharacterSelectorDisplay() {
   const {
     characterId,
     characterEidolon,
+    characterEx,
     lightCone,
     lightConeSuperimposition,
     resultsLimit,
@@ -77,6 +79,7 @@ export function CharacterSelectorDisplay() {
     useShallow((s) => ({
       characterId: s.characterId,
       characterEidolon: s.characterEidolon,
+      characterEx: s.characterEx,
       lightCone: s.lightCone,
       lightConeSuperimposition: s.lightConeSuperimposition,
       resultsLimit: s.resultsLimit,
@@ -103,6 +106,7 @@ export function CharacterSelectorDisplay() {
       const characterConditionals = CharacterConditionalsResolver.get({
         characterId: optimizerTabFocusCharacter,
         characterEidolon: characterEidolon,
+        characterEx,
       })
       availableActions = characterConditionals.actionDeclaration?.() ?? []
     }
@@ -171,7 +175,7 @@ export function CharacterSelectorDisplay() {
     })
 
     return { groups, optimizationKeys: new Set(optimizationOptions.map((o) => o.value)) }
-  }, [t, optimizerTabFocusCharacter, characterEidolon])
+  }, [t, optimizerTabFocusCharacter, characterEidolon, characterEx])
 
   const { groups: resultSortGroups, optimizationKeys } = resultSortOptions
 
@@ -182,19 +186,26 @@ export function CharacterSelectorDisplay() {
         <TooltipImage type={Hint.character()} />
       </Flex>
       <Flex direction='column' gap={optimizerTabDefaultGap}>
-        <CharacterSelect
-          value={characterId ?? null}
-          onChange={(id) => {
-            if (id) {
-              switchToCharacter(id)
-            }
-          }}
-          selectStyle={{ width: panelWidth }}
-          opened={optimizerTabFocusCharacterSelectModalOpen}
-          onOpenChange={setOptimizerTabFocusCharacterSelectModalOpen}
-          showIcon={false}
-          clearable={false}
-        />
+        <Flex align='center' gap={6}>
+          <CharacterSelect
+            value={characterId ?? null}
+            onChange={(id) => {
+              if (id) {
+                switchToCharacter(id)
+              }
+            }}
+            selectStyle={{ flex: 1, minWidth: 0 }}
+            opened={optimizerTabFocusCharacterSelectModalOpen}
+            onOpenChange={setOptimizerTabFocusCharacterSelectModalOpen}
+            showIcon={false}
+            clearable={false}
+          />
+          <ExEidolonPill
+            characterId={characterId}
+            mask={characterEx}
+            onChange={(mask) => useOptimizerRequestStore.getState().setEx(mask)}
+          />
+        </Flex>
         <SegmentedControl
           fullWidth
           size='xs'

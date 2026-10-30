@@ -15,7 +15,7 @@ Metadata.initialize()
 
 const CHAR_ID = '1001' as CharacterId
 const LC_ID = '21001' as LightConeId
-const CHAR_FORM = { characterEidolon: 0, lightCone: LC_ID, lightConeSuperimposition: 1 }
+const CHAR_FORM = { characterEidolon: 0, characterEx: 0, lightCone: LC_ID, lightConeSuperimposition: 1 }
 const EMPTY_RELICS = new Map<string, Relic>()
 
 // ---- Layer 2 fixtures (current format, old field names) ----
@@ -73,6 +73,12 @@ const LAYER1_ANCIENT_BUILD = {
 
 describe('migrateBuild', () => {
   describe('Layer 1: ancient format', () => {
+    it('inherits EX alongside eidolon and light cone from the character form', () => {
+      const form = { ...CHAR_FORM, characterEidolon: 2, characterEx: 1 }
+      const result = migrateBuild(LAYER1_ANCIENT_BUILD, CHAR_ID, form, EMPTY_RELICS)
+      expect(result).toMatchObject({ characterEidolon: 2, characterEx: 1, lightCone: LC_ID })
+    })
+
     it('converts { build: string[], name, score } to CharacterSavedBuild', () => {
       const relicsById = new Map<string, Relic>([
         ['r1', { id: 'r1', part: 'Head' }],

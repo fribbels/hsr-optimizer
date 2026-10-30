@@ -35,6 +35,7 @@ const BENCHMARK_SNAPSHOT: TeamShowcaseBenchmarkSnapshot = {
   members: [{
     characterId: Kafka.id,
     characterEidolon: 0,
+    characterEx: 0,
     lightCone: '20001' as LightConeId,
     lightConeSuperimposition: 1,
   }],

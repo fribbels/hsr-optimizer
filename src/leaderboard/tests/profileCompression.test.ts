@@ -102,6 +102,21 @@ describe('profileCompression', () => {
   })
 
   describe('field preservation', () => {
+    test('internal EX extension preserves explicit zero and coexists with Nova', () => {
+      for (const mask of [0, 1, 3]) {
+        const compressed = minifyProfile([{ avatarId: 1307, enhancedId: 1, characterEx: mask }])
+        expect(compressed.a[0]).toMatchObject({ a: 1307, e: 1, ex: mask })
+        expect(expandProfile(compressed)[0]).toMatchObject({ avatarId: '1307b1', characterEx: mask })
+      }
+    })
+
+    test('legacy characters use EX off for display and retain absent import ownership', () => {
+      const [expanded] = expandProfile({ a: [{ a: 1307, e: 1 }] })
+      expect(expanded.characterEx).toBeUndefined()
+      const converted = CharacterConverter.convert(expanded)
+      expect(converted.form.characterEx).toBe(0)
+    })
+
     test('equipment and relic identity fields survive minify and expand', () => {
       const fakeCharList: Record<string, unknown>[] = [{
         avatarId: 9999,

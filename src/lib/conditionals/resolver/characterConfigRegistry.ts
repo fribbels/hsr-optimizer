@@ -1,4 +1,7 @@
-import type { CharacterId } from 'types/character'
+import type {
+  CharacterId,
+  ExFlags,
+} from 'types/character'
 import type { CharacterConfig } from 'types/characterConfig'
 
 const characterModules = import.meta.glob<Record<string, unknown>>(
@@ -6,7 +9,9 @@ const characterModules = import.meta.glob<Record<string, unknown>>(
   { eager: true },
 )
 
-export const characterConfigRegistry = new Map<CharacterId, CharacterConfig>()
+type RegisteredCharacterConfig = CharacterConfig & { supportedExFlags: ExFlags }
+
+export const characterConfigRegistry = new Map<CharacterId, RegisteredCharacterConfig>()
 
 for (const mod of Object.values(characterModules)) {
   for (const value of Object.values(mod)) {
@@ -19,15 +24,16 @@ for (const mod of Object.values(characterModules)) {
       && 'display' in value
     ) {
       const config = value as CharacterConfig
-      characterConfigRegistry.set(config.id, config)
+      config.supportedExFlags = config.supportedExFlags ?? 0
+      characterConfigRegistry.set(config.id, config as RegisteredCharacterConfig)
     }
   }
 }
 
-export function getCharacterConfig(id: CharacterId): CharacterConfig | undefined {
+export function getCharacterConfig(id: CharacterId): RegisteredCharacterConfig | undefined {
   return characterConfigRegistry.get(id)
 }
 
-export function getAllCharacterConfigs(): Map<CharacterId, CharacterConfig> {
+export function getAllCharacterConfigs(): Map<CharacterId, RegisteredCharacterConfig> {
   return characterConfigRegistry
 }

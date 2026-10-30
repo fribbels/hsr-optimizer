@@ -1,11 +1,13 @@
 import { Flex } from '@mantine/core'
 import { OverlayText } from 'lib/characterPreview/CharacterPreviewComponents'
+import { hasExEidolon } from 'lib/conditionals/exEidolons'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { Assets } from 'lib/rendering/assets'
 import { useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useTranslation } from 'react-i18next'
 import teammateClasses from 'style/teammateCard.module.css'
+import { ExEidolon } from 'types/character'
 import { useShallow } from 'zustand/react/shallow'
 
 export function TeammatesSection() {
@@ -45,7 +47,7 @@ export function Teammate({ index }: { index: number }) {
       onClick={() => {
         setSelectedTeammateIndex(index)
         useCharacterModalStore.getState().openOverlay({
-          initialCharacter: teammate ? { form: teammate } : undefined,
+          initialForm: teammate,
           onOk: onCharacterModalOk,
           showSetSelection: true,
         })
@@ -58,7 +60,7 @@ export function Teammate({ index }: { index: number }) {
         />
 
         <OverlayText
-          text={t('EidolonNShort', { eidolon: characterEidolon })}
+          text={`${t('EidolonNShort', { eidolon: characterEidolon })}${hasExEidolon(teammate?.characterEx, ExEidolon.EX1) ? ' EX1' : ''}`}
           top={-12}
         />
 

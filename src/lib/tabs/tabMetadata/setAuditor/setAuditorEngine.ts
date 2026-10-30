@@ -163,6 +163,7 @@ function buildBenchmarkForm(
     characterId,
     lightCone: config.lightCone,
     characterEidolon: config.characterEidolon,
+    characterEx: 0,
     lightConeSuperimposition: config.lightConeSuperimposition,
     basicSpd: paramCombo.spd,
     errRope: paramCombo.errRope,

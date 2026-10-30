@@ -4,8 +4,8 @@ import chroma from 'chroma-js'
 import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/color/showcaseColorService'
-import { RollStripeBar } from 'lib/characterPreview/scoring/RollStripeBar'
 import { RollCountDisplay } from 'lib/characterPreview/scoring/RollCountDisplay'
+import { RollStripeBar } from 'lib/characterPreview/scoring/RollStripeBar'
 import {
   computeTierColors,
   type TierColors,
@@ -14,6 +14,7 @@ import {
   type AggregatedStatRolls,
   aggregateSubstatRolls,
 } from 'lib/characterPreview/scoring/substatRollsAggregator'
+import { hasExEidolon } from 'lib/conditionals/exEidolons'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import type { Sets } from 'lib/constants/constants'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
@@ -33,6 +34,7 @@ import {
 import { truncate10ths } from 'lib/utils/mathUtils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ExEidolon } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 
 interface CropConfig {
@@ -170,7 +172,9 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
           <ModuleStack label={t('LightConeModule')}>
             <div className={classes.lcText}>
               <span className={classes.lcSuper}>
-                {tCommon('EidolonNShort', { eidolon })} {tCommon('SuperimpositionNShort', { superimposition: lcSuper })}
+                {`${tCommon('EidolonNShort', { eidolon })} ${tCommon('SuperimpositionNShort', { superimposition: lcSuper })}${
+                  hasExEidolon(selectedEntry?.characterEx, ExEidolon.EX1) ? ' · EX1' : ''
+                }`}
               </span>
               <span className={classes.lcName}>{lcName}</span>
             </div>
@@ -233,7 +237,9 @@ function SubstatColumn({ rolls, tierColors }: {
             <Flex align='center' gap={5}>
               <img src={Assets.getStatIcon(roll.stat)} className={classes.statIcon} />
               <span className={classes.statName}>{t(`Stats.${roll.stat}`)}</span>
-              <span className={classes.statValue}><RollCountDisplay effective={roll.effective} total={roll.total} leaderboard /></span>
+              <span className={classes.statValue}>
+                <RollCountDisplay effective={roll.effective} total={roll.total} leaderboard />
+              </span>
             </Flex>
             <RollStripeBar entry={roll} colors={tierColors} maxRolls={maxRolls} />
           </div>

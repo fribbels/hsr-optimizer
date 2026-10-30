@@ -7,6 +7,10 @@ import {
   applyTeammateConditionalPresets,
   resolveTeammateInfo,
 } from 'lib/conditionals/evaluation/applyPresets'
+import {
+  getSupportedFlags,
+} from 'lib/conditionals/exEidolons'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { type BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
@@ -162,6 +166,7 @@ function invalidBenchmarkForm(benchmarkForm: BenchmarkForm) {
 
 export function handleCharacterSelectChange(id: CharacterId | null, formInstance: UseFormReturnType<BenchmarkForm>) {
   if (!id) return
+  formInstance.setFieldValue('characterEx', 0)
   const t = i18next.getFixedT(null, 'benchmarksTab', 'Messages.Error')
 
   const scoringMetadata = getScoringMetadata(id)
@@ -176,11 +181,13 @@ export function handleCharacterSelectChange(id: CharacterId | null, formInstance
   if (character) {
     form.lightCone = character.form.lightCone ?? null
     form.characterEidolon = character.form.characterEidolon ?? 0
+    form.characterEx = getSupportedFlags(character.form.characterEx, getCharacterConfig(id)?.supportedExFlags ?? 0)
     form.lightConeSuperimposition = character.form.lightConeSuperimposition ?? 1
   } else {
     // Null to force a blank light cone instead of using the previously existing one
     form.lightCone = null as unknown as LightConeId
     form.characterEidolon = 0
+    form.characterEx = 0
     form.lightConeSuperimposition = 1
   }
 

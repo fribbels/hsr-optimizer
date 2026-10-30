@@ -7,6 +7,7 @@ import { type SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
 import {
   type CharacterId,
   type Eidolon,
+  type ExFlags,
 } from 'types/character'
 import { type ConditionalValueMap } from 'types/conditionals'
 import { type Form } from 'types/form'
@@ -31,6 +32,7 @@ export type StatSimType = 'benchmarks' | 'substatRolls'
 export type TeammateState = {
   characterId: CharacterId | undefined,
   characterEidolon: number,
+  characterEx: ExFlags,
   lightCone: LightConeId | undefined,
   lightConeSuperimposition: number,
   teamRelicSet: string | undefined,
@@ -132,6 +134,7 @@ export type OptimizerRequestState = {
   // ── Character & Light Cone ──
   characterId: CharacterId | undefined,
   characterEidolon: Eidolon,
+  characterEx: ExFlags,
   characterLevel: number,
   lightCone: LightConeId | undefined,
   lightConeLevel: number,

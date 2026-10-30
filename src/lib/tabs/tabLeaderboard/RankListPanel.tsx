@@ -1,3 +1,4 @@
+import { hasExEidolon } from 'lib/conditionals/exEidolons'
 import { Assets } from 'lib/rendering/assets'
 import { selectLeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import type { LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
@@ -17,6 +18,7 @@ import {
   useRef,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ExEidolon } from 'types/character'
 
 const MEDAL_COLORS: Record<number, string> = {
   1: '#e0b420',
@@ -72,7 +74,9 @@ function RankListEntry({ entry, isSelected }: {
       </span>
 
       <span className={classes.eidolonTag}>
-        {tCommon('EidolonNShort', { eidolon })} {tCommon('SuperimpositionNShort', { superimposition: lcSuperimpose })}
+        {`${tCommon('EidolonNShort', { eidolon })} ${tCommon('SuperimpositionNShort', { superimposition: lcSuperimpose })}${
+          hasExEidolon(entry.characterEx, ExEidolon.EX1) ? ' · EX1' : ''
+        }`}
       </span>
 
       <span className={classes.colLightCone}>

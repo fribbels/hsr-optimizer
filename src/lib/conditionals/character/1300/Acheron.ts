@@ -1,6 +1,7 @@
 import {
   aoe,
   ashblazingMulti,
+  bounce,
   single,
 } from 'lib/conditionals/ashblazingCompute'
 import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
@@ -9,8 +10,8 @@ import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import {
-  boostUltAshblazingAtk,
-  gpuBoostUltAshblazingAtk,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
@@ -19,6 +20,7 @@ import {
   countTeamPath,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { hasExEidolon } from 'lib/conditionals/exEidolons'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
@@ -39,6 +41,7 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
+  DEFAULT_FUA,
   END_SKILL,
   END_ULT,
   NULL_TURN_ABILITY_NAME,
@@ -55,7 +58,11 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
-import { type Eidolon } from 'types/character'
+import {
+  type Eidolon,
+  ExEidolon,
+  type ExFlags,
+} from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -74,7 +81,8 @@ export const AcheronAbilities: AbilityKind[] = [
   AbilityKind.BREAK,
 ]
 
-const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterConditionalsController => {
+  const ex1 = hasExEidolon(ex, ExEidolon.EX1)
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Acheron')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -101,6 +109,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const talentResPen = talent(e, 0.2, 0.22)
 
   const maxCrimsonKnotStacks = 9
+  const ex1AoeScaling = 3.00
+  const ex1BounceScaling = 0.80
+  const ex1BounceCount = 6
 
   // Precompute ashblazing hitMulti for each possible knot stack count (0-9)
   // ULT sequence: 3 Rainblades (single + AoE knot removal each) → Stygian Resurge (AoE) → 6 Thunder Core (single)
@@ -121,6 +132,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       ...Array(6).fill(single(ultThunderCoreScaling)),
     ])
   })
+
+  const fuaHitMulti = ashblazingMulti([
+    aoe(ex1AoeScaling),
+    bounce(ex1BounceScaling, ex1BounceCount),
+  ])
 
   const nihilityTeammateScaling: Record<number, number> = {
     0: 0,
@@ -205,6 +221,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e4UltVulnerability: content.e4UltVulnerability,
   }
 
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    const r = action.characterConditionals as Conditionals<typeof content>
+    return action.actionType === AbilityKind.FUA
+      ? fuaHitMulti(context)
+      : ultHitMultis[r.crimsonKnotStacks](context)
+  }
+
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
@@ -220,7 +243,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => [...AcheronAbilities],
+    actionDeclaration: () => ex1 ? [...AcheronAbilities, AbilityKind.FUA] : [...AcheronAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -269,6 +292,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
           ],
         },
+        ...(ex1
+          ? {
+            [AbilityKind.FUA]: {
+              hits: [
+                HitDefinitionBuilder.standardFua()
+                  .damageType(DamageTag.FUA | DamageTag.ULT)
+                  .damageElement(ElementTag.Lightning)
+                  .atkScaling(ex1AoeScaling + ex1BounceScaling * ex1BounceCount / context.enemyCount)
+                  .toughnessDmg(10)
+                  .build(),
+              ],
+            },
+          }
+          : {}),
       }
     },
     actionModifiers: () => [],
@@ -279,7 +316,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CR_BOOST, (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0, x.source(SOURCE_E1))
 
       x.buff(StatKey.BOOST, r.thunderCoreStacks * 0.30, x.source(SOURCE_TRACE))
-      x.buff(StatKey.RES_PEN, talentResPen, x.damageType(DamageTag.ULT).source(SOURCE_TALENT))
+      x.buff(StatKey.RES_PEN, talentResPen, x.actionKind(AbilityKind.ULT).source(SOURCE_TALENT))
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6UltBuffs) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
 
       const originalDmgBoost = r.nihilityTeammatesBuff
@@ -295,12 +332,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      boostUltAshblazingAtk(x, action, ultHitMultis[r.crimsonKnotStacks](context))
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      return gpuBoostUltAshblazingAtk(action, ultHitMultis[r.crimsonKnotStacks](context))
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }
@@ -337,6 +372,7 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_ULT,
     START_SKILL,
     END_ULT,
+    DEFAULT_FUA,
   ],
   relicSets: [
     [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
@@ -425,7 +461,6 @@ const scoring = (): ScoringMetadata => ({
   defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [
-    SortOption.FUA,
     SortOption.DOT,
   ],
   simulation: simulation(),
@@ -444,6 +479,7 @@ const display = {
 
 export const Acheron: CharacterConfig = {
   id: '1308',
+  supportedExFlags: ExEidolon.EX1,
   defaultLightCone: AlongThePassingShore.id,
   display,
   conditionals,

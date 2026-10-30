@@ -35,8 +35,8 @@ export interface TeamBenchmarkSnapshotResult {
 }
 
 type BenchmarkOverridesByRole = {
-  mainDps: SimulationMetadataOverrides
-  nonMainDps: SimulationMetadataOverrides
+  mainDps: SimulationMetadataOverrides,
+  nonMainDps: SimulationMetadataOverrides,
 }
 
 type BenchmarkOverridesByCharacter = ReadonlyMap<CharacterId, BenchmarkOverridesByRole>
@@ -170,6 +170,7 @@ function buildBenchmarkMember(
     characterId: character.id,
     lightCone: character.form.lightCone,
     characterEidolon: character.form.characterEidolon,
+    characterEx: character.form.characterEx,
     lightConeSuperimposition: character.form.lightConeSuperimposition,
     ...calculateTeammateSets(character, relicsById),
   }
@@ -206,6 +207,7 @@ function areBenchmarkMembersEqual(
   return b != null
     && a.characterId === b.characterId
     && a.characterEidolon === b.characterEidolon
+    && a.characterEx === b.characterEx
     && a.lightCone === b.lightCone
     && a.lightConeSuperimposition === b.lightConeSuperimposition
     && a.teamRelicSet === b.teamRelicSet

@@ -26,6 +26,7 @@ import {
 import { updateTeammate } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/updateTeammate'
 import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard.module.css'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import { ExEidolonPill } from 'lib/ui/selectors/ExEidolonPill'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
   memo,
@@ -51,6 +52,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
   const {
     teammateCharacterId,
     teammateEidolon,
+    teammateEx,
     teammateLightConeId,
     teammateSuperimposition,
     teammateTeamRelicSet,
@@ -59,6 +61,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
     useShallow((s) => ({
       teammateCharacterId: s.teammates[index].characterId,
       teammateEidolon: s.teammates[index].characterEidolon,
+      teammateEx: s.teammates[index].characterEx,
       teammateLightConeId: s.teammates[index].lightCone,
       teammateSuperimposition: s.teammates[index].lightConeSuperimposition,
       teammateTeamRelicSet: s.teammates[index].teamRelicSet,
@@ -108,6 +111,11 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
               showIcon={false}
             />
 
+            <ExEidolonPill
+              characterId={teammateCharacterId}
+              mask={teammateEx}
+              onChange={(mask) => useOptimizerRequestStore.getState().setTeammateField(index, 'characterEx', mask)}
+            />
             <ActionIcon
               size={30}
               variant='default'
@@ -125,6 +133,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
           <CharacterConditionalsDisplay
             id={teammateCharacterId}
             eidolon={teammateEidolon}
+            characterEx={teammateEx}
             teammateIndex={index}
           />
         </Flex>

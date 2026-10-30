@@ -10,18 +10,20 @@ import {
 } from 'lib/scoring/scoringConfig'
 import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
-import { getGameMetadata } from 'lib/state/gameMetadata'
-import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
+import {
+  getDefaultScoringMetadata,
+  getScoringMetadata,
+} from 'lib/stores/scoring/scoringStore'
 import { clone } from 'lib/utils/objectUtils'
 import type { ComputeOptimalSimulationSearchRunner } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import type {
   Character,
   CharacterId,
 } from 'types/character'
+import type { Teammate } from 'types/form'
 import {
   type ScoringConfig,
   ScoringConfigType,
-  type ScoringMetadata,
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
@@ -150,14 +152,16 @@ export function resolveSimulationMetadata(
 
   const field = CONFIG_FIELD_MAP[configType]
   const customSimulation = getScoringMetadata(characterId)[field]
-  const defaultSimulation = getGameMetadata().characters[characterId]?.scoringMetadata[field]
+  const defaultSimulation = getDefaultScoringMetadata(characterId)[field]
 
   if (!defaultSimulation || !customSimulation) {
     return null
   }
 
-  const simulation = { ...defaultSimulation }
-  simulation.teammates = getTeammates(teamSelection, customSimulation, defaultSimulation, buildOverride)
+  const simulation = {
+    ...defaultSimulation,
+    teammates: getTeammates(teamSelection, customSimulation.teammates, defaultSimulation.teammates, buildOverride),
+  }
 
   // Non-DPS scoring always deprioritizes teammate buffs to isolate the support's own contribution
   if (SCORING_CONFIG_REGISTRY[configType].supportsDeprioritizeBuffs) {
@@ -173,18 +177,19 @@ export function resolveSimulationMetadata(
 
 export function getTeammates(
   teamSelection: TeamSelection,
-  customSimulation: NonNullable<ScoringMetadata['simulation']>,
-  defaultSimulation: NonNullable<ScoringMetadata['simulation']>,
+  customTeammates: Teammate[],
+  defaultTeammates: Teammate[],
   buildOverride?: SavedBuild | null,
-): SimulationMetadata['teammates'] {
+): Teammate[] {
   if (buildOverride != undefined) {
-    const teammates: SimulationMetadata['teammates'] = []
+    const teammates: Teammate[] = []
     for (const t of buildOverride.team) {
       if (t == null) continue
       teammates.push({
         characterId: t.characterId,
         lightCone: t.lightCone,
         characterEidolon: t.characterEidolon,
+        characterEx: t.characterEx,
         lightConeSuperimposition: t.lightConeSuperimposition,
         teamRelicSet: t.teamRelicSet,
         teamOrnamentSet: t.teamOrnamentSet,
@@ -193,7 +198,7 @@ export function getTeammates(
     return teammates
   }
   if (teamSelection === CUSTOM_TEAM) {
-    return customSimulation.teammates ?? defaultSimulation.teammates
+    return customTeammates
   }
-  return defaultSimulation.teammates
+  return defaultTeammates
 }

@@ -353,8 +353,7 @@ test('RobinSummeretto support score applies the Deviated Chord Vibes scaling', (
   // stays identical. Deviated Chord grants 0.4% of her HP per Vibe, and the flat Lushaka
   // contribution cancels out of the difference. The gap is read from the defaults so that retuning
   // them does not need this expectation rewritten.
-  const defaultVibes = (characterEidolon: number) =>
-    RobinSummeretto.conditionals(characterEidolon as Eidolon, false).teammateDefaults!().vibes as number
+  const defaultVibes = (characterEidolon: number) => RobinSummeretto.conditionals(characterEidolon as Eidolon, false, 0).teammateDefaults!().vibes as number
   const vibesGap = defaultVibes(6) - defaultVibes(1)
   expect(vibesGap).toBeGreaterThan(0)
 

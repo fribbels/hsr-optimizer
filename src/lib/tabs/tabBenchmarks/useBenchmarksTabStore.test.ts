@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
+import { JingYuan } from 'lib/conditionals/character/1200/JingYuan'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { IShallBeMyOwnSword } from 'lib/conditionals/lightcone/5star/IShallBeMyOwnSword'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
@@ -13,6 +14,7 @@ import {
   useBenchmarksTabStore,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { clone } from 'lib/utils/objectUtils'
+import { ExEidolon } from 'types/character'
 import {
   beforeEach,
   describe,
@@ -37,6 +39,7 @@ function makeTeammate(overrides: Partial<SimpleCharacterSets> = {}): SimpleChara
     characterId: Kafka.id,
     lightCone: KAFKA_LC,
     characterEidolon: 0,
+    characterEx: 0,
     lightConeSuperimposition: 1,
     ...overrides,
   }
@@ -47,6 +50,7 @@ function makeCharacterModalForm(overrides: Partial<CharacterModalForm> = {}): Ch
     characterId: Kafka.id,
     lightCone: KAFKA_LC,
     characterEidolon: 0,
+    characterEx: 0,
     lightConeSuperimposition: 1,
     teamRelicSet: Sets.MusketeerOfWildWheat,
     teamOrnamentSet: Sets.SpaceSealingStation,
@@ -67,6 +71,14 @@ beforeEach(() => {
 // ---- Tests ----
 
 describe('useBenchmarksTabStore', () => {
+  it('keeps EX from the teammate editor and defaults old modal values to off', () => {
+    state().setSelectedTeammateIndex(1)
+    state().onCharacterModalOk(makeCharacterModalForm({ characterId: JingYuan.id, characterEx: ExEidolon.EX1 }))
+    expect(state().teammate1?.characterEx).toBe(ExEidolon.EX1)
+    state().setSelectedTeammateIndex(1)
+    state().onCharacterModalOk(makeCharacterModalForm())
+    expect(state().teammate1?.characterEx).toBe(0)
+  })
   describe('initial state', () => {
     it('store initializes with no teammates, empty results, loading false, and no selected index', () => {
       expect(state().selectedTeammateIndex).toBeUndefined()

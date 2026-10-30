@@ -11,7 +11,7 @@ import {
   localeNumberComma,
   renderThousandsK,
 } from 'lib/utils/i18nUtils'
-import type { ReactNode } from 'react'
+import type { ReactElement } from 'react'
 import {
   type CSSProperties,
   Fragment,
@@ -57,7 +57,7 @@ type FlattenedBar = {
   damageType: number,
   label: string,
   color: string,
-  shape: (props: { x: number, y: number, width: number, height: number }) => ReactNode,
+  shape: (props: { x: number, y: number, width: number, height: number }) => ReactElement | null,
 }
 
 type LegendItem = {
@@ -297,7 +297,6 @@ export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
             dataKey={bar.key}
             stackId='a'
             fill={bar.color}
-            //@ts-expect-error recharts shape typing doesn't support custom shape functions
             shape={bar.shape}
             activeBar={false}
             isAnimationActive={false}

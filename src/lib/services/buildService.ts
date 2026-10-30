@@ -31,7 +31,10 @@ import {
 import { computeLoadForm } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
+import {
+  getDefaultScoringMetadata,
+  getScoringMetadata,
+} from 'lib/stores/scoring/scoringStore'
 import {
   AppPages,
 } from 'lib/tabs/navigation/constants'
@@ -89,7 +92,7 @@ export function saveBuild(
       const useCustom = simulation && teamSelection !== DEFAULT_TEAM
       teammates = useCustom
         ? simulation.teammates
-        : getGameMetadata().characters[characterId]?.scoringMetadata?.[metadataField]?.teammates
+        : getDefaultScoringMetadata(characterId)[metadataField]?.teammates
     }
     build = serializeFromCharacterTab(name, character, teammates, configType)
   }
@@ -116,9 +119,8 @@ export function loadBuildInOptimizer(build: SavedBuild): void {
   const form = character?.form ?? getDefaultForm({ id: characterId })
 
   // Compute the full merged state atomically: DB form defaults + build overrides
-  const formState = computeLoadForm(form)
   const buildPatch = deserializeBuild(build, form)
-  const mergedState = { ...formState, ...buildPatch }
+  const mergedState = computeLoadForm(form, buildPatch)
 
   // Set focus, then apply single atomic state update
   setCharacter(characterId)

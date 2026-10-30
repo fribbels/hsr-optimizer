@@ -66,6 +66,7 @@ function buildScoringInput(
           characterId: tm.characterId,
           lightCone: tm.lightCone,
           characterEidolon: tm.characterEidolon,
+          characterEx: tm.characterEx,
           lightConeSuperimposition: tm.lightConeSuperimposition,
         })),
         deprioritizeBuffs,

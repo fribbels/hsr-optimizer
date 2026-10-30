@@ -163,6 +163,7 @@ function makeSimTeammate(overrides: Partial<Teammate> = {}): Teammate {
   return {
     characterId: Jingliu.id,
     characterEidolon: 0,
+    characterEx: 0,
     lightCone: '21002' as LightConeId,
     lightConeSuperimposition: 1,
     teamRelicSet: 'SetA',
@@ -241,6 +242,7 @@ function makeOptimizerSavedBuild(overrides: Partial<OptimizerSavedBuild> = {}): 
     characterId: Kafka.id,
     equipped: {},
     characterEidolon: 0,
+    characterEx: 0,
     lightCone: '21001' as LightConeId,
     lightConeSuperimposition: 1,
     team: [null, null, null],
@@ -263,6 +265,7 @@ function makeCharacterSavedBuild(overrides: Partial<CharacterSavedBuild> = {}): 
     characterId: Kafka.id,
     equipped: {},
     characterEidolon: 0,
+    characterEx: 0,
     lightCone: '21001' as LightConeId,
     lightConeSuperimposition: 1,
     team: [null, null, null],
@@ -273,6 +276,33 @@ function makeCharacterSavedBuild(overrides: Partial<CharacterSavedBuild> = {}): 
 // ── Deserialization Tests ──
 
 describe('deserializeBuild', () => {
+  it('round trips independent main and teammate EX selections through optimizer snapshots', () => {
+    const state = makeOptimizerState({
+      characterEx: 1,
+      teammates: [makeTeammate({ characterEx: 2 }), createDefaultTeammate(), createDefaultTeammate()],
+    })
+    const snapshot = serializeFromOptimizer('EX', Kafka.id, state, {})
+    const restored = deserializeBuild(snapshot, makeForm({ characterEx: 0 }))
+    expect(snapshot.characterEx).toBe(1)
+    expect(restored.characterEx).toBe(1)
+    expect(restored.teammates?.[0].characterEx).toBe(2)
+  })
+
+  it('old and explicitly disabled builds load EX off independently of the live character', () => {
+    const current = makeForm({ characterEx: 1 })
+    expect(deserializeBuild(makeCharacterSavedBuild(), current).characterEx).toBe(0)
+    expect(deserializeBuild(makeOptimizerSavedBuild(), current).characterEx).toBe(0)
+    expect(deserializeBuild(makeCharacterSavedBuild({ characterEx: 0 }), current).characterEx).toBe(0)
+  })
+
+  it('character snapshots retain main and teammate EX independently', () => {
+    const character = makeCharacter({ form: makeForm({ characterEx: 1 }) })
+    const snapshot = serializeFromCharacterTab('EX', character, [makeSimTeammate({ characterEx: 2 })])
+    expect(snapshot.characterEx).toBe(1)
+    expect(snapshot.team[0]?.characterEx).toBe(2)
+    expect(deserializeBuild(snapshot, makeForm()).characterEx).toBe(1)
+  })
+
   describe('optimizer builds', () => {
     it('all damage-affecting fields override the DB form', () => {
       const build = makeOptimizerSavedBuild({
@@ -323,6 +353,7 @@ describe('deserializeBuild', () => {
           {
             characterId: Jingliu.id,
             characterEidolon: 1,
+            characterEx: 0,
             lightCone: '21002' as LightConeId,
             lightConeSuperimposition: 3,
             teamRelicSet: 'SetA',

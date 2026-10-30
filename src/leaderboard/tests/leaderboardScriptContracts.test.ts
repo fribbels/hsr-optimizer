@@ -70,6 +70,7 @@ import {
   buildLeaderboardScoreWorkerStateKey,
 } from 'leaderboard/workers/profileWorkerContracts'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { TrailblazerHarmonyCaelus } from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
@@ -222,6 +223,7 @@ function makeEntryData(score: number): LeaderboardEntryData {
       characterId: TEAMMATE_ID,
       lightCone: TEAMMATE_LIGHT_CONE_ID,
       characterEidolon: 6,
+      characterEx: 0,
       lightConeSuperimposition: 5,
     }],
     teamEidolon: 0,
@@ -655,6 +657,39 @@ describe('leaderboard script contracts', () => {
     expect(() => validateNoUidInPublicOutput(output)).toThrow('forbidden field "uidHash"')
   })
 
+  test('leaderboard score cache separates main and teammate EX settings', () => {
+    const simulationMetadata = {
+      ...SIMULATION_METADATA,
+      teammates: [{
+        characterId: TEAMMATE_ID as CharacterId,
+        characterEidolon: 0,
+        characterEx: 0,
+        lightCone: TEAMMATE_LIGHT_CONE_ID as LightConeId,
+        lightConeSuperimposition: 1,
+      }],
+    }
+    const baseInput = {
+      globalVersion: GLOBAL_VERSION,
+      dependencyDigest: DEPENDENCY_NAMESPACE.dependencyDigest,
+      configType: ScoringConfigType.DPS,
+      simulationMetadata,
+      characterEidolon: 0,
+      characterEx: 0,
+      lightConeSuperimposition: 1,
+      strippedRelicHash: 'same-relics',
+      spdBenchmark: null,
+    }
+    const legacyKey = buildLeaderboardBuildScoreCacheKey(baseInput)
+    expect(buildLeaderboardBuildScoreCacheKey({ ...baseInput, characterEx: 0 })).toBe(legacyKey)
+    expect(buildLeaderboardBuildScoreCacheKey({ ...baseInput, characterEx: 1 })).not.toBe(legacyKey)
+    const withTeammateEx = (mask: number) => ({
+      ...simulationMetadata,
+      teammates: simulationMetadata.teammates.map((teammate) => ({ ...teammate, characterEx: mask })),
+    })
+    expect(buildLeaderboardBuildScoreCacheKey({ ...baseInput, simulationMetadata: withTeammateEx(0) })).toBe(legacyKey)
+    expect(buildLeaderboardBuildScoreCacheKey({ ...baseInput, simulationMetadata: withTeammateEx(1) })).not.toBe(legacyKey)
+  })
+
   test('leaderboard build score cache key ignores relic ids but includes cache inputs', () => {
     const baseInput = {
       globalVersion: GLOBAL_VERSION,
@@ -662,6 +697,7 @@ describe('leaderboard script contracts', () => {
       configType: ScoringConfigType.DPS,
       simulationMetadata: SIMULATION_METADATA,
       characterEidolon: 0,
+      characterEx: 0,
       lightConeSuperimposition: 1,
       singleRelicByPart: makePreviewRelics('relic-a'),
       spdBenchmark: 134,
@@ -704,6 +740,7 @@ describe('leaderboard script contracts', () => {
           characterId: TEAMMATE_ID as CharacterId,
           lightCone: TEAMMATE_LIGHT_CONE_ID as LightConeId,
           characterEidolon: 6,
+          characterEx: 0,
           lightConeSuperimposition: 5,
         }],
       },
@@ -776,6 +813,7 @@ describe('leaderboard script contracts', () => {
       configType: ScoringConfigType.DPS,
       simulationMetadata: SIMULATION_METADATA,
       characterEidolon: 0,
+      characterEx: 0,
       lightConeSuperimposition: 1,
       singleRelicByPart: makePreviewRelics('relic-a'),
       spdBenchmark: 134,
@@ -786,6 +824,7 @@ describe('leaderboard script contracts', () => {
       configType: ScoringConfigType.DPS,
       simulationMetadata: SIMULATION_METADATA,
       characterEidolon: 0,
+      characterEx: 0,
       lightConeSuperimposition: 1,
       singleRelicByPart: makePreviewRelics('relic-a'),
       spdBenchmark: 134,
@@ -1041,6 +1080,34 @@ describe('leaderboard script contracts', () => {
       globalVersion: GLOBAL_VERSION + 1,
       runtimeConfig,
     })).not.toBe(baseKey)
+  })
+
+  test('generated teammates default supported EX1 on, respect explicit off, and keep variant identity/count', () => {
+    const team: LeaderboardTeam = {
+      teammates: [
+        { characterId: Acheron.id, lightCones: [TEAMMATE_LIGHT_CONE_ID as LightConeId] },
+        { characterId: Acheron.id, characterEx: 0, lightCones: [TEAMMATE_LIGHT_CONE_ID as LightConeId] },
+        { characterId: Sunday.id, lightCones: [TEAMMATE_LIGHT_CONE_ID as LightConeId] },
+      ],
+    }
+    const input = {
+      candidate: makeScoringVariantCandidate(),
+      configType: ScoringConfigType.DPS,
+      baseMetadata: SIMULATION_METADATA,
+      leaderboardTeams: [team],
+      eligibleTiers: [0, 2] as EidolonTierValue[],
+    }
+    const variants = expandScoringVariants(input)
+    expect(variants).toHaveLength(countScoringVariants(input))
+    expect(variants).toHaveLength(2)
+    for (const variant of variants) {
+      expect(variant.simulationMetadata.teammates.map((teammate) => teammate.characterEx)).toEqual([1, 0, 0])
+    }
+    const disabled = expandScoringVariants({
+      ...input,
+      leaderboardTeams: [{ teammates: team.teammates.map((teammate) => ({ ...teammate, characterEx: 0 })) as LeaderboardTeam['teammates'] }],
+    })
+    expect(disabled.map((variant) => variant.teamId)).toEqual(variants.map((variant) => variant.teamId))
   })
 
   test('scoring variant expansion matches count and preserves team identity across tiers', () => {

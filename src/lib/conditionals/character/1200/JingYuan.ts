@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import {
   aoe,
   ashblazingMulti,
@@ -14,8 +15,10 @@ import {
   type ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { hasExEidolon } from 'lib/conditionals/exEidolons'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
+  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -36,7 +39,11 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
-import { type Eidolon } from 'types/character'
+import {
+  type Eidolon,
+  ExEidolon,
+  type ExFlags,
+} from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import {
   type ScoringMetadata,
@@ -73,7 +80,17 @@ export const JingYuanAbilities: AbilityKind[] = [
   AbilityKind.BREAK,
 ]
 
-const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+export const LIGHTNING_LORD_MIN_STACKS = 3
+export const LIGHTNING_LORD_MIN_HITS = 0
+
+export function getLightningLordMaxHits(ex: ExFlags): number {
+  return hasExEidolon(ex, ExEidolon.EX1) ? 30 : 10
+}
+
+const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterConditionalsController => {
+  const ex1 = hasExEidolon(ex, ExEidolon.EX1)
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const maxLightningLordHits = getLightningLordMaxHits(ex)
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.JingYuan')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -88,6 +105,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
+    SOURCE_UNIQUE,
   } = Source.character('1204')
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -105,8 +123,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     const r = action.characterConditionals as Conditionals<typeof content>
 
     let hitMulti = 0
-    const stacks = r.talentHitsPerAction
-    const hits = r.talentAttacks
+    const { stacks, hits } = getLightningLordHits(r)
     const stacksPerMiss = (context.enemyCount >= 3) ? 2 : 0
     const stacksPerHit = (context.enemyCount >= 3) ? 3 : 1
     const stacksPreHit = (context.enemyCount >= 3) ? 2 : 1
@@ -129,13 +146,27 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const defaults = {
     skillCritBuff: true,
-    talentHitsPerAction: 10,
-    talentAttacks: 10,
+    talentHitsPerAction: maxLightningLordHits,
+    talentAttacks: maxLightningLordHits,
     e2DmgBuff: true,
     e6FuaVulnerabilityStacks: 3,
+    ex1EnhancedState: true,
+  }
+
+  function getLightningLordHits(r: Conditionals<typeof content>) {
+    const hits = Math.min(maxLightningLordHits, Math.max(LIGHTNING_LORD_MIN_HITS, r.talentAttacks))
+    const stacks = Math.min(maxLightningLordHits, Math.max(LIGHTNING_LORD_MIN_STACKS, r.talentHitsPerAction, hits))
+    return { stacks, hits }
   }
 
   const content: ContentDefinition<typeof defaults> = {
+    ex1EnhancedState: {
+      id: 'ex1EnhancedState',
+      formItem: 'switch',
+      text: 'EX1 enhanced state',
+      content: betaContent,
+      disabled: !ex1,
+    },
     skillCritBuff: {
       id: 'skillCritBuff',
       formItem: 'switch',
@@ -147,16 +178,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'slider',
       text: t('Content.talentHitsPerAction.text'),
       content: t('Content.talentHitsPerAction.content'),
-      min: 3,
-      max: 10,
+      min: LIGHTNING_LORD_MIN_STACKS,
+      max: maxLightningLordHits,
     },
     talentAttacks: {
       id: 'talentAttacks',
       formItem: 'slider',
       text: t('Content.talentAttacks.text'),
       content: t('Content.talentAttacks.content'),
-      min: 0,
-      max: 10,
+      min: LIGHTNING_LORD_MIN_HITS,
+      max: maxLightningLordHits,
     },
     e2DmgBuff: {
       id: 'e2DmgBuff',
@@ -200,8 +231,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      const talentHitsPerAction = Math.max(r.talentHitsPerAction, r.talentAttacks)
-      const talentAttacks = r.talentAttacks
+      const { hits: talentAttacks } = getLightningLordHits(r)
 
       return {
         [AbilityKind.BASIC]: {
@@ -256,7 +286,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      const talentHitsPerAction = Math.max(r.talentHitsPerAction, r.talentAttacks)
+      const { stacks: talentHitsPerAction } = getLightningLordHits(r)
+
+      x.buff(StatKey.BOOST, ex1 && r.ex1EnhancedState ? 2.40 : 0, x.source(SOURCE_UNIQUE))
 
       // Skill crit buff
       x.buff(StatKey.CR, (r.skillCritBuff) ? 0.10 : 0, x.source(SOURCE_TRACE))
@@ -416,6 +448,7 @@ const display = {
 
 export const JingYuan: CharacterConfig = {
   id: '1204',
+  supportedExFlags: ExEidolon.EX1,
   defaultLightCone: BeforeDawn.id,
   display,
   conditionals,

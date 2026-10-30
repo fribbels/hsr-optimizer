@@ -38,6 +38,7 @@ export type SimTestUtils = {
   characterId: CharacterId,
   lightCone: LightConeId,
   characterEidolon: number,
+  characterEx: number,
   lightConeSuperimposition: number,
 }
 export type TestCharacterBasic = {
@@ -97,6 +98,10 @@ export function applyEidolonSuperimposition(input: TestInputBasic, e: number, s:
   modifiedInput.teammate0.characterEidolon = e
   modifiedInput.teammate1.characterEidolon = e
   modifiedInput.teammate2.characterEidolon = e
+  modifiedInput.character.characterEx = 0
+  modifiedInput.teammate0.characterEx = 0
+  modifiedInput.teammate1.characterEx = 0
+  modifiedInput.teammate2.characterEx = 0
   modifiedInput.character.lightConeSuperimposition = s
   modifiedInput.teammate0.lightConeSuperimposition = s
   modifiedInput.teammate1.lightConeSuperimposition = s

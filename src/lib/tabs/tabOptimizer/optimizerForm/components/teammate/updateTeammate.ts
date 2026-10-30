@@ -1,5 +1,7 @@
 import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/evaluation/applyPresets'
+import { getSupportedFlags } from 'lib/conditionals/exEidolons'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { calculateTeammateSets } from 'lib/optimization/teammateSetUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/character/characterStore'
@@ -31,6 +33,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
       {
         characterId: teammate.characterId,
         characterEidolon: teammate.characterEidolon,
+        characterEx: teammate.characterEx,
         lightCone: updatedTeammate.lightCone,
         lightConeSuperimposition: teammate.lightConeSuperimposition,
       },
@@ -51,9 +54,13 @@ export function updateTeammate(changedValues: Partial<Form>) {
     const teammateCharacter = getCharacterById(teammateCharacterId)
     const characterChanged = currentTeammate.characterId !== teammateCharacterId
 
+    let characterEidolon = currentTeammate.characterEidolon
+    const savedEx = teammateCharacter?.form.characterEx ?? 0
+    const supportedFlags = getCharacterConfig(teammateCharacterId)?.supportedExFlags ?? 0
+    const characterEx = getSupportedFlags(savedEx, supportedFlags)
+
     let lightCone = currentTeammate.lightCone
     let lightConeSuperimposition = currentTeammate.lightConeSuperimposition
-    let characterEidolon = currentTeammate.characterEidolon
     let teamRelicSet = currentTeammate.teamRelicSet
     let teamOrnamentSet = currentTeammate.teamOrnamentSet
 
@@ -72,6 +79,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
     const charController = CharacterConditionalsResolver.get({
       characterId: teammateCharacterId,
       characterEidolon: characterEidolon,
+      characterEx,
     })
 
     const characterDefaults = charController.teammateDefaults?.()
@@ -85,6 +93,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
         {
           characterId: teammateCharacterId,
           characterEidolon,
+          characterEx,
           lightCone,
           lightConeSuperimposition,
         },
@@ -99,6 +108,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
     useOptimizerRequestStore.getState().setTeammate(teammateIndex, {
       characterId: teammateCharacterId,
       characterEidolon,
+      characterEx,
       lightCone,
       lightConeSuperimposition,
       teamRelicSet,

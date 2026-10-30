@@ -472,7 +472,7 @@ const supportSimulation = (): SimulationMetadata => ({
   relicSets: [
     [Sets.HeroOfTriumphantSong, Sets.HeroOfTriumphantSong],
     [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
-    ...SPREAD_RELICS_4P_SUPPORT,
+    ...SPREAD_RELICS_4P_SUPPORT.filter(([set]) => set !== Sets.SacerdosRelivedOrdeal),
   ],
   ornamentSets: [
     Sets.BrokenKeel,

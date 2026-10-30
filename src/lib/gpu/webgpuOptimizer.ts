@@ -48,7 +48,7 @@ export async function gpuOptimize(props: {
   relics: RelicsByPart,
   permutations: number,
   validPermutations: number,
-  computeEngine: string,
+  computeEngine: ComputeEngine,
   relicSetSolutions: number[],
   ornamentSetSolutions: number[],
 }) {
@@ -68,7 +68,7 @@ export async function gpuOptimize(props: {
   }
 
   useOptimizerDisplayStore.getState().setOptimizerStartTime(Date.now())
-  useOptimizerDisplayStore.getState().setOptimizerRunningEngine(computeEngine as ComputeEngine)
+  useOptimizerDisplayStore.getState().setOptimizerRunningEngine(computeEngine)
 
   const gpuContext = await initializeGpuPipeline(
     device,

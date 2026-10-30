@@ -259,6 +259,9 @@ export const RelicFilters = {
     for (let i = 0; i < characters.length; i++) {
       const rankedCharacter = characters[i]
       if (rankedCharacter.id == characterId) {
+        continue
+      }
+      if (i >= request.rank) {
         break
       }
 

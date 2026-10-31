@@ -3,6 +3,7 @@ Relic_other: 遗器
 RelicWithCount_one: '{{count}}个遗器'
 RelicWithCount_other: '{{count}}个遗器'
 ThousandsSuffix: K
+ExEidolon1: EX1星魂
 Cancel: 取消
 Confirm: 确认
 Submit: 提交

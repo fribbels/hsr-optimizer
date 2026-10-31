@@ -2389,6 +2389,7 @@ Characters:
         content: 使知更鸟•晴歌与「晴空乐手」的暴击伤害提高40% + 气氛值*1.5%，持续2回合。
       techniqueDmgBuff:
         text: 秘技伤害增益
+        content: "战斗开始时，并使我方全体造成的伤害提高30%，持续2回合。"
       e2ResPen:
         text: 2魂属性抗性穿透
         content: 我方目标的全属性抗性穿透提高18%。

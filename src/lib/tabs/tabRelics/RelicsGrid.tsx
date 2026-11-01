@@ -25,6 +25,7 @@ import {
 } from 'lib/tabs/tabRelics/columnDefs'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
 import {
+  RelicDiscardLockState,
   useRelicsTabStore,
   type ValueColumnField,
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
@@ -154,6 +155,13 @@ export function RelicsGrid() {
     if (filters.equipped.length && !filters.equipped.includes(relic.equippedBy != null)) return false
     if (filters.set.length && !filters.set.includes(relic.set)) return false
     if (filters.mainStat.length && !filters.mainStat.includes(relic.main.stat)) return false
+    if (filters.state.length) {
+      let matchesState = false
+      if (filters.state.includes(RelicDiscardLockState.Discarded) && relic.discard) matchesState = true
+      if (filters.state.includes(RelicDiscardLockState.Locked) && relic.lock) matchesState = true
+      if (filters.state.includes(RelicDiscardLockState.None) && !relic.discard && !relic.lock) matchesState = true
+      if (!matchesState) return false
+    }
     if (
       filters.subStat.length && !filters.subStat.every((filterStat) => {
         return relic.substats.some((s) => s.stat === filterStat)

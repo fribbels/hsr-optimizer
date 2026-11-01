@@ -336,6 +336,8 @@ function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], s
     verified: scanner.config.speedVerified,
     id: parserRelic._uid,
     ageIndex: parseInt(parserRelic._uid),
+    lock: parserRelic.lock,
+    discard: parserRelic.discard
   }
 
   return relic

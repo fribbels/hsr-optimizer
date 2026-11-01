@@ -22,6 +22,13 @@ export type RelicTabFilters = {
   set: Array<Sets>,
   mainStat: Array<MainStats>,
   subStat: Array<SubStats>,
+  state: Array<RelicDiscardLockState>
+}
+
+export enum RelicDiscardLockState {
+  Locked,
+  Discarded,
+  None
 }
 
 export enum RelicInsights {
@@ -67,6 +74,7 @@ const defaultState: RelicsTabStateValues = {
     set: [],
     mainStat: [],
     subStat: [],
+    state: []
   },
   // Preserve the current maximum-potential behavior by default.
   bucketPotentialMode: BucketPotentialMode.Maximum,

@@ -184,7 +184,7 @@ export function generateOptionalColDefs(t: TFunction<'relicsTab', 'RelicGrid'>) 
 export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>): ColDef<ScoredRelic>[] {
   return [
     {
-      headerName: "Discard/Lock",
+      headerName: t('Headers.State'),
       width: 40,
       valueGetter: (p) => p.data?.lock ? "🔒" : p.data?.discard ? "🗑️": null
     },

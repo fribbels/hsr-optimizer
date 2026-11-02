@@ -34,6 +34,7 @@ RelicGrid:
   To: to
   Of: of
   Headers:
+    State: 🗑️ / 🔒
     EquippedBy: Owner
     Set: Set
     Part: Part

@@ -71,8 +71,8 @@ export type V4ParserRelic = {
   reroll_substats?: V4ParserSubstat[],
   preview_substats?: V4ParserSubstat[],
   location: string,
-  lock: boolean,
-  discard: boolean,
+  lock?: boolean,
+  discard?: boolean,
   _uid: string,
 }
 

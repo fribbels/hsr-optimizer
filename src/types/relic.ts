@@ -37,8 +37,8 @@ export type Relic = {
   substats: RelicSubstatMetadata[],
   previewSubstats: RelicSubstatMetadata[],
   initialRolls: number,
-  lock: boolean,
-  discard: boolean,
+  lock?: boolean,
+  discard?: boolean,
 }
 
 export type RelicSubstatMetadata = {

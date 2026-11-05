@@ -13,7 +13,7 @@ export type RelicGrade = number
 export type RelicEnhance = number
 
 export type UnaugmentedRelic =
-  & Pick<Relic, 'main' | 'substats' | 'grade' | 'enhance' | 'part' | 'verified' | 'set'>
+  & Pick<Relic, 'main' | 'substats' | 'grade' | 'enhance' | 'part' | 'verified' | 'set' | 'lock' | 'discard'>
   & Partial<Pick<Relic, 'id' | 'augmentedStats' | 'initialRolls' | 'ageIndex' | 'previewSubstats' | 'equippedBy'>>
 
 export type Relic = {
@@ -37,6 +37,8 @@ export type Relic = {
   substats: RelicSubstatMetadata[],
   previewSubstats: RelicSubstatMetadata[],
   initialRolls: number,
+  lock?: boolean,
+  discard?: boolean,
 }
 
 export type RelicSubstatMetadata = {

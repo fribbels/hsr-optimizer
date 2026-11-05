@@ -71,8 +71,8 @@ export type V4ParserRelic = {
   reroll_substats?: V4ParserSubstat[],
   preview_substats?: V4ParserSubstat[],
   location: string,
-  lock: boolean,
-  discard: boolean,
+  lock?: boolean,
+  discard?: boolean,
   _uid: string,
 }
 
@@ -336,6 +336,8 @@ function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], s
     verified: scanner.config.speedVerified,
     id: parserRelic._uid,
     ageIndex: parseInt(parserRelic._uid),
+    lock: parserRelic.lock,
+    discard: parserRelic.discard
   }
 
   return relic

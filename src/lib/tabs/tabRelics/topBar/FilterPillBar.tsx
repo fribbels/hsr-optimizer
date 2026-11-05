@@ -20,7 +20,7 @@ import {
   type FilterOption,
   FilterPill,
 } from 'lib/tabs/tabRelics/topBar/FilterPill'
-import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { RelicDiscardLockState, useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { CharacterMultiSelect } from 'lib/ui/selectors/CharacterMultiSelect'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -67,6 +67,7 @@ export function FilterPillBar() {
     equipped: setFilter('equipped'),
     verified: setFilter('verified'),
     set: setFilter('set'),
+    state: setFilter('state'),
   }), [setFilter])
 
   const { t, i18n } = useTranslation('relicsTab')
@@ -100,6 +101,12 @@ export function FilterPillBar() {
   const verifiedOptions: FilterOption<boolean>[] = useMemo(() => [
     { value: true, label: t('RelicFilterBar.Verified') },
     { value: false, label: t('RelicFilterBar.Unverified') },
+  ], [t])
+
+  const lockDiscardOptions: FilterOption<RelicDiscardLockState>[] = useMemo(() => [
+    { value: RelicDiscardLockState.Locked, label: '🔒' },
+    { value: RelicDiscardLockState.Discarded, label: '🗑️' },
+    { value: RelicDiscardLockState.None, label: '🔓'}
   ], [t])
 
   const relicSetOptions: FilterOption<Sets>[] = useMemo(() =>
@@ -158,6 +165,7 @@ export function FilterPillBar() {
         />
         <FilterPill label={t('RelicFilterBar.Equipped')} options={equippedOptions} selected={filters.equipped} onChange={filterHandlers.equipped} />
         <FilterPill label={t('RelicFilterBar.Verified')} options={verifiedOptions} selected={filters.verified} onChange={filterHandlers.verified} />
+        <FilterPill label={"🔒/🗑️/🔓"} options={lockDiscardOptions} selected={filters.state} onChange={filterHandlers.state} />
         <div style={{ marginLeft: 4 }}>
           <TooltipImage type={Hint.relics()} />
         </div>

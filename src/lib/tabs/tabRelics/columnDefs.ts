@@ -184,6 +184,11 @@ export function generateOptionalColDefs(t: TFunction<'relicsTab', 'RelicGrid'>) 
 export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>): ColDef<ScoredRelic>[] {
   return [
     {
+      headerName: t('Headers.State'),
+      width: 40,
+      valueGetter: (p) => p.data?.lock ? "🔒" : p.data?.discard ? "🗑️": null
+    },
+    {
       field: 'equippedBy',
       headerName: t('Headers.EquippedBy'),
       width: 40,

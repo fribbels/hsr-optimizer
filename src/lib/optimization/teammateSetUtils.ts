@@ -33,6 +33,7 @@ const TEAMMATE_ORNAMENT_SETS: readonly SetName[] = [
   Sets.LushakaTheSunkenSeas,
   Sets.AmphoreusTheEternalLand,
   Sets.CityOfConvergingStars,
+  Sets.SubspaceASCCenter,
 ]
 
 export interface ActiveTeammateSets {

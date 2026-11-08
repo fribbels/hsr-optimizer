@@ -593,14 +593,14 @@ const simulation = (): SimulationMetadata => ({
       teammates: [
         { characterId: AeonAha.id, lightCones: [UponTheFirstEchoOfAha.id] },
         { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
-        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+        { characterId: Pearl.id, lightCones: [Pearl.defaultLightCone] },
       ],
     },
     {
       teammates: [
         { characterId: TrailblazerElationStelle.id, lightCones: [TrailblazerElationStelle.defaultLightCone] },
         { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
-        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+        { characterId: Pearl.id, lightCones: [Pearl.defaultLightCone] },
       ],
     },
   ],

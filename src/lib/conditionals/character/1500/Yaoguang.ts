@@ -550,8 +550,8 @@ const simulation = (): SimulationMetadata => ({
     {
       characterId: AeonAha.id,
       lightCone: AeonAha.defaultLightCone,
-      characterEidolon: 6,
-      lightConeSuperimposition: 5,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
     },
     {
       characterId: Pearl.id,

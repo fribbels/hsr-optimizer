@@ -415,13 +415,6 @@ const simulation = (): SimulationMetadata => ({
     {
       teammates: [
         { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
-        { characterId: Tribbie.id, lightCones: [Tribbie.defaultLightCone] },
-        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
-      ],
-    },
-    {
-      teammates: [
-        { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
         { characterId: RobinSummeretto.id, lightCones: [RobinSummeretto.defaultLightCone] },
         { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
       ],

@@ -84,6 +84,8 @@ import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { AeonAha } from './AeonAha'
+import { UponTheFirstEchoOfAha } from 'lib/conditionals/lightcone/5star/UponTheFirstEchoOfAha'
 
 export const EvanesciaEntities = createEnum('Evanescia')
 export const EvanesciaAbilities: AbilityKind[] = [
@@ -505,8 +507,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 5,
     },
     {
-      characterId: TrailblazerElationStelle.id,
-      lightCone: ElationBrimmingWithBlessings.id,
+      characterId: AeonAha.id,
+      lightCone: UponTheFirstEchoOfAha.id,
       characterEidolon: 6,
       lightConeSuperimposition: 5,
     },
@@ -521,8 +523,8 @@ const simulation = (): SimulationMetadata => ({
     {
       teammates: [
         { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
-        { characterId: TrailblazerElationStelle.id, lightCones: [ElationBrimmingWithBlessings.id] },
-        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+        { characterId: AeonAha.id, lightCones: [UponTheFirstEchoOfAha.id] },
+        { characterId: Pearl.id, lightCones: [Pearl.defaultLightCone] },
       ],
     },
   ],

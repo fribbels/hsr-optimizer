@@ -1,6 +1,5 @@
-import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { AeonAha } from './AeonAha'
 import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
-import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
@@ -21,9 +20,8 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { UponTheFirstEchoOfAha } from 'lib/conditionals/lightcone/5star/UponTheFirstEchoOfAha'
 import { ColorsForTomorrow } from 'lib/conditionals/lightcone/5star/ColorsForTomorrow'
-import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
   ConditionalActivation,
@@ -550,8 +548,8 @@ const healSimulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Sparxie.id,
-      lightCone: DazzledByAFloweryWorld.id,
+      characterId: AeonAha.id,
+      lightCone: UponTheFirstEchoOfAha.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

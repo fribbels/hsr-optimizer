@@ -1,9 +1,7 @@
-import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
-import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
 import { Pearl } from 'lib/conditionals/character/1500/Pearl'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
-import { TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
+import { AeonAha } from './AeonAha'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -21,10 +19,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
-import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
   ConditionalActivation,
@@ -553,8 +548,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: TrailblazerElationStelle.id,
-      lightCone: TrailblazerElationStelle.defaultLightCone,
+      characterId: AeonAha.id,
+      lightCone: AeonAha.defaultLightCone,
       characterEidolon: 6,
       lightConeSuperimposition: 5,
     },
@@ -570,8 +565,8 @@ const simulation = (): SimulationMetadata => ({
       deprioritizeBuffs: true,
       teammates: [
         { characterId: Sparxie.id, lightCones: [DazzledByAFloweryWorld.id] },
-        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
-        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+        { characterId: AeonAha.id, lightCones: [AeonAha.defaultLightCone] },
+        { characterId: Pearl.id, lightCones: [Pearl.defaultLightCone] },
       ],
     },
   ],

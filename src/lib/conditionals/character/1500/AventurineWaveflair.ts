@@ -77,6 +77,8 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { AeonAha } from './AeonAha'
+import { UponTheFirstEchoOfAha } from 'lib/conditionals/lightcone/5star/UponTheFirstEchoOfAha'
 
 export const AventurineWaveflairEntities = createEnum('AventurineWaveflair')
 export const AventurineWaveflairAbilities: AbilityKind[] = [
@@ -523,8 +525,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: MortenaxBlade.id,
-      lightCone: ReforgedInHellfire.id,
+      characterId: AeonAha.id,
+      lightCone: UponTheFirstEchoOfAha.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

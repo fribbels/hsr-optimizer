@@ -3,8 +3,8 @@ import {
   ashblazingMulti,
 } from 'lib/conditionals/ashblazingCompute'
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
-import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { BlackSwan } from '../1300/BlackSwan'
+import { HuohuoB1 } from '../1200/HuohuoB1'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -18,8 +18,8 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { EyesOfThePrey } from 'lib/conditionals/lightcone/4star/EyesOfThePrey'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
-import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
 import {
   Parts,
   Sets,
@@ -291,14 +291,14 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Hysilens.id,
-      lightCone: WhyDoesTheOceanSing.id,
+      characterId: BlackSwan.id,
+      lightCone: ReforgedRemembrance.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: HuohuoB1.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

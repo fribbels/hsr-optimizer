@@ -2,9 +2,9 @@ import {
   ashblazingMulti,
   single,
 } from 'lib/conditionals/ashblazingCompute'
-import { Bronya } from 'lib/conditionals/character/1100/Bronya'
+import { RobinSummeretto } from '../1500/RobinSummeretto'
+import { MortenaxBlade } from '../1500/MortenaxBlade'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
-import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -16,10 +16,10 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { OnTheFallOfAnAeon } from 'lib/conditionals/lightcone/5star/OnTheFallOfAnAeon'
-import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
+import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
+import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
 import {
   Parts,
   Sets,
@@ -239,14 +239,14 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Bronya.id,
-      lightCone: ButTheBattleIsntOver.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RiseAndSing.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: RuanMei.id,
-      lightCone: PastSelfInTheMirror.id,
+      characterId: MortenaxBlade.id,
+      lightCone: ReforgedInHellfire.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -260,8 +260,8 @@ const simulation = (): SimulationMetadata => ({
   leaderboardTeams: [
     {
       teammates: [
-        { characterId: Bronya.id, lightCones: [ButTheBattleIsntOver.id] },
-        { characterId: RuanMei.id, lightCones: [PastSelfInTheMirror.id] },
+        { characterId: RobinSummeretto.id, lightCones: [RiseAndSing.id] },
+        { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
         { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
       ],
     },

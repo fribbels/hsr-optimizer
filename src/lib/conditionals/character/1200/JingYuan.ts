@@ -52,11 +52,11 @@ import {
 
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { HuohuoB1 } from './HuohuoB1'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { BeforeDawn } from 'lib/conditionals/lightcone/5star/BeforeDawn'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   AbilityKind,
   DEFAULT_FUA,
@@ -375,8 +375,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: HuohuoB1.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -386,7 +386,7 @@ const simulation = (): SimulationMetadata => ({
       teammates: [
         { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
         { characterId: Robin.id, lightCones: [FlowingNightglow.id] },
-        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
       ],
     },
   ],

@@ -2,9 +2,9 @@ import {
   ashblazingMulti,
   single,
 } from 'lib/conditionals/ashblazingCompute'
-import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
-import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { RobinSummeretto } from '../1500/RobinSummeretto'
+import { MortenaxBlade } from '../1500/MortenaxBlade'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -17,9 +17,9 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { OnlySilenceRemains } from 'lib/conditionals/lightcone/4star/OnlySilenceRemains'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
-import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import {
   Parts,
   Sets,
@@ -247,14 +247,14 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Bronya.id,
-      lightCone: ButTheBattleIsntOver.id,
+      characterId: MortenaxBlade.id,
+      lightCone: ReforgedInHellfire.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Robin.id,
-      lightCone: FlowingNightglow.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RiseAndSing.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

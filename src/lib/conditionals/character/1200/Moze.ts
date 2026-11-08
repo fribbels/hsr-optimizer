@@ -46,9 +46,9 @@ import {
 
 import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { Ashveil } from '../1500/Ashveil'
 import { ShadowedByNight } from 'lib/conditionals/lightcone/4star/ShadowedByNight'
-import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -344,8 +344,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Tribbie.id,
-      lightCone: IfTimeWereAFlower.id,
+      characterId: Ashveil.id,
+      lightCone: TheFinaleOfALie.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

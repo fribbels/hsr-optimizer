@@ -3,7 +3,7 @@ import {
   ashblazingMulti,
 } from 'lib/conditionals/ashblazingCompute'
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
-import { BlackSwan } from '../1300/BlackSwan'
+import { BlackSwanB1 } from '../1300/BlackSwanB1'
 import { HuohuoB1 } from '../1200/HuohuoB1'
 import {
   boostUltAshblazingAtk,
@@ -291,7 +291,7 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: BlackSwan.id,
+      characterId: BlackSwanB1.id,
       lightCone: ReforgedRemembrance.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,

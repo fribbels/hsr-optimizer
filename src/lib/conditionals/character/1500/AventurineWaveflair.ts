@@ -1,4 +1,3 @@
-import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
@@ -22,11 +21,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
-import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
-import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { SummerRidesTheSurf } from 'lib/conditionals/lightcone/5star/SummerRidesTheSurf'
 import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
 import {
@@ -537,7 +532,14 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
-  leaderboardTeams: [],
+  leaderboardTeams: [{
+        teammates: [
+          { characterId: Ashveil.id, lightCones: [Ashveil.defaultLightCone] },
+          { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
+          { characterId: Hyacine.id, lightCones: [Hyacine.defaultLightCone] },
+        ],
+      },
+    ],
 })
 
 const scoring = (): ScoringMetadata => ({

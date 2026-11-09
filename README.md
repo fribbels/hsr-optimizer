@@ -16,7 +16,7 @@ Tools for optimizing your Honkai Star Rail builds, including the Character Optim
 
 # Contact
 
-Drop by the discord server for ideas/bugs/questions or just to hang out! https://discord.gg/rDmB4Un7qg
+Drop by the discord server for ideas/bugs/questions or just to hang out! https://discord.gg/fribbels
 
 We're happy to have new contributors! Please reach out on the discord server #dev channel - we would love a hand on new
 features.

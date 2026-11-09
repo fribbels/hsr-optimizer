@@ -10,7 +10,7 @@ We'd love your input! We want to make contributing to this project as easy and t
 
 ## Communication via discord
 
-We use the #dev channel on discord https://discord.gg/rDmB4Un7qg for communication/questions. Responses on discord will generally be faster than Issues or comments.
+We use the #dev channel on discord https://discord.gg/fribbels for communication/questions. Responses on discord will generally be faster than Issues or comments.
 
 ## Setup
 

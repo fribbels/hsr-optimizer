@@ -2,6 +2,8 @@
 export const iconSize = 22
 export const defaultPadding = 11
 
+export const DISCORD_INVITE_URL = 'https://discord.gg/fribbels'
+
 // CharacterPreview — 5:4 1100×880, screenshot 2200×1760 (dpr 2)
 export const defaultGap = 8
 export const relicCardW = 207

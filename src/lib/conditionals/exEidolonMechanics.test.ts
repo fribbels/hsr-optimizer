@@ -109,12 +109,15 @@ function simulate(form: Form, context = generateContext(form), ashblazing = fals
 }
 
 describe('EX-only follow-up actions', () => {
-  test.each(EX_FUA_CHARACTERS)('$id appends exactly one non-turn default FUA and preserves custom rotations', (character) => {
+  test.each(EX_FUA_CHARACTERS)('$id adds non-turn default FUAs and preserves custom rotations', (character) => {
     const expectedOriginal = character.id === Acheron.id
       ? [NULL_TURN_ABILITY_NAME, WHOLE_ULT, WHOLE_ULT, START_SKILL, END_ULT]
       : [NULL_TURN_ABILITY_NAME, START_ULT, END_BASIC, WHOLE_BASIC, WHOLE_BASIC]
+    const expectedWithFua = character.id === Acheron.id
+      ? [...expectedOriginal, DEFAULT_FUA]
+      : [NULL_TURN_ABILITY_NAME, START_ULT, END_BASIC, DEFAULT_FUA, WHOLE_BASIC, WHOLE_BASIC, DEFAULT_FUA]
     const form = formFor(character)
-    expect(form.comboTurnAbilities).toEqual([...expectedOriginal, DEFAULT_FUA])
+    expect(form.comboTurnAbilities).toEqual(expectedWithFua)
 
     const countTurns = (names: Form['comboTurnAbilities']) =>
       preprocessTurnAbilities(names.map(toTurnAbility))

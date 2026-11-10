@@ -41,8 +41,9 @@ export const WarpIncomeOptions: WarpIncomeDefinition[] = [
   // ...generateOptions('4.2', 117, 91, 140, 103, 149, 112),
   // ...generateOptions('4.3', 91, 66, 116, 78, 124, 86),
   // ...generateOptions('4.4', 94, 69, 117, 81, 126, 87),
-  ...generateOptions('4.5', 77, 57, 96, 67, 104, 73),
+  // ...generateOptions('4.5', 77, 57, 96, 67, 104, 73),
   ...generateOptions('4.6', 100, 72, 125, 86, 133, 94),
+  ...generateOptions('4.7', 119, 96, 143, 108, 151, 115),
 ]
 
 export function normalizeWarpRequest(raw: unknown): WarpRequest {

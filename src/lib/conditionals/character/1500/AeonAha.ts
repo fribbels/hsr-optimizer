@@ -380,7 +380,7 @@ if (
 }
 
 const simulation = (): SimulationMetadata => ({
-  leaderboardEnabled: false,
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,

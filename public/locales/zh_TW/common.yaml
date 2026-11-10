@@ -9,8 +9,14 @@ Submit: 提交
 Ok: 好
 Yes: '是'
 No: '否'
+None: 無
+New: 新
 Search: 搜尋
+NoResults: 無結果
+Total: 總計
+Loading: 載入中
 Save: 保存
+Saved: 已保存
 Score: 評分
 Reset: 重設
 EidolonNShort: '{{eidolon}}魂'
@@ -21,7 +27,10 @@ CharacterWithCount_other: '{{count}}個角色'
 Character_one: 角色
 Character_other: 角色
 VerifiedRelicHoverText: 遺器副詞條已通過遺器評分器驗證（速度小數位）
+Verified4LinerHoverText: 遺器副詞條及初始詞條數量由遺器評分器校驗（包含精確的速度小數值和4條初始副詞條）
 CombatStats: 戰鬥屬性
+MemospriteLabel: '憶靈{{label}}'
+Element: 屬性
 Parts:
   Head: 頭部
   Hands: 手部
@@ -34,7 +43,7 @@ ReadableParts:
   Hands: 手部
   Body: 軀幹
   Feet: 腳部
-  PlanarSphere: 次元球
+  PlanarSphere: 位面球
   LinkRope: 連結繩
 Stats:
   "HP%": 生命值%
@@ -59,6 +68,7 @@ Stats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)屬性傷害提高'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)屬性傷害提高'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)屬性傷害提高'
+  Elation: 歡愉度
 ShortStats:
   "HP%": 生命值%
   HP: 生命值
@@ -73,7 +83,7 @@ ShortStats:
   Effect Hit Rate: 效果命中
   Effect RES: 效果抵抗
   Break Effect: 擊破特攻
-  Energy Regeneration Rate: 能量恢復效率
+  Energy Regeneration Rate: 能量恢復
   Outgoing Healing Boost: 治療量加成
   Physical DMG Boost: '$t(gameData:Elements.Physical)傷'
   Fire DMG Boost: '$t(gameData:Elements.Fire)傷'
@@ -82,6 +92,7 @@ ShortStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)傷'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)傷'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)傷'
+  Elation: 歡愉度
 ShortSpacedStats:
   "HP%": 生命值 %
   HP: 生命值
@@ -105,6 +116,8 @@ ShortSpacedStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)傷'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)傷'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)傷'
+  Elation: 歡愉度
+Damage: 傷害
 DamagePercent: 傷害 %
 ReadableStats:
   "HP%": 生命值 %
@@ -129,6 +142,7 @@ ReadableStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)屬性傷害'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)屬性傷害'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)屬性傷害'
+  Elation: 歡愉度
   simScore: 連招傷害
 ShortReadableStats:
   "HP%": 生命值 %
@@ -153,6 +167,7 @@ ShortReadableStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)傷'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)傷'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)傷'
+  Elation: 歡愉度
 Elements:
   Physical: '$t(gameData:Elements.Physical)傷'
   Fire: '$t(gameData:Elements.Fire)傷'
@@ -168,6 +183,7 @@ DMGTypes:
   ULT: 終結技傷害
   FUA: 追加攻擊傷害
   MEMO_SKILL: 憶靈戰技傷害
+  MEMO_TALENT: 憶靈天賦傷害
   DOT: 持續傷害
   BREAK: 擊破傷害
   CV: 暴擊值
@@ -177,6 +193,10 @@ ShortDMGTypes:
   Ult: 終結技傷害
   Fua: 追加攻擊傷害
   Memo_Skill: 憶靈戰技傷害
+  Memo_Talent: 憶靈天賦傷害
+  Elation_Skill: 歡愉技傷害
+  Unique: 特殊傷害
   Dot: 持續傷害
   Break: 擊破傷害
   CV: 暴擊值
+CurrentVersion: '目前版本：{{Version}}'

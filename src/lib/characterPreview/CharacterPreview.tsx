@@ -19,7 +19,6 @@ import type { SimulationMetadataOverrides } from 'lib/characterPreview/character
 import { extractPaletteInWorker } from 'lib/characterPreview/color/colorExtractionService'
 import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
 import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
-import { getCustomPortraitObjectPosition } from 'lib/characterPreview/customPortraitUtils'
 import {
   modifyCustomColor,
   organizeColors,
@@ -32,6 +31,7 @@ import {
   resolveShowcaseTheme,
 } from 'lib/characterPreview/color/showcaseColorService'
 import { ShowcaseCustomizationSidebar } from 'lib/characterPreview/customization/ShowcaseCustomizationSidebar'
+import { getCustomPortraitObjectPosition } from 'lib/characterPreview/customPortraitUtils'
 import { useDebugPanelConfig } from 'lib/characterPreview/debugPanelConfig'
 import { DebugSliderPanel } from 'lib/characterPreview/DebugSliderPanel'
 import {
@@ -341,6 +341,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         form: {
           ...rawCharacter.form,
           characterEidolon: savedBuildOverride.characterEidolon,
+          characterEx: savedBuildOverride.characterEx,
           lightCone: savedBuildOverride.lightCone,
           lightConeSuperimposition: savedBuildOverride.lightConeSuperimposition,
         },

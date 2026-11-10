@@ -4,7 +4,7 @@ import {
 } from 'lib/conditionals/ashblazingCompute'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
-import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -17,9 +17,9 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { IndeliblePromise } from 'lib/conditionals/lightcone/4star/IndeliblePromise'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
+import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
 import {
   Parts,
   Sets,
@@ -287,8 +287,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: SparkleB1.id,
-      lightCone: ButTheBattleIsntOver.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RiseAndSing.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

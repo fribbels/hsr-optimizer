@@ -2,6 +2,7 @@ import type { ScoringType } from 'lib/scoring/scoringTypes'
 import type {
   CharacterId,
   Eidolon,
+  ExFlags,
 } from 'types/character'
 import type { CharacterConditionalsController } from 'types/conditionals'
 import type { LightConeId } from 'types/lightCone'
@@ -32,10 +33,11 @@ export type CharacterDisplay = {
 export type CharacterConfig = {
   id: CharacterId,
   defaultLightCone: LightConeId,
+  supportedExFlags?: ExFlags,
   display: CharacterDisplay,
   conditionals: CharacterConditionalFunction,
   /** Getter — defers evaluation to avoid circular imports between config files */
   scoring: ScoringMetadata,
 }
 
-export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditionalsController
+export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean, ex: ExFlags) => CharacterConditionalsController

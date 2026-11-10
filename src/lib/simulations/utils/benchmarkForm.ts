@@ -21,6 +21,7 @@ export function generateFullDefaultForm(
   characterEidolon: number,
   lightConeSuperimposition: number,
   teammate = false,
+  characterEx = 0,
 ): Form {
   // @ts-expect-error - Legacy pattern: returns null typed as Form for missing characterId
   if (!characterId) return null
@@ -31,10 +32,15 @@ export function generateFullDefaultForm(
 
   simulationForm.characterId = characterId
   simulationForm.characterEidolon = characterEidolon
+  simulationForm.characterEx = characterEx
   simulationForm.lightCone = lightCone
   simulationForm.lightConeSuperimposition = lightConeSuperimposition
 
-  const characterConditionalsRequest = { characterId: characterId, characterEidolon: characterEidolon }
+  const characterConditionalsRequest = {
+    characterId: characterId,
+    characterEidolon: characterEidolon,
+    characterEx: characterEx,
+  }
   const lightConeConditionalsRequest = generateConditionalResolverMetadata(simulationForm, dbMetadata)
 
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(characterConditionalsRequest)

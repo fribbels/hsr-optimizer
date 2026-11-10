@@ -108,7 +108,7 @@ describe('displayToInternal', () => {
     }))
 
     expect(138.59999).toBeGreaterThanOrEqual(form.minSpd) // float32 noise passes
-    expect(133.3343).toBeGreaterThan(form.maxSpd)          // a real miss still fails
+    expect(133.3343).toBeGreaterThan(form.maxSpd) // a real miss still fails
     expect(0.66999999).toBeGreaterThanOrEqual(form.minEhr)
   })
 
@@ -319,12 +319,14 @@ describe('internalToDisplay', () => {
       teammate0: {
         characterId: '1001' as CharacterId,
         characterEidolon: 6,
+        characterEx: 0,
         lightCone: '21001' as LightConeId,
         lightConeSuperimposition: 5,
       },
       teammate1: {
         characterId: '1002' as CharacterId,
         characterEidolon: 0,
+        characterEx: 0,
         lightCone: '21002' as LightConeId,
         lightConeSuperimposition: 1,
       },

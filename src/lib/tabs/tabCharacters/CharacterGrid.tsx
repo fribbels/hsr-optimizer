@@ -34,6 +34,7 @@ import {
 import i18next from 'i18next'
 import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
 import { oklchCharacterListColor } from 'lib/characterPreview/color/colorUtilsOklch'
+import { hasExEidolon } from 'lib/conditionals/exEidolons'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { PartsArray } from 'lib/constants/constants'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
@@ -69,12 +70,13 @@ import React, {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import type {
-  Character,
-  CharacterId,
+import {
+  type Character,
+  type CharacterId,
+  ExEidolon,
 } from 'types/character'
 
-const noop = () => {}
+const noop = () => { }
 const DROP_ANIMATION_DURATION = 200
 
 // --- Equip dot indicator ---
@@ -116,7 +118,7 @@ const dropAnimationConfig: DropAnimation = {
 export function CharacterGrid() {
   const gridRef = useRef<HTMLDivElement>(null)
   const osRef = useCallback((instance: OverlayScrollbarsComponentRef<'div'> | null) => {
-    ;(gridRef as React.MutableRefObject<HTMLDivElement | null>).current = instance?.getElement() ?? null
+    ; (gridRef as React.MutableRefObject<HTMLDivElement | null>).current = instance?.getElement() ?? null
   }, [])
   const characters = useCharacterStore((s) => s.characters)
   const filters = useCharacterTabStore((s) => s.filters)
@@ -201,7 +203,7 @@ export function CharacterGrid() {
 
   const handleEdit = useCallback((characterId: CharacterId) => {
     useCharacterModalStore.getState().openOverlay({
-      initialCharacter: getCharacterById(characterId) ?? null,
+      initialForm: getCharacterById(characterId)?.form ?? null,
       onOk: CharacterTabController.onCharacterModalOk,
     })
   }, [])
@@ -215,11 +217,13 @@ export function CharacterGrid() {
       children: t($ => $.Messages.DeleteWarning, {
         charId: characterId
       }),
-      labels: { confirm: i18next.t($ => $.Confirm, {
-        ns: "common"
-      }), cancel: i18next.t($ => $.Cancel, {
-        ns: "common"
-      }) },
+      labels: {
+        confirm: i18next.t($ => $.Confirm, {
+          ns: "common"
+        }), cancel: i18next.t($ => $.Cancel, {
+          ns: "common"
+        })
+      },
       centered: true,
       confirmProps: { 'data-autofocus': true },
       onConfirm: () => CharacterTabController.removeCharacter(characterId),
@@ -459,12 +463,9 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
         >
           <div className={classes.name}>{characterName}</div>
           <div className={classes.subtitle}>
-            <span className={classes.subtitleBadge}>{t($ => $.EidolonNShort, {
-              eidolon
-            })}</span>
-            <span className={classes.subtitleBadge}>{t($ => $.SuperimpositionNShort, {
-              superimposition
-            })}</span>
+            <span className={classes.subtitleBadge}>{t($ => $.EidolonNShort, { eidolon })}</span>
+            <span className={classes.subtitleBadge}>{t($ => $.SuperimpositionNShort, { superimposition })}</span>
+            {hasExEidolon(character.form.characterEx, ExEidolon.EX1) && <span className={classes.subtitleBadge}>EX1</span>}
             <EquipDotInline characterId={character.id} />
           </div>
         </div>

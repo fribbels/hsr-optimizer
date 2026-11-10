@@ -1531,6 +1531,8 @@ Characters:
         content: Khi ở trạng thái Hợp Tấu, Tốc Độ của toàn phe ta tăng 16%
   RobinSummeretto:
     Content:
+      techniqueDmgBuff:
+        text: Bí Kỹ tăng Sát Thương
       e2ResPen:
         text: E2 Xuyên Kháng ST Nguyên Tố
       e4MemoSpdBuff:

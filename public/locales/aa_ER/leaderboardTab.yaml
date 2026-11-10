@@ -33,6 +33,9 @@ CharacterList:
   Empty: crwdns47779:0crwdne47779:0
   InsufficientData: crwdns47781:0crwdne47781:0
 Filters:
+  ExLabel: crwdns48105:0crwdne48105:0
+  ExOff: Off
+  EX1: crwdns48107:0crwdne48107:0
   EidolonLabel: crwdns47783:0crwdne47783:0
   TeamLabel: crwdns47785:0crwdne47785:0
   AllEidolons: crwdns47787:0crwdne47787:0

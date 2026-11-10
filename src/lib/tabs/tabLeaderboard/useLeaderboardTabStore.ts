@@ -11,7 +11,10 @@ import type { TimelineEvent } from 'leaderboard/timeline/timelineTypes'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import type { InjectedScoreData } from 'lib/characterPreview/characterPreviewTypes'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
-import { type LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
+import {
+  type LeaderboardEntry,
+  LeaderboardExFilter,
+} from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import type { CharacterId } from 'types/character'
 
@@ -26,6 +29,7 @@ export interface LeaderboardTabState {
   activeConfigType: LeaderboardConfigType | null
   activeTeamId: string
   filterCharacterEidolon: LeaderboardEidolonFilter
+  filterCharacterEx: LeaderboardExFilter
 
   characterData: PublicCharacterData | null
 
@@ -56,6 +60,7 @@ export const useLeaderboardTabStore = createTabAwareStore<LeaderboardTabState>((
   activeConfigType: null,
   activeTeamId: LEADERBOARD_FILTER_ALL,
   filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+  filterCharacterEx: LeaderboardExFilter.All,
 
   characterData: null,
 

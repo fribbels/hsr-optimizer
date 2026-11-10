@@ -168,7 +168,7 @@ function ShowcaseLoaded() {
   // Stable callbacks
   const setOriginalCharacterModalInitialCharacter = useCallback((character: Character | null) => {
     useCharacterModalStore.getState().openOverlay({
-      initialCharacter: character,
+      initialForm: character?.form,
       onOk: handleCharacterModalOk,
       showSetSelection: true,
     })
@@ -185,7 +185,7 @@ function ShowcaseLoaded() {
   const presetClicked = useCallback((preset: Preset) => {
     if (preset.custom) {
       useCharacterModalStore.getState().openOverlay({
-        initialCharacter: getSelectedCharacter(),
+        initialForm: getSelectedCharacter()?.form,
         onOk: handleCharacterModalOk,
         showSetSelection: true,
       })
@@ -196,6 +196,7 @@ function ShowcaseLoaded() {
       characterId: preset.characterId,
       lightCone: preset.lightConeId,
       characterEidolon: preset.characterEidolon ?? 0,
+      characterEx: 0,
       lightConeSuperimposition: preset.lightConeSuperimposition ?? 1,
     })
   }, [])

@@ -2,6 +2,7 @@ CharacterList:
   Columns:
     Character: 캐릭터
 Filters:
+  ExOff: Off
   EidolonLabel: 돌파
 Banner:
   LightConeModule: 광추

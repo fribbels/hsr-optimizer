@@ -2117,6 +2117,8 @@ Characters:
         content: Состояние Концерт повышает скорость всех союзников на 16%.
   RobinSummeretto:
     Content:
+      techniqueDmgBuff:
+        text: Доп урон от техники
       e2ResPen:
         text: E2 Игнор Сопр. Урону
       e4MemoSpdBuff:

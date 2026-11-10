@@ -35,6 +35,7 @@ export const LightConeConditionalDisplay = memo(
     const conditionalResolverMetadata = generateConditionalResolverMetadata({
       characterId: wearerId,
       characterEidolon: 0, // Assuming eidolon is not needed for light cone metadata
+      characterEx: 0,
       lightCone: id!,
       lightConeSuperimposition: superImposition,
     }, dbMetadata)

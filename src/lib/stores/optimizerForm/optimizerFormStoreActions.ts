@@ -1,9 +1,13 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { DEFAULT_MEMO_DISPLAY, PathNames } from 'lib/constants/constants'
+import {
+  DEFAULT_MEMO_DISPLAY,
+  PathNames,
+} from 'lib/constants/constants'
 import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { normalizeExState } from 'lib/stores/optimizerForm/optimizerExState'
 import { internalFormToState } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { createDefaultFormState } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import {
@@ -16,6 +20,7 @@ import type {
   TeammateConditionalType,
 } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { mergeDefinedValues } from 'lib/utils/objectUtils'
+import type { ExFlags } from 'types/character'
 import { type Form } from 'types/form'
 
 export type SuggestionFixes = {
@@ -52,6 +57,7 @@ export function computeResetFilters(state: OptimizerRequestState): Partial<Optim
     // Preserve character/LC
     characterId: state.characterId,
     characterEidolon: state.characterEidolon,
+    characterEx: state.characterEx,
     lightCone: state.lightCone,
     lightConeSuperimposition: state.lightConeSuperimposition,
   }
@@ -75,7 +81,7 @@ export function computeApplySuggestionFixes(_state: OptimizerRequestState, fixes
  * Pure function: compute the new state for loadForm.
  * Converts an internal Form to display-format state, merging with defaults.
  */
-export function computeLoadForm(form: Form): OptimizerRequestState {
+export function computeLoadForm(form: Form, overrides?: Partial<OptimizerRequestState>): OptimizerRequestState {
   const defaults = createDefaultFormState()
   const converted = internalFormToState(form)
   const merged = mergeDefinedValues({ ...defaults }, converted)
@@ -90,7 +96,7 @@ export function computeLoadForm(form: Form): OptimizerRequestState {
 
   mergeConditionalDefaults(merged, form)
 
-  return merged
+  return normalizeExState({ ...merged, ...overrides })
 }
 
 /**
@@ -107,6 +113,7 @@ function mergeConditionalDefaults(state: OptimizerRequestState, form: Form): voi
     const charController = CharacterConditionalsResolver.get({
       characterId: form.characterId,
       characterEidolon: form.characterEidolon,
+      characterEx: form.characterEx,
     })
     const charDefaults = charController.defaults?.()
     if (charDefaults) {
@@ -131,6 +138,7 @@ function mergeConditionalDefaults(state: OptimizerRequestState, form: Form): voi
     const charController = CharacterConditionalsResolver.get({
       characterId: teammate.characterId,
       characterEidolon: teammate.characterEidolon,
+      characterEx: teammate.characterEx,
     })
     const charDefaults = charController.teammateDefaults?.()
     if (charDefaults) {
@@ -147,7 +155,7 @@ function mergeConditionalDefaults(state: OptimizerRequestState, form: Form): voi
 }
 
 export function resolveLcDefaults(
-  config: { characterId: string, characterEidolon: number, lightCone: string, lightConeSuperimposition: number },
+  config: { characterId: string, characterEidolon: number, characterEx: ExFlags, lightCone: string, lightConeSuperimposition: number },
   dbMetadata: ReturnType<typeof getGameMetadata>,
   isTeammate: boolean,
 ): Record<string, boolean | number> | undefined {

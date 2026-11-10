@@ -2,9 +2,9 @@ import {
   aoe,
   ashblazingMulti,
 } from 'lib/conditionals/ashblazingCompute'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -17,9 +17,9 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
 import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import {
   ConditionalActivation,
@@ -431,8 +431,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: HuohuoB1.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -443,7 +443,7 @@ const simulation = (): SimulationMetadata => ({
       teammates: [
         { characterId: BlackSwanB1.id, lightCones: [ReforgedRemembrance.id] },
         { characterId: Hysilens.id, lightCones: [WhyDoesTheOceanSing.id] },
-        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
       ],
     },
   ],

@@ -1,10 +1,46 @@
 RelicFilterBar:
+  Part: 部件
+  Enhance: 強化等級
+  Grade: 稀有度
+  InitialRolls: 初始副詞條
+  Verified: 已驗證
+  Unverified: 未驗證
+  Equipped: 已裝備
+  Unequipped: 未裝備
+  Clear: 清除
+  ClearButton: 清除全部篩選
+  Set: 套裝
+  RelicSets: 遺器套裝
+  OrnamentSets: 飾品套裝
+  Mainstat: 主屬性
+  Substat: 副詞條
   ScoringButton: 評分算法
+  RecommendationHeader: 角色遺器推薦
+  Rating: 遺器評分
+  CustomCharsHeader: 自訂有潛力角色
+RecentlyUpdatedRelics:
+  Header: 最近更新的遺器
+  Potential: 潛力值
+  Avg: 平均值
+  Max: 最大值
+  BestFor: 最適合
+  Tooltip: 該角色的平均和最高潛力評分
 Messages:
   AddRelicSuccess: 成功添加遺器
+  NoRelicSelected: 無選中遺器
   DeleteRelicSuccess: 成功刪除遺器
+  UnableToDeleteRelic: 無法刪除遺器
 RelicGrid:
+  To: /
+  Of: '-'
   Headers:
+    EquippedBy: 裝備者
+    Set: 套裝
+    Part: 部件
+    MainStat: |-
+      主屬性
+    MainValue: |-
+      主屬性值
     HPP: 生命值 %
     ATKP: 攻擊力 %
     DEFP: 防禦力 %
@@ -12,3 +48,144 @@ RelicGrid:
     ATK: 攻擊力
     DEF: 防禦力
     SPD: 速度
+    CR: |-
+      暴擊率
+    CD: |-
+      暴擊
+      傷害
+    EHR: |-
+      效果
+      命中
+    RES: |-
+      效果
+      抵抗
+    BE: |-
+      擊破
+      特攻
+    CV: |-
+      暴擊值
+  ValueColumns:
+    SelectedCharacter:
+      Label: 選定角色
+      ScoreCol:
+        Label: '選定角色：評分'
+        Header: |-
+          選定角色
+          評分
+      AvgPotCol:
+        Label: '選定角色：平均潛力'
+        Header: |-
+          選定角色
+          平均潛力
+      MaxPotCol:
+        Label: '選定角色：最大潛力'
+        Header: |-
+          選定角色
+          最大潛力
+      RerollAvg:
+        Label: '選定角色：重擲平均潛力'
+        Header: |-
+          選定角色
+          重擲均值
+      RerollAvgDelta:
+        Label: '選定角色：重擲平均差值潛力'
+        Header: |-
+          選定角色
+          重擲Δ均值
+      RerollAvgEquippedDelta:
+        Label: '選定角色：重擲平均差值潛力與已裝備對比'
+        Header: |-
+          選定角色
+          重擲Δ均值
+          與已裝備對比
+      BlockedRerollAvg:
+        Label: '所選角色：屏蔽屬性重擲平均潛力'
+        Header: |-
+          所選角色
+          屏蔽重擲
+          平均潛力
+      BlockedRerollAvgDelta:
+        Label: '所選角色：屏蔽屬性重擲平均差值潛力'
+        Header: |-
+          所選角色
+          屏蔽重擲
+          Δ均潛
+      BlockedRerollAvgEquippedDelta:
+        Label: '所選角色：屏蔽屬性重擲平均差值潛力與已裝備對比'
+        Header: |-
+          所選角色屏蔽
+          重擲Δ均值
+          對比已裝備
+    CustomCharacters:
+      Label: 自訂角色
+      AvgPotCol:
+        Label: '自訂角色：平均潛力'
+        Header: |-
+          自訂角色
+          平均潛力
+      MaxPotCol:
+        Label: '自訂角色：最大潛力'
+        Header: |-
+          自訂角色
+          最大潛力
+      RerollAvg:
+        Label: '自訂角色：重擲平均潛力'
+        Header: |-
+          自訂角色
+          重擲均值
+      BlockedRerollAvg:
+        Label: '自訂角色：屏蔽屬性重擲平均潛力'
+        Header: |-
+          自訂角色
+          屏蔽重擲均潛
+    AllCharacters:
+      Label: 所有角色
+      AvgPotCol:
+        Label: '所有角色：平均潛力'
+        Header: |-
+          所有角色
+          平均潛力
+      MaxPotCol:
+        Label: '所有角色：最大潛力'
+        Header: |-
+          所有角色
+          最大潛力
+      RerollAvg:
+        Label: '所有角色：重擲平均潛力'
+        Header: |-
+          所有角色
+          重擲均值
+      BlockedRerollAvg:
+        Label: '全部角色：屏蔽屬性重擲平均潛力'
+        Header: |-
+          全部角色
+          屏蔽重擲均潛
+Toolbar:
+  RelicLocator:
+    Width: 物品欄寬度
+    Filter: 自動篩選行
+    NoneSelected: 選擇一個遺器進行定位
+    Location: '{{rowIndex}}行 / {{columnIndex}}列'
+  InsightOptions:
+    Buckets: '分組'
+    Top10: '前10'
+    ESTBP: '預估開拓力'
+  PlotOptions:
+    PlotAll: 顯示所有角色
+    PlotCustom: 顯示自訂角色
+    PlotOwned: 顯示持有角色
+  PotentialOptions:
+    Maximum: 最大值
+    Average: 平均值
+  EditRelic: 編輯遺器
+  DeleteRelic:
+    ButtonText: 刪除遺器
+    Warning_one: 刪除所選遺器嗎？
+    Warning_other: '刪除{{count}}個選定的遺器嗎？'
+  AddRelic: 新增遺器
+  LiveImportTooltip: 在即時匯入模式下無法使用。
+RelicInsights:
+  NewStats: '新增屬性：'
+  UpgradedStats: '升級的屬性：'
+  AvgPotential: '平均潛力：'
+  MaxPotential: '最大潛力：'

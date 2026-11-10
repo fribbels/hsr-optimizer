@@ -13,7 +13,9 @@ import type {
   Teammate,
 } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
-import type { ScoringConfigType } from 'types/metadata'
+import type {
+  ScoringConfigType,
+} from 'types/metadata'
 import {
   type Build,
   BuildSource,
@@ -53,6 +55,7 @@ export function serializeFromOptimizer(
     return {
       characterId: tm.characterId,
       characterEidolon: tm.characterEidolon,
+      characterEx: tm.characterEx,
       lightCone: tm.lightCone,
       lightConeSuperimposition: tm.lightConeSuperimposition,
       teamRelicSet: tm.teamRelicSet,
@@ -74,6 +77,7 @@ export function serializeFromOptimizer(
     characterId,
     equipped: { ...equipped },
     characterEidolon: state.characterEidolon,
+    characterEx: state.characterEx,
     lightCone: state.lightCone,
     lightConeSuperimposition: state.lightConeSuperimposition,
     team,
@@ -106,6 +110,7 @@ export function serializeFromCharacterTab(
     characterId: character.id,
     equipped: { ...character.equipped },
     characterEidolon: character.form.characterEidolon,
+    characterEx: character.form.characterEx,
     lightCone: character.form.lightCone,
     lightConeSuperimposition: character.form.lightConeSuperimposition,
     team,
@@ -121,6 +126,7 @@ function teammatesFromSimulation(teammates: Teammate[]): TeamTuple<SavedTeammate
     result[i] = {
       characterId: tm.characterId,
       characterEidolon: tm.characterEidolon,
+      characterEx: tm.characterEx,
       lightCone: tm.lightCone,
       lightConeSuperimposition: tm.lightConeSuperimposition,
       teamRelicSet: tm.teamRelicSet,
@@ -145,6 +151,7 @@ export function deserializeBuild(
 
   const basePatch: Partial<OptimizerRequestState> = {
     characterEidolon: eidolon,
+    characterEx: build.characterEx,
     lightCone: lc.lightCone,
     lightConeSuperimposition: lc.lightConeSuperimposition,
   }
@@ -160,6 +167,7 @@ export function deserializeBuild(
     return {
       characterId: tm.characterId,
       characterEidolon: tm.characterEidolon,
+      characterEx: tm.characterEx,
       lightCone: tm.lightCone,
       lightConeSuperimposition: tm.lightConeSuperimposition,
       teamRelicSet: tm.teamRelicSet,

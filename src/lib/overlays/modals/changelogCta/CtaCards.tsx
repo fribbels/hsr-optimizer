@@ -3,6 +3,7 @@ import {
   IconBrandGithub,
   IconCoffee,
 } from '@tabler/icons-react'
+import { DISCORD_INVITE_URL } from 'lib/constants/constantsUi'
 import classes from 'lib/overlays/modals/changelogCta/changelogCta.module.css'
 import { useTranslation } from 'react-i18next'
 
@@ -10,7 +11,7 @@ export function CtaCards() {
   const { t } = useTranslation('hometab', { keyPrefix: 'ChangelogCta' })
   return (
     <div className={classes.cardsRoot}>
-      <a className={`${classes.card} ${classes.cardDiscord}`} href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noreferrer'>
+      <a className={`${classes.card} ${classes.cardDiscord}`} href={DISCORD_INVITE_URL} target='_blank' rel='noreferrer'>
         <IconBrandDiscordFilled size={26} color='#7b8cf9' />
         <span className={classes.cardLabel}>{t($ => $.JoinDiscord)}</span>
       </a>

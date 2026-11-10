@@ -30,6 +30,7 @@ export function createDefaultTeammate(): TeammateState {
   return {
     characterId: undefined,
     characterEidolon: 0,
+    characterEx: 0,
     lightCone: undefined,
     lightConeSuperimposition: 1,
     teamRelicSet: undefined,
@@ -100,6 +101,7 @@ export function createDefaultFormState(): OptimizerRequestState {
     // Character identity
     characterId: undefined,
     characterEidolon: 0,
+    characterEx: 0,
     characterLevel: 80,
 
     // Light cone

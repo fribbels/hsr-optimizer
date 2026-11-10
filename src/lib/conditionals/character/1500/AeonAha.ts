@@ -502,8 +502,8 @@ const display = {
   },
   showcaseColor: '#b9b3ff',
   showcaseScoringOrder: [
-    ScoringType.SUBSTAT_SCORE,
     ScoringType.DPS_SCORE,
+    ScoringType.SUBSTAT_SCORE,
     ScoringType.NONE,
   ],
 }

@@ -44,6 +44,7 @@ export function getChangelogContent() {
         `Balance: Acheron default SPD scoring weight changed to 0 and ATK weight changed to 1`,
         `Balance: Updated default Benchmark and Leaderboard teams for various characters`,
         `Balance: Elation teams now use Aeon Aha`,
+        `Balance: Elation Trailblazer now has DPS Benchmark re-enabled`,
       ],
     },
     {

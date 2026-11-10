@@ -8425,50 +8425,50 @@
       },
       "traceTree": [
         {
-          "id": "1511201_4.6v3",
+          "id": "1511201",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1511202_4.6v3",
+          "id": "1511202",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "1511203_4.6v3",
+          "id": "1511203",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1511204_4.6v3",
+          "id": "1511204",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": []
         },
         {
-          "id": "1511205_4.6v3",
+          "id": "1511205",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1511206_4.6v3",
+              "id": "1511206",
               "stat": "CRIT Rate",
               "value": 0.04,
-              "pre": "1511205_4.6v3",
+              "pre": "1511205",
               "children": [
                 {
-                  "id": "1511207_4.6v3",
+                  "id": "1511207",
                   "stat": "CRIT DMG",
                   "value": 0.08,
-                  "pre": "1511206_4.6v3",
+                  "pre": "1511206",
                   "children": []
                 }
               ]
@@ -8476,22 +8476,22 @@
           ]
         },
         {
-          "id": "1511208_4.6v3",
+          "id": "1511208",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": [
             {
-              "id": "1511209_4.6v3",
+              "id": "1511209",
               "stat": "CRIT Rate",
               "value": 0.053,
-              "pre": "1511208_4.6v3",
+              "pre": "1511208",
               "children": [
                 {
-                  "id": "1511210_4.6v3",
+                  "id": "1511210",
                   "stat": "CRIT DMG",
                   "value": 0.107,
-                  "pre": "1511209_4.6v3",
+                  "pre": "1511209",
                   "children": []
                 }
               ]
@@ -8508,7 +8508,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1512": {
       "id": "1512",
@@ -13283,7 +13283,7 @@
         "s": 1.1
       },
       "superimpositions": {},
-      "unreleased": true
+      "unreleased": false
     },
     "23000": {
       "id": "23000",
@@ -15461,7 +15461,7 @@
           "BaseSpeed": 20
         }
       },
-      "unreleased": true
+      "unreleased": false
     },
     "24000": {
       "id": "24000",
@@ -16005,7 +16005,7 @@
     {
       "id": "330",
       "name": "Subspace ASC Center",
-      "skills": "Increases the wearer's SPD by 6%. When the wearer's SPD reaches 145 or higher, increases all allies' Break Effect by 15% after entering combat. This effect cannot stack."
+      "skills": "Increases the wearer's SPD by 6%. When the wearer's SPD reaches 145 or higher, increases all allies' Break Effect by 18% after entering combat. This effect cannot stack."
     }
   ]
 }

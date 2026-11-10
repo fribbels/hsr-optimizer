@@ -21,7 +21,7 @@ export function useDefaultScoringEnabled() {
 
 export function useScoringMetadata(id: CharacterId): ScoringMetadata
 export function useScoringMetadata(id: Nullable<CharacterId>): null | ScoringMetadata
-export function useScoringMetadata(id: Nullable<CharacterId>) {
+export function useScoringMetadata(id: Nullable<CharacterId>): null | ScoringMetadata {
   const useDefaults = useDefaultScoringEnabled()
   // override dep triggers memo recompute when store changes
   const override = useScoringStore((s) => id && !useDefaults ? s.scoringMetadataOverrides[id] : undefined)

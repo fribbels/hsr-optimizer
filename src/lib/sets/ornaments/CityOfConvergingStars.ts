@@ -2,6 +2,7 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   AKey,
@@ -49,8 +50,8 @@ const conditionals: SetConditionals = {
       x.buff(StatKey.ATK_P, 0.24, x.source(Source.CityOfConvergingStars))
     }
 
-    // Enemy defeated: CRIT DMG +12% (values 2, 3)
-    if (val === 2 || val === 3) {
+    // Enemy defeated: CRIT DMG +12% (values 2, 3), does not stack with a teammate's copy
+    if ((val === 2 || val === 3) && !x.config.teammateSetEffects[Sets.CityOfConvergingStars]) {
       x.buff(StatKey.CD, 0.12, x.source(Source.CityOfConvergingStars))
     }
   },
@@ -68,7 +69,10 @@ const conditionals: SetConditionals = {
       if (setConditionals.valueCityOfConvergingStars == 1 || setConditionals.valueCityOfConvergingStars == 3) {
         ${buff.action(AKey.ATK_P, 0.24).wgsl(action, 2)}
       }
-      if (setConditionals.valueCityOfConvergingStars == 2 || setConditionals.valueCityOfConvergingStars == 3) {
+      if (
+        (setConditionals.valueCityOfConvergingStars == 2 || setConditionals.valueCityOfConvergingStars == 3)
+        && ${wgslFalse(action.config.teammateSetEffects[Sets.CityOfConvergingStars])}
+      ) {
         ${buff.action(AKey.CD, 0.12).wgsl(action, 3)}
       }
     }

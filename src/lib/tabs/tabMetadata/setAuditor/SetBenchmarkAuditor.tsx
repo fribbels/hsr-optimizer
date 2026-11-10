@@ -5,6 +5,7 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { getDefaultScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import {
   handleCharacterSelectChange,
 } from 'lib/tabs/tabBenchmarks/benchmarksTabController'
@@ -131,7 +132,7 @@ export function SetBenchmarkAuditor(): ReactElement {
       setSelectedModes(defaults.modes)
       setSelectedErr(defaults.errRope)
 
-      const gameSimMetadata = getGameMetadata().characters[id].scoringMetadata.simulation!
+      const gameSimMetadata = getDefaultScoringMetadata(id).simulation!
       const state = useBenchmarksTabStore.getState()
       for (const idx of [0, 1, 2] as const) {
         const tm = gameSimMetadata.teammates[idx]
@@ -153,6 +154,7 @@ export function SetBenchmarkAuditor(): ReactElement {
       characterId: tm?.characterId!,
       lightCone: tm?.lightCone!,
       characterEidolon: tm?.characterEidolon ?? 0,
+      characterEx: tm?.characterEx ?? 0,
       lightConeSuperimposition: tm?.lightConeSuperimposition ?? 1,
     }))
 

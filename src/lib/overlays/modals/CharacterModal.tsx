@@ -7,6 +7,8 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import type { UseFormReturnType } from '@mantine/form'
+import { getSupportedFlags } from 'lib/conditionals/exEidolons'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { Constants } from 'lib/constants/constants'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
@@ -19,6 +21,7 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import { ExEidolonPill } from 'lib/ui/selectors/ExEidolonPill'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
   useMemo,
@@ -51,7 +54,7 @@ function CharacterModalContent() {
   const config = useCharacterModalStore((s) => s.config)!
   const closeOverlay = useCharacterModalStore((s) => s.closeOverlay)
 
-  const initialCharacter = config.initialCharacter
+  const initialForm = config.initialForm
   const onOk = config.onOk
 
   const characterForm = useForm<CharacterModalForm>({
@@ -59,6 +62,7 @@ function CharacterModalContent() {
       characterId: undefined,
       lightCone: undefined,
       characterEidolon: 0,
+      characterEx: 0,
       lightConeSuperimposition: 1,
       teamOrnamentSet: undefined,
       teamRelicSet: undefined,
@@ -69,7 +73,7 @@ function CharacterModalContent() {
   const { t: tCommon } = useTranslation('common')
   const { t: tTeammateCard } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
 
-  const [characterId, setCharacterId] = useState<CharacterId | null | undefined>(initialCharacter?.form.characterId ?? null)
+  const [characterId, setCharacterId] = useState<CharacterId | null | undefined>(initialForm?.characterId ?? null)
 
   const relicSetData = useMemo(
     () => renderTeammateRelicSetOptions(tTeammateCard)().map((opt) => ({ value: opt.value, label: opt.desc })),
@@ -81,14 +85,15 @@ function CharacterModalContent() {
   )
 
   useFormOnOpen(characterForm, () => {
-    setCharacterId(initialCharacter?.form.characterId ?? null)
+    setCharacterId(initialForm?.characterId ?? null)
     return {
-      characterId: initialCharacter?.form.characterId,
-      characterEidolon: initialCharacter?.form.characterEidolon ?? 0,
-      lightCone: initialCharacter?.form.lightCone,
-      lightConeSuperimposition: initialCharacter?.form.lightConeSuperimposition ?? 1,
-      teamRelicSet: initialCharacter?.form.teamRelicSet,
-      teamOrnamentSet: initialCharacter?.form.teamOrnamentSet,
+      characterId: initialForm?.characterId,
+      characterEidolon: initialForm?.characterEidolon ?? 0,
+      characterEx: initialForm?.characterEx ?? 0,
+      lightCone: initialForm?.lightCone,
+      lightConeSuperimposition: initialForm?.lightConeSuperimposition ?? 1,
+      teamRelicSet: initialForm?.teamRelicSet,
+      teamOrnamentSet: initialForm?.teamOrnamentSet,
     }
   })
 
@@ -105,20 +110,34 @@ function CharacterModalContent() {
         <Flex direction='column' gap={10}>
           <Flex direction='column' gap={5}>
             <HeaderText>{t('Character')}</HeaderText>
-            <CharacterSelect
-              value={characterForm.getValues().characterId ?? null}
-              onChange={(characterId: CharacterId | null) => {
-                characterForm.setFieldValue('characterId', characterId ?? undefined)
-                setCharacterId(characterId)
-                const dbCharacter = getCharacterById(characterId!)
-                const eidolonPreselect = characterId?.startsWith('80') ? 6 : (dbCharacter?.form?.characterEidolon ?? 0)
-                const lightConePreselect = dbCharacter?.form?.lightCone ?? undefined
-                const lightConeSuperimpositionPreselect = dbCharacter?.form?.lightConeSuperimposition ?? 1
-                characterForm.setFieldValue('characterEidolon', eidolonPreselect)
-                characterForm.setFieldValue('lightCone', lightConePreselect)
-                characterForm.setFieldValue('lightConeSuperimposition', lightConeSuperimpositionPreselect)
-              }}
-            />
+            <Flex align='center' gap={6}>
+              <CharacterSelect
+                selectStyle={{ flex: 1, minWidth: 0 }}
+                value={characterForm.getValues().characterId ?? null}
+                onChange={(characterId: CharacterId | null) => {
+                  characterForm.setFieldValue('characterId', characterId ?? undefined)
+                  setCharacterId(characterId)
+
+                  const dbCharacter = getCharacterById(characterId!)
+                  const eidolonPreselect = characterId?.startsWith('80') ? 6 : (dbCharacter?.form?.characterEidolon ?? 0)
+                  const supportedFlags = characterId ? getCharacterConfig(characterId)?.supportedExFlags ?? 0 : 0
+                  const characterEx = getSupportedFlags(dbCharacter?.form.characterEx ?? 0, supportedFlags)
+
+                  const lightConePreselect = dbCharacter?.form?.lightCone ?? undefined
+                  const lightConeSuperimpositionPreselect = dbCharacter?.form?.lightConeSuperimposition ?? 1
+
+                  characterForm.setFieldValue('characterEidolon', eidolonPreselect)
+                  characterForm.setFieldValue('characterEx', characterEx)
+                  characterForm.setFieldValue('lightCone', lightConePreselect)
+                  characterForm.setFieldValue('lightConeSuperimposition', lightConeSuperimpositionPreselect)
+                }}
+              />
+              <ExEidolonPill
+                characterId={characterId}
+                mask={characterForm.values.characterEx}
+                onChange={(mask) => characterForm.setFieldValue('characterEx', mask)}
+              />
+            </Flex>
             <SegmentedControl
               fullWidth
               value={String(characterForm.getValues().characterEidolon ?? 0)}

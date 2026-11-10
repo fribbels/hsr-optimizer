@@ -1,13 +1,19 @@
 /* ── Header container ── */
 
 .header {
+  --lb-rank-top-3: #ffe267;
+  --lb-rank-top-10: #e8c3ef;
+  --lb-rank-top-25: #91c8ff;
+  --lb-rank-top-50: #8fbea3;
+  --lb-rank-remaining: #9ea8b6;
+
   position: relative;
   overflow: hidden;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   background: #0b0d13;
-  height: 310px;
+  height: 410px;
   width: 100%;
 }
 
@@ -60,7 +66,8 @@
 }
 
 .title {
-  font-size: 32px;
+  margin-bottom: 10px;
+  font-size: 36px;
   font-weight: 700;
   color: var(--lb-text-1);
   text-transform: uppercase;
@@ -94,7 +101,7 @@
 /* ── Glass feed panel ── */
 
 .glassPanel {
-  flex: 0 0 400px;
+  width: calc(380px + var(--leaderboard-timeline-grid-width));
   display: flex;
   overflow: hidden;
   background: rgba(10, 11, 16, 0.30);
@@ -105,7 +112,7 @@
 }
 
 .userRanksPanel {
-  flex-basis: 350px;
+  width: 350px;
 }
 
 /* ── Saved UID ranks ── */
@@ -174,7 +181,7 @@
 
 .rankName {
   overflow: hidden;
-  color: var(--lb-text-2);
+  color: inherit;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -193,13 +200,13 @@
 }
 
 .rankNumber {
-  color: #8cc8ff;
+  color: inherit;
   padding-left: 4px;
   line-height: 24px;
 }
 
 .rankScore {
-  color: var(--lb-text-1);
+  color: inherit;
   text-align: right;
 }
 
@@ -227,7 +234,7 @@
 .feedGrid {
   display: grid;
   font-size: 14px;
-  grid-template-columns: 20px 1px 36px 20px 1fr 52px 42px;
+  grid-template-columns: var(--leaderboard-timeline-grid-width) 1px 36px 20px 1fr 52px 42px;
   gap: 4px 7px;
   align-content: start;
   flex: 1;
@@ -281,6 +288,7 @@
 .cellTime {
   color: rgba(255, 255, 255, 0.32);
   font-size: 12px;
+  white-space: nowrap;
 }
 
 .cellDivider {
@@ -303,14 +311,14 @@
 }
 
 .cellName {
-  color: var(--lb-text-2);
+  color: inherit;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .cellScore {
-  color: var(--lb-text-1);
+  color: inherit;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   text-align: right;
@@ -320,17 +328,6 @@
   font-size: 12px;
   font-variant-numeric: tabular-nums;
   text-align: right;
-}
-
-/* ── Cell color variants ── */
-
-.cellGreen {
-  color: #69f0ae;
-  opacity: 0.7;
-}
-
-.cellNewLabel {
-  color: #8cc8ff;
 }
 
 .cellDash {

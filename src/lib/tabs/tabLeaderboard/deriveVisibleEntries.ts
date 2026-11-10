@@ -4,9 +4,14 @@ import {
   type LeaderboardEidolonFilter,
 } from 'leaderboard/shared/eidolonConfig'
 import type { PublicCharacterData } from 'leaderboard/shared/types'
+import { hasExEidolon } from 'lib/conditionals/exEidolons'
 import { IS_LOCALHOST } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import { mapPublicEntry } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
-import type { LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
+import {
+  type LeaderboardEntry,
+  LeaderboardExFilter,
+} from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
+import { ExEidolon } from 'types/character'
 
 export const LEADERBOARD_DISPLAY_TOP_N = 100
 
@@ -15,10 +20,11 @@ export interface DeriveVisibleEntriesInput {
   activeConfigType: LeaderboardConfigType | null
   activeTeamId: string
   filterCharacterEidolon: LeaderboardEidolonFilter
+  filterCharacterEx: LeaderboardExFilter
 }
 
 export function deriveVisibleEntries(input: DeriveVisibleEntriesInput): LeaderboardEntry[] {
-  const { characterData, activeConfigType, activeTeamId, filterCharacterEidolon } = input
+  const { characterData, activeConfigType, activeTeamId, filterCharacterEidolon, filterCharacterEx } = input
 
   if (!characterData || !activeConfigType) return []
 
@@ -55,7 +61,20 @@ export function deriveVisibleEntries(input: DeriveVisibleEntriesInput): Leaderbo
   // Cap by overall rank before the eidolon filter so nothing past the cutoff shows.
   const topRanked = qualified.slice(0, LEADERBOARD_DISPLAY_TOP_N)
 
-  return filterCharacterEidolon !== LEADERBOARD_FILTER_ALL
-    ? topRanked.filter((e) => e.eidolonGroup === filterCharacterEidolon)
-    : topRanked
+  return topRanked.filter((entry) => {
+    if (
+      filterCharacterEidolon !== LEADERBOARD_FILTER_ALL
+      && entry.eidolonGroup !== filterCharacterEidolon
+    ) {
+      return false
+    }
+
+    if (filterCharacterEx === LeaderboardExFilter.All) {
+      return true
+    }
+
+    const enabled = hasExEidolon(entry.characterEx, ExEidolon.EX1)
+
+    return filterCharacterEx === LeaderboardExFilter.On ? enabled : !enabled
+  })
 }

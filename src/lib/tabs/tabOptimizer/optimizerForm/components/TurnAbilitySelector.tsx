@@ -58,11 +58,17 @@ function mapKindToGroup(kind: string, groupLabel: string, t: TFunction<'optimize
 // full character turns (including buff skills / transformation ults) — not just damage actions.
 const ALWAYS_INCLUDED_KINDS: AbilityKind[] = [AbilityKind.SKILL, AbilityKind.ULT]
 
-function generateAbilityGroupedOptions(t: TFunction<'optimizerTab', 'ComboFilter'>, characterId?: string, characterEidolon?: number): CascaderData {
+function generateAbilityGroupedOptions(
+  t: TFunction<'optimizerTab', 'ComboFilter'>,
+  characterId?: CharacterId,
+  characterEidolon?: number,
+  characterEx = 0,
+): CascaderData {
   if (characterId && characterEidolon != null) {
     const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get({
       characterId: characterId as CharacterId,
       characterEidolon: characterEidolon,
+      characterEx,
     })
     const declared = characterConditionals.actionDeclaration ? characterConditionals.actionDeclaration() : []
     const actions = [...new Set([...declared, ...ALWAYS_INCLUDED_KINDS])]
@@ -76,8 +82,14 @@ export function TurnAbilitySelector({ index, disabled }: { index: number, disabl
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const characterId = useOptimizerRequestStore((s) => s.characterId)
   const characterEidolon = useOptimizerRequestStore((s) => s.characterEidolon)
+  const characterEx = useOptimizerRequestStore((s) => s.characterEx)
   const value = useOptimizerRequestStore((s) => s.comboTurnAbilities[index])
-  const options = useMemo(() => generateAbilityGroupedOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
+  const options = useMemo(() => generateAbilityGroupedOptions(t, characterId, characterEidolon, characterEx), [
+    t,
+    characterId,
+    characterEidolon,
+    characterEx,
+  ])
 
   function handleChange(selectedValue: string | null) {
     if (!selectedValue) return
@@ -137,7 +149,13 @@ export function ControlledTurnAbilitySelector({
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const characterId = useOptimizerRequestStore((s) => s.characterId)
   const characterEidolon = useOptimizerRequestStore((s) => s.characterEidolon)
-  const options = useMemo(() => generateAbilityGroupedOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
+  const characterEx = useOptimizerRequestStore((s) => s.characterEx)
+  const options = useMemo(() => generateAbilityGroupedOptions(t, characterId, characterEidolon, characterEx), [
+    t,
+    characterId,
+    characterEidolon,
+    characterEx,
+  ])
 
   function handleChange(selectedValue: string | null) {
     if (!selectedValue) return

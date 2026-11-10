@@ -24,7 +24,7 @@ import {
 export function migrateBuild(
   raw: Record<string, unknown>,
   characterId: CharacterId,
-  characterForm: Pick<Form, 'characterEidolon' | 'lightCone' | 'lightConeSuperimposition'>,
+  characterForm: Pick<Form, 'characterEidolon' | 'characterEx' | 'lightCone' | 'lightConeSuperimposition'>,
   relicsById: Map<string, Relic>,
 ): SavedBuild | null {
   // Guard: reject completely invalid data
@@ -39,7 +39,12 @@ export function migrateBuild(
       console.warn('[buildMigration] Corrupt new-format build, missing required fields', characterId, raw)
       return null
     }
-    return raw as SavedBuild
+    const build = raw as SavedBuild
+    build.characterEx = build.characterEx ?? 0
+    for (const teammate of build.team) {
+      if (teammate) teammate.characterEx = teammate.characterEx ?? 0
+    }
+    return build
   }
 
   // Layer 1: ancient format { build: string[], name, score }
@@ -55,7 +60,7 @@ export function migrateBuild(
 function migrateAncientFormat(
   raw: Record<string, unknown>,
   characterId: CharacterId,
-  characterForm: Pick<Form, 'characterEidolon' | 'lightCone' | 'lightConeSuperimposition'>,
+  characterForm: Pick<Form, 'characterEidolon' | 'characterEx' | 'lightCone' | 'lightConeSuperimposition'>,
   relicsById: Map<string, Relic>,
 ): CharacterSavedBuild {
   const buildArray = raw.build as string[]
@@ -73,6 +78,7 @@ function migrateAncientFormat(
     characterId,
     equipped,
     characterEidolon: characterForm.characterEidolon,
+    characterEx: characterForm.characterEx,
     lightCone: characterForm.lightCone,
     lightConeSuperimposition: characterForm.lightConeSuperimposition,
     team: [null, null, null],
@@ -89,6 +95,7 @@ function migrateCurrentFormat(
   // Rename base fields
   const name = raw.name as string
   const characterEidolon = (raw.eidolon as number) ?? 0
+  const characterEx = (raw.characterEx as number) ?? 0
   const lightCone = (raw.lightConeId as LightConeId) ?? ('' as LightConeId)
   const lightConeSuperimposition = (raw.superimposition as number) ?? 1
   const equipped = (raw.equipped as Build) ?? {}
@@ -104,6 +111,7 @@ function migrateCurrentFormat(
       characterId,
       equipped,
       characterEidolon,
+      characterEx,
       lightCone,
       lightConeSuperimposition,
       team,
@@ -150,6 +158,7 @@ function migrateCurrentFormat(
     characterId,
     equipped,
     characterEidolon,
+    characterEx,
     lightCone,
     lightConeSuperimposition,
     team,
@@ -172,6 +181,7 @@ function migrateTeammate(raw: unknown): SavedTeammate | null {
   return {
     characterId: tm.characterId as CharacterId,
     characterEidolon: (tm.eidolon as number) ?? (tm.characterEidolon as number) ?? 0,
+    characterEx: (tm.characterEx as number) ?? 0,
     lightCone: (tm.lightConeId as LightConeId) ?? (tm.lightCone as LightConeId) ?? ('' as LightConeId),
     lightConeSuperimposition: (tm.superimposition as number) ?? (tm.lightConeSuperimposition as number) ?? 1,
     teamRelicSet: (tm.relicSet as string) ?? (tm.teamRelicSet as string) ?? undefined,

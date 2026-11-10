@@ -180,6 +180,21 @@ describe('getFilteredRelicCounts (countsBySet)', () => {
     expect(countsBySet[Parts.Head][setBIdx]).toBe(0)
   })
 
+  it.each([0, 1])('respects requested rank %i when the selected character is last', (rank) => {
+    const otherRelic = makeRelic({ id: 'other-head', part: Parts.Head, set: SET_A, equippedBy: '1001' })
+    const ownRelic = makeRelic({ id: 'own-head', part: Parts.Head, set: SET_A, equippedBy: '1005' })
+    relicStoreMock.relics = [otherRelic, ownRelic]
+    characterStoreMock.characters = [
+      { id: '1001', equipped: { Head: otherRelic.id } },
+      { id: '1005', equipped: { Head: ownRelic.id } },
+    ]
+    const request = baseRequest({ rankFilter: true, rank })
+    const expected = rank === 0 ? [otherRelic, ownRelic] : [ownRelic]
+
+    expect(RelicFilters.applyRankFilter(request, relicStoreMock.relics)).toEqual(expected)
+    expect(RelicFilters.getFilteredRelicCounts(request).counts.Head).toBe(expected.length)
+  })
+
   it('uses weighted min-roll units in both filter paths', () => {
     const highSpd = makeRelic({
       id: 'high-spd',

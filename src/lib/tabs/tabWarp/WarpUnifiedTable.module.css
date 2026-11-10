@@ -69,6 +69,13 @@
   height: auto;
 }
 
+.previewImageSkin {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+
 .dragHandle {
   position: absolute;
   left: 6px;

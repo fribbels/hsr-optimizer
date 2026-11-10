@@ -45,6 +45,7 @@ function makeShowcaseCharacter(overrides: Partial<ShowcaseTabCharacter> = {}): S
       characterId: Kafka.id,
       lightCone: '23006' as LightConeId,
       characterEidolon: 0,
+      characterEx: 0,
       lightConeSuperimposition: 1,
     },
     equipped: {
@@ -73,6 +74,7 @@ function seedWithCharacters(count = 2) {
         characterId: i === 0 ? Kafka.id : Jingliu.id,
         lightCone: '23006' as LightConeId,
         characterEidolon: 0,
+        characterEx: 0,
         lightConeSuperimposition: 1,
       },
     }))
@@ -194,6 +196,7 @@ describe('useShowcaseTabStore', () => {
         characterId: Jingliu.id,
         lightCone: '23014' as LightConeId,
         characterEidolon: 2,
+        characterEx: 0,
         lightConeSuperimposition: 3,
       }
       state().applyCharacterOverride(newForm)
@@ -211,6 +214,7 @@ describe('useShowcaseTabStore', () => {
         characterId: Jingliu.id,
         lightCone: '23014' as LightConeId,
         characterEidolon: 0,
+        characterEx: 0,
         lightConeSuperimposition: 1,
       }
       state().applyCharacterOverride(newForm)
@@ -226,6 +230,7 @@ describe('useShowcaseTabStore', () => {
         characterId: Jingliu.id,
         lightCone: '23014' as LightConeId,
         characterEidolon: 0,
+        characterEx: 0,
         lightConeSuperimposition: 1,
       }
       state().applyCharacterOverride(newForm)
@@ -242,6 +247,7 @@ describe('useShowcaseTabStore', () => {
         characterId: Jingliu.id,
         lightCone: '23014' as LightConeId,
         characterEidolon: 0,
+        characterEx: 0,
         lightConeSuperimposition: 1,
       }
       state().applyCharacterOverride(newForm)
@@ -258,6 +264,7 @@ describe('useShowcaseTabStore', () => {
         characterId: Kafka.id,
         lightCone: '23006' as LightConeId,
         characterEidolon: 0,
+        characterEx: 0,
         lightConeSuperimposition: 1,
       }
 
@@ -275,6 +282,7 @@ describe('useShowcaseTabStore', () => {
         characterId: Kafka.id,
         lightCone: '23006' as LightConeId,
         characterEidolon: 0,
+        characterEx: 0,
         lightConeSuperimposition: 1,
       }
 

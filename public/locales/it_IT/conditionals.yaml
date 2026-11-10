@@ -22,6 +22,10 @@ Lightcones:
     Content:
       vulnerability:
         text: Vulnerabilità
+  ColorsForTomorrow:
+    Content:
+      inkSplashVulnerability:
+        text: Vulnerabilità
 Characters:
   Archer:
     Content:
@@ -41,3 +45,11 @@ Characters:
     Content:
       masterFoxVuln:
         text: Vulnerabilità
+  RobinSummeretto:
+    Content:
+      deviatedChordBranch:
+        options:
+          atk:
+            display: ATT
+          critDmg:
+            display: CD

@@ -2,6 +2,7 @@ import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
 import { Assets } from 'lib/rendering/assets'
 import { loadCharacterData } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
+import { getLeaderboardRankColor } from 'lib/tabs/tabLeaderboard/leaderboardRankColor'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import {
   type LoadedLeaderboardCharacter,
@@ -130,6 +131,7 @@ export function LeaderboardUserRanksCard() {
                   type='button'
                   key={`${rank.characterId}#${rank.configType}`}
                   className={classes.rankRow}
+                  style={{ color: getLeaderboardRankColor(rank.rank) }}
                   onClick={() => selectRank(rank)}
                 >
                   <span

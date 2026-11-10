@@ -326,6 +326,18 @@ SetConditionals:
         Display: ATT
       CdOnly:
         Display: CD
+    DreamlitActor:
+      Off:
+        Display: 'Off'
+        Label: 'Off'
+      CD:
+        Display: CD
+    DivineQueryingMasterSmith:
+      Off:
+        Display: 'Off'
+        Label: 'Off'
+      CD:
+        Display: CD
   Conditionals:
     DefaultMessage: Abilitato per impostazione predefinita - gli effetti saranno applicati ai calcoli di combattimento.
     Hunter: Se abilitato, il buff DAN CRIT viene applicato ai calcoli delle Stat Combat.

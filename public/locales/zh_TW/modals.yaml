@@ -1,171 +1,386 @@
+Scoring:
+  StatWeightsHeader: 屬性權重
+  SetWeightsHeader: 設定權重
+  MainstatsHeader: 最佳主屬性
+  SetWeights:
+    AddRelicSetPlaceholder: 新增遺器套裝
+    AddOrnamentSetPlaceholder: 新增飾品套裝
+  WeightMethodology:
+    Header: 副詞條權重說明
+  Footer:
+    Reset: 重設為預設值
+    ResetAll: 重設所有角色
+    Save: 保存變更
+  ResetAllConfirm:
+    Title: 確定要重設所有角色的評分演算法嗎？
+    Description: 你將失去為所有角色設定的自訂評分設定。
 0Perms:
+  Title: 搜尋產生了0個排列
+  Description: 這意味著你的篩選條件配置錯誤或過於嚴格，因此沒有任何符合條件的組合。排列顯示在側邊欄中。
   RootCauses:
     IMPORT:
+      Description: 在匯入器分頁中從你的遊戲帳戶匯入遺器。
+      ButtonText: 前往匯入器分頁。
       SuccessMessage: 選擇導入方法，然后導入你的遺器和角色
     Body_MAIN:
+      Description: '$t(common:Parts.Body)的主屬性篩選條件可能過於嚴格'
+      ButtonText: '清除$t(common:Parts.Body)的主屬性篩選條件'
       SuccessMessage: '已清除$t(common:Parts.Body)的主屬性篩選條件'
     Feet_MAIN:
+      Description: '$t(common:Parts.Feet)的主屬性篩選條件可能過於嚴格'
+      ButtonText: '清除$t(common:Parts.Feet)的主屬性篩選條件'
       SuccessMessage: '已清除$t(common:Parts.Feet)的主屬性篩選條件'
     PlanarSphere_MAIN:
+      Description: '$t(common:Parts.PlanarSphere)的主屬性篩選條件可能過於嚴格'
+      ButtonText: '清除$t(common:Parts.PlanarSphere)的主屬性篩選條件'
       SuccessMessage: '已清除$t(common:Parts.PlanarSphere)的主屬性篩選條件'
     LinkRope_MAIN:
+      Description: '$t(common:Parts.LinkRope)的主屬性篩選條件可能過於嚴格'
+      ButtonText: '清除$t(common:Parts.LinkRope)的主屬性篩選條件'
       SuccessMessage: '已清除$t(common:Parts.LinkRope)的主屬性篩選條件'
     RELIC_SETS:
+      Description: 所選的遺器套裝篩選條件可能過於嚴格
+      ButtonText: 清除遺器套裝篩選條件
       SuccessMessage: 已清除遺器套裝篩選條件
     ORNAMENT_SETS:
+      Description: 所選的位面飾品套裝篩選條件可能過於嚴格
+      ButtonText: 清除位面飾品套裝篩選條件
       SuccessMessage: 已清除位面飾品套装篩選條件
     KEEP_CURRENT:
+      Description: '「保持當前遺器」選項已啟用，這會強制在搜尋中保持角色目前裝備的所有遺器不變'
+      ButtonText: 停用「保持當前遺器」
       SuccessMessage: 已禁用“保持當前遺器”
     PRIORITY:
+      Description: 該角色在優先級列表中的排名低於其他角色。當「角色優先級過濾器」啟用時，角色只能使用優先級低於自身的角色所持有的遺器
+      ButtonText: '將角色優先級移至第1位'
       SuccessMessage: '已將角色優先級移至第1位'
     EXCLUDE_ENABLED:
+      Description: '「排除」篩選條件中選擇了一些角色，這意味著當前角色無法從所選角色中取得遺器'
+      ButtonText: 清除被排除的角色
       SuccessMessage: 已清除被排除的角色
     EQUIPPED_DISABLED:
+      Description: '「包含已裝備的遺器」篩選條件已停用，這意味著該角色無法取得其他角色已裝備的任何遺器'
+      ButtonText: 啟用「包含已裝備的遺器」
       SuccessMessage: 已啟用“包含已裝備的遺器”
     MINIMUM_ROLLS:
+      Description: 副詞條權重篩選條件的最低強化次數門檻可能過高
+      ButtonText: 將最低強化次數設為0
       SuccessMessage: 已將最小升級次數設定為0
 0Results:
+  Title: 搜尋產生了0個結果
   ResetAll:
+    ButtonText: 重設所有篩選條件
     SuccessMessage: 已清除所有篩選條件
+    Description: 這意味著你的屬性和/或評分篩選條件過於嚴格
   RootCauses:
     StatView:
       SuccessMessage: '已切換至戰鬥內屬性視角'
+      Description: '你的屬性篩選條件被設為基礎屬性，這不包括增益效果。戰鬥屬性視角將顯示來自技能/隊友/遺器等的增益屬性'
+      ButtonText: '切換至戰鬥屬性視角'
     MAX_HP:
       SuccessMessage: '已重設最大$t(common:Stats.HP)的篩選條件'
+      Description: '最大$t(common:Stats.HP)的篩選條件可能過低'
       ButtonText: '已重設最大$t(common:Stats.HP)的篩選條件'
     MIN_HP:
       SuccessMessage: '已重設最小$t(common:Stats.HP)的篩選條件'
+      Description: '最小$t(common:Stats.HP)的篩選條件可能過高'
       ButtonText: '已重設最小$t(common:Stats.HP)的篩選條件'
     MAX_ATK:
       SuccessMessage: '已重設最大$t(common:Stats.ATK)的篩選條件'
+      Description: '最大$t(common:Stats.ATK)的篩選條件可能過低'
       ButtonText: '已重設最大$t(common:Stats.ATK)的篩選條件'
     MIN_ATK:
       SuccessMessage: '已重設最小$t(common:Stats.ATK)的篩選條件'
+      Description: '最小$t(common:Stats.ATK)的篩選條件可能過高'
       ButtonText: '已重設最小$t(common:Stats.ATK)的篩選條件'
     MAX_DEF:
       SuccessMessage: '已重設最大$t(common:Stats.DEF)的篩選條件'
+      Description: '最大$t(common:Stats.DEF)的篩選條件可能過低'
       ButtonText: '已重設最大$t(common:Stats.DEF)的篩選條件'
     MIN_DEF:
       SuccessMessage: '已重設最小$t(common:Stats.DEF)的篩選條件'
+      Description: '最小$t(common:Stats.DEF)的篩選條件可能過高'
       ButtonText: '已重設最小$t(common:Stats.DEF)的篩選條件'
     MAX_SPD:
       SuccessMessage: '已重設最大$t(common:Stats.SPD)的篩選條件'
+      Description: '最大$t(common:Stats.SPD)的篩選條件可能過低'
       ButtonText: '已重設最大$t(common:Stats.SPD)的篩選條件'
     MIN_SPD:
       SuccessMessage: '已重設最小$t(common:Stats.SPD)的篩選條件'
+      Description: '最小$t(common:Stats.SPD)的篩選條件可能過高'
       ButtonText: '已重設最小$t(common:Stats.SPD)的篩選條件'
     MAX_CR:
       SuccessMessage: '已重設最大$t(common:Stats.CRIT Rate)的篩選條件'
+      Description: '最大$t(common:Stats.CRIT Rate)的篩選條件可能過低'
       ButtonText: '已重設最大$t(common:Stats.CRIT Rate)的篩選條件'
     MIN_CR:
       SuccessMessage: '已重設最小$t(common:Stats.CRIT Rate)的篩選條件'
+      Description: '最小$t(common:Stats.CRIT Rate)的篩選條件可能過高'
       ButtonText: '已重設最小$t(common:Stats.CRIT Rate)的篩選條件'
     MAX_CD:
       SuccessMessage: '已重設最大$t(common:Stats.CRIT DMG)的篩選條件'
+      Description: '最大$t(common:Stats.CRIT DMG)的篩選條件可能過低'
       ButtonText: '已重設最大$t(common:Stats.CRIT DMG)的篩選條件'
     MIN_CD:
       SuccessMessage: '已重設最小$t(common:Stats.CRIT DMG)的篩選條件'
+      Description: '最小$t(common:Stats.CRIT DMG)的篩選條件可能過高'
       ButtonText: '已重設最小$t(common:Stats.CRIT DMG)的篩選條件'
     MAX_EHR:
       SuccessMessage: '已重設最大$t(common:Stats.Effect Hit Rate)的篩選條件'
+      Description: '最大$t(common:Stats.Effect Hit Rate)的篩選條件可能過低'
       ButtonText: '已重設最大$t(common:Stats.Effect Hit Rate)的篩選條件'
     MIN_EHR:
       SuccessMessage: '已重設最小$t(common:Stats.Effect Hit Rate)的篩選條件'
+      Description: '最小$t(common:Stats.Effect Hit Rate)的篩選條件可能過高'
       ButtonText: '已重設最小$t(common:Stats.Effect Hit Rate)的篩選條件'
     MAX_RES:
       SuccessMessage: '已重設最大$t(common:Stats.Effect RES)的篩選條件'
+      Description: '最大$t(common:Stats.Effect RES)的篩選條件可能過低'
       ButtonText: '已重設最大$t(common:Stats.Effect RES)的篩選條件'
     MIN_RES:
       SuccessMessage: '已重設最小$t(common:Stats.Effect RES)的篩選條件'
+      Description: '最小$t(common:Stats.Effect RES)的篩選條件可能過高'
       ButtonText: '已重設最小$t(common:Stats.Effect RES)的篩選條件'
     MAX_BE:
       SuccessMessage: '已重設最大$t(common:Stats.Break Effect)的篩選條件'
+      Description: '最大$t(common:Stats.Break Effect)的篩選條件可能過低'
       ButtonText: '已重設最大$t(common:Stats.Break Effect)的篩選條件'
     MIN_BE:
       SuccessMessage: '已重設最小$t(common:Stats.Break Effect)的篩選條件'
+      Description: '最小$t(common:Stats.Break Effect)的篩選條件可能過高'
       ButtonText: '已重設最小$t(common:Stats.Break Effect)的篩選條件'
     MAX_ERR:
       SuccessMessage: '已重設最大$t(common:Stats.Energy Regeneration Rate)的篩選條件'
+      Description: '最大$t(common:Stats.Energy Regeneration Rate)的篩選條件可能過低'
       ButtonText: '已重設最大$t(common:Stats.Energy Regeneration Rate)的篩選條件'
     MIN_ERR:
       SuccessMessage: '已重設最小$t(common:Stats.Energy Regeneration Rate)的篩選條件'
+      Description: '最小$t(common:Stats.Energy Regeneration Rate)的篩選條件可能過高'
       ButtonText: '已重設最小$t(common:Stats.Energy Regeneration Rate)的篩選條件'
     MAX_EHP:
       SuccessMessage: '已重設最大有效生命值的篩選條件'
+      Description: '最大有效生命值的篩選條件可能過低'
       ButtonText: '已重設最大有效生命值的篩選條件'
     MIN_EHP:
       SuccessMessage: '已重設最小有效生命值的篩選條件'
+      Description: '最小有效生命值的篩選條件可能過高'
       ButtonText: '已重設最小有效生命值的篩選條件'
     MAX_BASIC:
       SuccessMessage: '已重設最大普攻傷害的過濾條件'
+      Description: '最大普攻傷害的篩選條件可能過低'
       ButtonText: '已重設最大普攻傷害的過濾條件'
     MIN_BASIC:
       SuccessMessage: '已重設最小普攻傷害的過濾條件'
+      Description: '最小普攻傷害的篩選條件可能過高'
       ButtonText: '已重設最小普攻傷害的過濾條件'
     MAX_SKILL:
       SuccessMessage: '已重設最大戰技傷害的過濾條件'
+      Description: '最大戰技傷害的篩選條件可能過低'
       ButtonText: '已重設最大戰技傷害的過濾條件'
     MIN_SKILL:
       SuccessMessage: '已重設最小戰技傷害的過濾條件'
+      Description: '最小戰技傷害的篩選條件可能過高'
       ButtonText: '已重設最小戰技傷害的過濾條件'
     MAX_ULT:
       SuccessMessage: '已重設最大終結技傷害的過濾條件'
+      Description: '最大終結技傷害的篩選條件可能過低'
       ButtonText: '已重設最大終結技傷害的過濾條件'
     MIN_ULT:
       SuccessMessage: '已重設最小終結技傷害的過濾條件'
+      Description: '最小終結技傷害的篩選條件可能過高'
       ButtonText: '已重設最小終結技傷害的過濾條件'
     MAX_FUA:
       SuccessMessage: '已重設最大追加攻擊傷害的過濾條件'
+      Description: '最大追加攻擊傷害的篩選條件可能過低'
       ButtonText: '已重設最大追加攻擊傷害的過濾條件'
     MIN_FUA:
       SuccessMessage: '已重設最小追加攻擊傷害的過濾條件'
+      Description: '最小追加攻擊傷害的篩選條件可能過高'
       ButtonText: '已重設最小追加攻擊傷害的過濾條件'
     MAX_DOT:
       SuccessMessage: '已重設最大持續傷害的過濾條件'
+      Description: '最大持續傷害的篩選條件可能過低'
       ButtonText: '已重設最大持續傷害的過濾條件'
     MIN_DOT:
       SuccessMessage: '已重設最小持續傷害的過濾條件'
+      Description: '最小持續傷害的篩選條件可能過高'
       ButtonText: '已重設最小持續傷害的過濾條件'
     MAX_BREAK:
       SuccessMessage: '已重設最大擊破傷害的過濾條件'
+      Description: '最大擊破傷害的篩選條件可能過低'
       ButtonText: '已重設最大擊破傷害的過濾條件'
     MIN_BREAK:
       SuccessMessage: '已重設最小擊破傷害的過濾條件'
+      Description: '最小擊破傷害的篩選條件可能過高'
       ButtonText: '已重設最小擊破傷害的過濾條件'
+    MAX_MEMO_SKILL:
+      SuccessMessage: '已重設最大憶靈技的篩選條件'
+      Description: '最大憶靈技傷害的篩選條件可能過低'
+      ButtonText: '已重設最大憶靈技的篩選條件'
+    MIN_MEMO_SKILL:
+      SuccessMessage: '重設最小憶靈技的篩選條件'
+      Description: '最小憶靈技傷害的篩選條件可能過高'
+      ButtonText: '重設最小憶靈技的篩選條件'
+    MAX_MEMO_TALENT:
+      SuccessMessage: '已重設最大憶靈天賦的篩選條件'
+      Description: '最大憶靈天賦傷害的篩選條件可能過低'
+      ButtonText: '重設最大憶靈天賦的篩選條件'
+    MIN_MEMO_TALENT:
+      SuccessMessage: '已重設最小憶靈天賦的篩選條件'
+      Description: '最小憶靈天賦傷害的篩選條件可能過高'
+      ButtonText: '重設最小憶靈天賦的篩選條件'
     MAX_HEAL:
       SuccessMessage: '已重設最大治療量的過濾條件'
+      Description: '最大治療值的篩選條件可能過低'
       ButtonText: '已重設最大治療量的過濾條件'
     MIN_HEAL:
       SuccessMessage: '已重設最小治療量的過濾條件'
+      Description: '最小治療值的篩選條件可能過高'
       ButtonText: '已重設最小治療量的過濾條件'
     MAX_SHIELD:
       SuccessMessage: '已重設最大護盾值的過濾條件'
+      Description: '最大護盾值的篩選條件可能過低'
       ButtonText: '已重設最大護盾值的過濾條件'
     MIN_SHIELD:
       SuccessMessage: '已重設最小護盾值的過濾條件'
+      Description: '最小護盾值的篩選條件可能過高'
       ButtonText: '已重設最小護盾值的過濾條件'
     MAX_COMBO:
       SuccessMessage: '已重設最大連招傷害的過濾條件'
+      Description: '最大連招傷害的篩選條件可能過低'
       ButtonText: '已重設最大連招傷害的過濾條件'
     MIN_COMBO:
       SuccessMessage: '已重設最小連招傷害的過濾條件'
+      Description: '最小連招傷害的篩選條件可能過高'
       ButtonText: '已重設最小連招傷害的過濾條件'
+ManyPerms:
+  Title: 已請求大規模搜尋
+  Text: >-
+    此優化搜尋可能需要相當長的時間才能完成。你可能需要啟用 GPU 加速設定，或將搜尋限制為特定套裝和主屬性，或使用副詞條權重篩選條件，以減少排列組合的數量。
+  Cancel: 取消搜尋
+  Proceed: 繼續搜尋
 EditCharacter:
+  EidolonButton: >-
+    $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
+  SuperimpositionButton: >-
+    $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: 角色
+  Lightcone: 光錐
+  Sets: 套裝
 Relic:
+  Part: 部件
+  Wearer: 裝備由
+  Set: 套裝
+  Enhance: 強化等級 / 稀有度
+  Mainstat: 主屬性
+  Substat: 副詞條
+  SubstatPlaceholder: 副詞條
+  SpdInputWarning: 注意：遊戲內的速度副詞條包含隱藏的小數點，手動輸入可能導致不準確。如需取得精確的速度值，請使用展示選項卡或 Reliquary Archiver 匯入。
+  LiveImportWarning: 即時匯入模式已啟用，你的更改可能會被覆蓋。
+  Upgrades: 副詞條升級
   Messages:
+    SubmitFail: 提交失敗！
     EditSuccess: 成功編輯遺器
+    Error:
+      PartMissing: 部件輸入框缺失
+      MainstatMissing: 主屬性缺失
+      SetMissing: 套裝輸入框缺失
+      EnhanceMissing: 強化等級輸入框缺失
+      GradeMissing: 稀有度輸入框缺失
+      EnhanceInvalid: 強化等級無效
+      GradeInvalid: 稀有度無效
+      EnhanceTooHigh: 該稀有度的強化等級過高
+      SetInvalid: 套裝值無效
+      SetNotOrnament: 所選套裝不是位面飾品套裝
+      SetNotRelic: 所選套裝不是隧洞遺器套裝
+      SubNInvalid: '副詞條{{number}}無效'
+      SubsOutOfOrder: 副詞條順序不正確
+      DuplicateSubs: 副詞條重複，每種類型只允許有一個
+      MainAsSub: 副詞條類型與主屬性相同
+      SubTooBig: 副詞條數值太大
+      MainTooBig: 主屬性數值太大
+      SubTooSmall: 副詞條數值應為正數
+      MainTooSmall: 主屬性數值應為正數
+EditImage:
+  DefaultTitle: 編輯圖片
+  Upload:
+    Title: 提供圖片
+    Radio:
+      Upload: 上傳圖片
+      Url: 輸入圖片網址
+      Default: 使用預設圖片
+    Upload:
+      Method: 點擊或將圖片檔案拖曳至此區域上傳
+      Limit: '支援 .jpg .jpeg .png .gif .webp 格式（最大 20MB）'
+    Url:
+      Label: 圖片
+      Rule: 請輸入有效的圖片網址
+  Edit:
+    Title: 裁剪圖片
+    Zoom: 縮放
+    Drag: 拖動以移動
+    Pinch: 捏合或滾動以縮放
+    ArtBy: '（選填）藝術家來源：'
+    CreditPlaceholder: 如有可能，請註明藝術家
+  Footer:
+    Change: 更換圖片
+    Previous: 上一個
+    Next: 下一個
+SaveBuild:
+  Label: 配裝名稱
+  Rule: 請輸入名稱
+  Overwrite: 覆蓋
+  ConfirmOverwrite:
+    Content: 確定要覆蓋此配裝嗎？
+    SuccessMessage: '已成功覆蓋配裝：{{name}}'
+  Tooltip:
+    SaveDisabled:
+      NameTaken: 已存在同名配裝。請修改名稱後再儲存。
+      NoName: 配裝必須命名後才能儲存。請為配裝輸入名稱後再儲存。
+    OverwriteDisabled: 不存在該名稱的配裝。請選擇已有配裝或輸入其他名稱後再進行覆蓋。
+SwitchRelics:
+  Title: 與角色交換遺器
+  Placeholder: 搜尋角色
 Builds:
+  DeleteAll: 刪除全部
+  Equip: 裝備
+  Load: 載入至優化器
   ConfirmEquip:
+    Content: 裝備此配裝將卸下使用此配裝中遺器的角色
     SuccessMessage: '成功裝備配裝:{{buildName}}'
   ConfirmDelete:
+    DeleteAll: 你確定要刪除所有配裝嗎？
+    DeleteSingle: '你確定要刪除{{name}}嗎？'
     SuccessMessageAll: '成功刪除{{characterName}}的所有配裝'
     SuccessMessageSingle: '成功刪除配裝:{{name}}'
+  NoBuilds:
+    NoneSaved: 無儲存配裝
 ScoreFooter:
+  ModalTitle: 戰鬥模擬評分設置
+  OkText: 好的
+  ResetButtonText: 將自訂隊伍重設為預設
   ResetSuccessMsg: 已重設為預設隊伍
+  SyncButtonText: 同步匯入的星魂 / 光錐
   SyncSuccessMsg: 已同步隊友
   TeamOptions:
+    Default: 預設
     Custom: 自訂
 CharacterSelect:
+  MultiSelect:
+    Placeholder: 自訂角色
+    MaxTagPlaceholderSome: '已排除{{count}}個角色'
+    MaxTagPlaceholderNone: 已啟用所有角色
+    ModalTitle: 選擇要排除的角色
   SingleSelect:
     Placeholder: 角色
+    ModalTitle: 選擇一個角色
+  SearchPlaceholder: 搜尋角色名稱
+  ExcludeButton: 排除所有
+  ClearButton: 清除
+LightconeSelect:
+  Placeholder: 光錐
+  Title: 選擇一個光錐
+RelicReroll:
+  Title: 偵測到遺器重擲
+  OriginalSubstats: 原始副詞條
+  RerolledSubstats: 重擲副詞條

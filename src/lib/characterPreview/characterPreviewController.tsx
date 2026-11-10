@@ -55,6 +55,7 @@ import {
 import type {
   Character,
   CharacterId,
+  ExFlags,
   SavedBuild,
 } from 'types/character'
 import type { Nullable } from 'types/common'
@@ -78,6 +79,7 @@ export type ShowcaseMetadata = {
   characterElement: string,
   characterLevel: number,
   characterEidolon: number,
+  characterEx: ExFlags,
   characterName: string,
   characterPath: string,
   lightConeId: string,
@@ -226,6 +228,7 @@ export function getShowcaseStats(
     : {
       ...character.form,
       characterEidolon: savedBuildOverride.characterEidolon,
+      characterEx: savedBuildOverride.characterEx,
       lightCone: savedBuildOverride.lightCone,
       lightConeSuperimposition: savedBuildOverride.lightConeSuperimposition,
     }
@@ -265,8 +268,7 @@ export function showcaseOnEditPortraitOk(
       setCustomPortrait(config)
       let char = getCharacterById(character.id)
       if (!char) {
-        // Safe cast: upsertCharacterFromForm only reads characterId in the new-character path (merged over getDefaultForm).
-        char = persistenceService.upsertCharacterFromForm({ characterId: character.id } as Form)
+        char = persistenceService.upsertCharacterFromForm({ characterId: character.id })
       }
       useCharacterStore.getState().setCharacter({ ...char, portrait: config })
       Message.success(t('CharacterPreview.Messages.SavedPortrait') /* Successfully saved portrait */)
@@ -303,7 +305,8 @@ export function handleTeamSelection(
     const scoringMetadata = getScoringMetadata(character.id)
 
     const hasCustom = scoringMetadata[simulationKey]?.teammates
-      && objectHash(scoringMetadata[simulationKey]!.teammates) !== objectHash(defaultScoringMetadata[simulationKey]!.teammates)
+      && objectHash(scoringMetadata[simulationKey]!.teammates)
+        !== objectHash(defaultScoringMetadata[simulationKey]!.teammates)
 
     if (hasCustom && currentSelection !== DEFAULT_TEAM) {
       currentSelection = CUSTOM_TEAM
@@ -319,6 +322,7 @@ export function getShowcaseMetadata(character: Character, t: TFunction<'gameData
   const characterElement = characterMetadata.element
   const characterLevel = 80
   const characterEidolon = character.form.characterEidolon
+  const characterEx = character.form.characterEx
   const characterName = characterId ? t(`Characters.${characterId}.Name`) : ''
   const characterPath = characterMetadata.path
 
@@ -337,6 +341,7 @@ export function getShowcaseMetadata(character: Character, t: TFunction<'gameData
     characterElement,
     characterLevel,
     characterEidolon,
+    characterEx,
     characterName,
     characterPath,
     lightConeId,

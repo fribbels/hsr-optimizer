@@ -4,6 +4,7 @@ import {
   stableJson,
 } from 'leaderboard/shared/hash'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import type { ExFlags } from 'types/character'
 import type {
   ScoringConfigType,
   SimulationMetadata,
@@ -31,6 +32,7 @@ export function buildLeaderboardBuildScoreCacheKey(input: {
   configType: ScoringConfigType,
   simulationMetadata: SimulationMetadata,
   characterEidolon: number,
+  characterEx: ExFlags,
   lightConeSuperimposition: number,
   singleRelicByPart?: PreviewRelics,
   strippedRelicHash?: string,
@@ -47,6 +49,7 @@ export function buildLeaderboardBuildScoreCacheKey(input: {
     configType: input.configType,
     simulationMetadataHash: hashObject(hashableSimulationMetadata),
     characterEidolon: input.characterEidolon,
+    characterEx: input.characterEx,
     lightConeSuperimposition: input.lightConeSuperimposition,
     strippedRelicHash: input.strippedRelicHash ?? buildStrippedRelicHash(input.singleRelicByPart!),
     spdBenchmark: input.spdBenchmark,

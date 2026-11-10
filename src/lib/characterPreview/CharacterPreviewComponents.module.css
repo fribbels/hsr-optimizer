@@ -6,7 +6,10 @@
 .overlayLabel {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.85);
-  padding: 2px 14px;
+  padding: 2px 6px;
+  min-width: 43px;
+  box-sizing: border-box;
+  text-align: center;
   border-radius: var(--radius-sm);
   font-size: 12px;
   white-space: nowrap;

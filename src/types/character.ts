@@ -12,6 +12,12 @@ export type CharacterId = keyof typeof data.characters
 
 export type Eidolon = number
 
+export type ExFlags = number
+
+export enum ExEidolon {
+  EX1 = 1,
+}
+
 export type Character = {
   id: CharacterId,
   equipped: Build,

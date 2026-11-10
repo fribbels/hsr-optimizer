@@ -137,6 +137,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e2ResPen: true,
     e4MemoSpdBuff: true,
     e6MemoSkillBuff: true,
+    techniqueDmgBuff: false,
   }
 
   const teammateDefaults = {
@@ -146,6 +147,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateHPValue: 8000,
     deviatedChordBranch: DeviatedChordBranch.WEIGHT_BASED,
     e2ResPen: true,
+    techniqueDmgBuff: false,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -202,6 +204,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('deviatedChordCdBuff.text'),
       content: t('deviatedChordCdBuff.content'),
     },
+    techniqueDmgBuff: {
+      id: 'techniqueDmgBuff',
+      formItem: 'switch',
+      text: t('techniqueDmgBuff.text'),
+      content: t('techniqueDmgBuff.content'),
+    },
     e2ResPen: {
       id: 'e2ResPen',
       formItem: 'switch',
@@ -243,12 +251,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('deviatedChordBranch.text'),
       content: t('deviatedChordBranch.content'),
       options: [
-        { display: t('deviatedChordBranch.options.weightBased.display'), value: DeviatedChordBranch.WEIGHT_BASED, label: t('deviatedChordBranch.options.weightBased.label') },
+        {
+          display: t('deviatedChordBranch.options.weightBased.display'),
+          value: DeviatedChordBranch.WEIGHT_BASED,
+          label: t('deviatedChordBranch.options.weightBased.label'),
+        },
         { display: t('deviatedChordBranch.options.atk.display'), value: DeviatedChordBranch.ATK, label: t('deviatedChordBranch.options.atk.label') },
         { display: t('deviatedChordBranch.options.critDmg.display'), value: DeviatedChordBranch.CD, label: t('deviatedChordBranch.options.critDmg.label') },
       ],
       fullWidth: true,
     },
+    techniqueDmgBuff: content.techniqueDmgBuff,
     e2ResPen: content.e2ResPen,
   }
 
@@ -346,6 +359,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         StatKey.BOOST,
         (r.feverState) ? memoTalentDmgBoost + r.vibes * memoTalentDmgBoostPerVibe : 0,
         x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_MEMO),
+      )
+
+      x.buff(
+        StatKey.BOOST,
+        r.techniqueDmgBuff ? 0.30 : 0,
+        x.targets(TargetTag.FullTeam).source(SOURCE_TECHNIQUE),
       )
 
       // Deviated Chord: Robin's own ATK can never exceed itself, so she always takes the CD branch

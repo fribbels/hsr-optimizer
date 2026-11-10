@@ -1,0 +1,9 @@
+CharacterList:
+  Columns:
+    Character: Personnage
+Filters:
+  ExOff: Off
+  EidolonLabel: Eidolon
+Banner:
+  LightConeModule: Cône de lumière
+  SetsModule: Sets

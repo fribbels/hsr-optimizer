@@ -34,6 +34,7 @@ export async function expectBenchmarkResultsToMatch(
     characterId: character.characterId,
     lightCone: character.lightCone,
     characterEidolon: character.characterEidolon,
+    characterEx: 0,
     lightConeSuperimposition: character.lightConeSuperimposition,
     basicSpd: basicSpd,
     errRope: mains.simLinkRope == Stats.ERR,

@@ -59,6 +59,7 @@ SectionTitles:
   Rerun: Повторный
   AdditionalResources: Дополнительные ресурсы
   Calculate: Рассчитать
+  Simple: Простой
 ColumnTitles:
   Goal: Цель
   Chance: "Шанс успеха с {{ticketCount}} <1/>"

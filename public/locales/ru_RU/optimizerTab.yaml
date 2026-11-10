@@ -419,6 +419,20 @@ SetConditionals:
       Both:
         Display: Атака + КУ
         Label: Атака + КУ (+24% Атаки | +12% КУ)
+    DreamlitActor:
+      Off:
+        Display: 'Выкл.'
+        Label: 'Выкл.'
+      Elation:
+        Display: Радость
+      CD:
+        Display: КУ
+    DivineQueryingMasterSmith:
+      Off:
+        Display: 'Выкл.'
+        Label: 'Выкл.'
+      CD:
+        Display: КУ
   Conditionals:
     DefaultMessage: Включено по умолчанию - эффекты будут учитываться в расчетах статов в бою.
     Hunter: Когда включено, к расчету статов в бою применяется бафф крит. урона.
@@ -607,6 +621,8 @@ TeammateCard:
   OrnamentsPlaceholder: Планарки
   TeammateSyncSuccessMessage: Синхронизация информации союзника прошла успешно
   TeammateSets:
+    DivineQueryingMasterSmith:
+      Text: 15% Урона
     Messenger:
       Desc: '4 Части: $t(gameData:RelicSets.114.Name) (+12% СКР)'
       Text: 12% СКР

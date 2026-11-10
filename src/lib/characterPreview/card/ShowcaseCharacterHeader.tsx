@@ -2,9 +2,11 @@ import classes from 'lib/characterPreview/card/ShowcaseCharacterHeader.module.cs
 import { ShowcaseRarity } from 'lib/characterPreview/card/ShowcaseRarity'
 import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { StatText } from 'lib/characterPreview/StatText'
+import { hasExEidolon } from 'lib/conditionals/exEidolons'
 import { Assets } from 'lib/rendering/assets'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ExEidolon } from 'types/character'
 
 export const ShowcaseCharacterHeader = memo(function ShowcaseCharacterHeader({ showcaseMetadata }: {
   showcaseMetadata: ShowcaseMetadata,
@@ -14,6 +16,7 @@ export const ShowcaseCharacterHeader = memo(function ShowcaseCharacterHeader({ s
   const {
     characterLevel,
     characterEidolon,
+    characterEx,
     characterName,
     characterPath,
     characterElement,
@@ -41,7 +44,9 @@ export const ShowcaseCharacterHeader = memo(function ShowcaseCharacterHeader({ s
           {characterName}
         </StatText>
         <StatText className={classes.characterLevel}>
-          {`${t('common:LevelShort', { level: characterLevel })} ${t('common:EidolonNShort', { eidolon: characterEidolon })}`}
+          {`${t('common:LevelShort', { level: characterLevel })} · ${t('common:EidolonNShort', { eidolon: characterEidolon })}${
+            hasExEidolon(characterEx, ExEidolon.EX1) ? ' · EX1' : ''
+          }`}
         </StatText>
       </div>
     </div>

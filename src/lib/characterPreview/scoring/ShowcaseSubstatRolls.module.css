@@ -29,6 +29,6 @@
 }
 
 .rollCount {
-  min-width: 24px;
+  flex-shrink: 0;
   text-align: right;
 }

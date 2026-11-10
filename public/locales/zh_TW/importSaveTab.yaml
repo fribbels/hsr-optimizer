@@ -1,10 +1,110 @@
+TabLabels:
+  Import: 遗器掃描儀導入器
+  Load: 加載優化器數據
+  Save: 保存優化器數據
+  Clear: 刪除優化器數據
 Import:
+  ErrorMsg:
+    Unknown: 未知錯誤
+    InvalidFile: 掃瞄器文件無效
+    InvalidJson: JSON文件無效
+    Fragment: "匯入文件時發生錯誤："
+  ParserError:
+    BadSource: 源字符串不匹配，當前為'{{jsonSource}}'，預期為'{{configSource}}'。
+    BadVersion: 源字符串不匹配，當前為'{{jsonVersion}}'，預期為'{{configVersion}}'。
+    OutdatedVersion: "你的掃描器版本{{buildVersion}}已過時，可能導致入數據不正確！請從GitHub更新至最新版本："
+    BadMainstat: 無法解析主屬性為{{mainstat}}、部件為{{part}}的遺器。
+  ParserWarning:
+    BadRollInfo: 掃瞄器文件已過時 / 可能包含無效信息。 請更新你的掃描器。
+  LiveImport:
+    Title: 實時導入控制
+    Description:
+      l1: 使用Reliquary Archiver時，你可以啟用“實時導入”模式，以實時導入你的背包。
+      l2: 這包括新獲得的遺器、以強化的遺器、躍遷/抽卡結果等等。
+    Connected: 已連線
+    Disconnected: 連線已中斷
+    DisconnectedHint: 無法連接到掃描器，請確認其正在運行。
+    ImportDisabledHint: 即時匯入啟用時無法使用 – 掃描器已在同步你的庫存。請在下方將其關閉後再手動匯入。
+    Enable: 啟用實時導入（推薦）
+    UpdateCharacters: 啟用角色已裝備器和光錐的更新
+    OnlyExistingCharacters: 僅更新現有角色
+    OnlyExistingCharactersTooltip: 防止即時匯入新增角色列表中不存在的角色。
+    UpdateWarpResources: 啟用躍遷資源導入（星玉、專票/同票、保底計數）
+    AdvancedSettings:
+      Title: 進階設定
+      WebsocketUrl: Websocket 地址
+      WebsocketUrlReset: 還原至預設設定
+  Stage1:
+    Header: "安裝並運行其中一個遺器掃描器選擇："
+    ReliquaryDesc:
+      Title: '（推薦）IceDynamix Reliquary Archiver'
+      Link: Github
+      OnlineMsg: "狀態：已更新至版本{{version}}"
+      OfflineMsg: "***** 狀態：正在版本{{version}}後停機維護*****"
+      l1: 精準的速度小數點，快速掃描
+      l2: 導入完整的遺器庫存和角色列表
+      l3: 支持實時導入（新遺器/強化遺器實時導入）
+    KelzDesc:
+      Title: Kel-Z HSR Scanner
+      Link: Github
+      l1: 不精準的速度小數點，5-10分鐘的OCR扫描
+      l2: 導入完整的遺器庫存和角色列表
+    ScorerDesc:
+      Title: 遺器評分器導入
+      Link: 遺器評分器
+      l1: 精準的速度小數點，快速掃描
+      l2: 無需下載，但僅限於個人資料展示中的8個角色的遺器
+    HoyolabDesc:
+      Title: HoyoLab導入
+      Link: 說明
+      l1: 不精準的速度小數點，快速掃描
+      l2: 無需下載，但僅限於遊戲內所有角色所裝備的遺器
+    ButtonText: 上載掃描器JSON文件
+    Or: 或
+    Placeholder: 戰帖JSON文件內容
+  Stage2:
+    Or: 或
+    FileInfo: >-
+      文件包含$t(common:RelicWithCount, {"count": {{relicCount}}})和$t(common:CharacterWithCount, {"count": {{characterCount}}})。
+    NoRelics: 掃描檔案無效，請嘗試其他檔案。你是否想使用載入優化器資料嗎？
+    RelicsImport:
+      Label: >-
+        僅匯入$t(common:Relic, {"count": {{relicCount}}})。將使用新的$t(common:Relic, {"count": {{relicCount}}}) 資料更新優化器現有的資料，但不會覆蓋角色配裝。
+      ButtonText: >-
+        匯入$t(common:Relic, {"count": {{relicCount}}})
+    CharactersImport:
+      Label: >-
+        匯入$t(common:Relic, {"count": {{relicCount}}})和$t(common:Character, {"count": {{characterCount}}})。將使用遊戲內的角色配裝取代優化器現有的角色配裝。
+      ButtonText: >-
+        匯入$t(common:Relic, {"count": {{relicCount}}})和$t(common:Character, {"count": {{characterCount}}})
+      WarningTitle: 覆蓋優化器現有的角色配裝
+      WarningDescription: 你確定要使用遊戲內的角色配裝覆蓋優化器中目前的角色配裝嗎？
+      OnlyImportExisting: "僅匯入現有角色"
   Stage3:
     SuccessMessage: 完成!
 LoadData:
+  Stage1:
+    Label: 從檔案載入你的優化器資料。
+    ButtonText: 載入存檔資料
+  Stage2:
+    ErrorMsg: 存檔文件無效，請嘗試其他文件。你是想使用遺器掃描匯入器嗎？
+    Label: >-
+      檔案包含$t(common:RelicWithCount, {"count": {{relicCount}}})和$t(common:CharacterWithCount, {"count": {{characterCount}}})。是否要使用上傳的資料取代你目前的資料？
+    ButtonText: 使用上傳的資料
   Stage3:
     SuccessMessage: 完成!
 SaveData:
+  Label: 將你的優化器資料儲存至檔案中。
+  ButtonText: 儲存資料
   SuccessMessage: 完成!
 ClearData:
+  Label: 清除所有優化器資料
+  ButtonText: 清除資料
   SuccessMessage: 已清除數據
+  WarningTitle: 清除所有資料
+  WarningDescription: 你確定要清除所有遺器和角色嗎？
+PartialImport:
+  OldRelics: >-
+    已更新{{count}}個現有的$t(common:Relic, {"count": {{count}}})的屬性
+  NewRelics: >-
+    已新增{{count}}個新$t(common:Relic, {"count": {{count}}})

@@ -1,7 +1,9 @@
 import {
   ActionIcon,
+  Badge,
   Flex,
   SegmentedControl,
+  type SegmentedControlItem,
   Table,
 } from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
@@ -21,16 +23,22 @@ import {
   HiddenSelectHost,
   useHiddenSelectTrigger,
 } from 'lib/tabs/tabWarp/HiddenSelectTrigger'
+import tableClasses from 'lib/tabs/tabWarp/WarpCalculatorTab.module.css'
 import {
   EidolonLevel,
   isPremiumCharacter,
   isPremiumLightCone,
+  type SkinGoal,
   SuperimpositionLevel,
   type WarpRequest,
   type WarpTarget,
   WarpType,
 } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import { getTargetWarpType } from 'lib/tabs/tabWarp/warpDimensions'
+import {
+  clampSkinGoal,
+  type SkinBanner,
+} from 'lib/tabs/tabWarp/warpSkinBanners'
 import {
   findCharacterByLightCone,
   getCharacterEidolonFloor,
@@ -116,6 +124,50 @@ function TargetPreviewImage({ target, isChar, lcId }: { target: WarpTarget, isCh
   )
 }
 
+function GoalSelectorCells(props: {
+  onRemove: () => void,
+  fromData: SegmentedControlItem[],
+  fromValue: number,
+  onFromChange: (value: number) => void,
+  toData: SegmentedControlItem[],
+  toValue: number,
+  onToChange: (value: number) => void,
+}) {
+  const { onRemove, fromData, fromValue, onFromChange, toData, toValue, onToChange } = props
+
+  return (
+    <>
+      <Table.Td style={{ textAlign: 'center', verticalAlign: 'middle', padding: '0 10px' }}>
+        <SegmentedControl
+          size='xs'
+          w='100%'
+          data={fromData}
+          value={String(fromValue)}
+          onChange={(val) => onFromChange(Number(val))}
+        />
+      </Table.Td>
+
+      <Table.Td style={{ verticalAlign: 'middle', padding: '0 10px' }}>
+        <Flex align='center' gap={4}>
+          <Flex align='center' justify='center' w={32} h={32} style={{ flexShrink: 0, paddingRight: 15 }}>
+            <IconArrowBigRightLines size={18} color='var(--text-primary)' fill='var(--text-primary)' />
+          </Flex>
+          <SegmentedControl
+            size='xs'
+            style={{ flex: 1 }}
+            data={toData}
+            value={String(toValue)}
+            onChange={(val) => onToChange(Number(val))}
+          />
+          <ActionIcon size={32} variant='subtle' color='gray' onClick={onRemove}>
+            <IconX size={18} />
+          </ActionIcon>
+        </Flex>
+      </Table.Td>
+    </>
+  )
+}
+
 function TargetGoalSelectors({ form, target, targetIndex, warpType, floor }: {
   form: UseFormReturnType<WarpRequest>,
   target: WarpTarget,
@@ -136,40 +188,15 @@ function TargetGoalSelectors({ form, target, targetIndex, warpType, floor }: {
   }))
 
   return (
-    <>
-      <Table.Td style={{ textAlign: 'center', verticalAlign: 'middle', padding: '0 10px' }}>
-        <SegmentedControl
-          size='xs'
-          w='100%'
-          data={fromData}
-          value={String(fromValue)}
-          onChange={(val) => updateTargetFrom(form, targetIndex, warpType, Number(val))}
-        />
-      </Table.Td>
-
-      <Table.Td style={{ verticalAlign: 'middle', padding: '0 10px' }}>
-        <Flex align='center' gap={4}>
-          <Flex align='center' justify='center' w={32} h={32} style={{ flexShrink: 0, paddingRight: 15 }}>
-            <IconArrowBigRightLines size={18} color='var(--text-primary)' fill='var(--text-primary)' />
-          </Flex>
-          <SegmentedControl
-            size='xs'
-            style={{ flex: 1 }}
-            data={toData}
-            value={String(toValue)}
-            onChange={(val) => updateTargetTo(form, targetIndex, warpType, Number(val))}
-          />
-          <ActionIcon
-            size={32}
-            variant='subtle'
-            color='gray'
-            onClick={() => removeTarget(form, targetIndex)}
-          >
-            <IconX size={18} />
-          </ActionIcon>
-        </Flex>
-      </Table.Td>
-    </>
+    <GoalSelectorCells
+      onRemove={() => removeTarget(form, targetIndex)}
+      fromData={fromData}
+      fromValue={fromValue}
+      onFromChange={(value) => updateTargetFrom(form, targetIndex, warpType, value)}
+      toData={toData}
+      toValue={toValue}
+      onToChange={(value) => updateTargetTo(form, targetIndex, warpType, value)}
+    />
   )
 }
 
@@ -238,6 +265,73 @@ export function TargetHeaderRow(props: {
         warpType={warpType}
         floor={floor}
       />
+    </Table.Tr>
+  )
+}
+
+// From counts failed draws already made. To is the final planned draw.
+function SkinDrawSelectors({ skin, banner, onChange, onRemove }: {
+  skin: SkinGoal,
+  banner: SkinBanner,
+  onChange: (skin: SkinGoal) => void,
+  onRemove: () => void,
+}) {
+  const draws = Array.from({ length: banner.draws.length + 1 }, (_, draw) => draw)
+  const fromData = draws.slice(0, -1).map((draw) => ({ value: String(draw), label: draw === 0 ? '—' : String(draw) }))
+  const toData = draws.slice(1).map((draw) => ({ value: String(draw), label: String(draw), disabled: draw <= skin.drawsDone }))
+
+  return (
+    <GoalSelectorCells
+      onRemove={onRemove}
+      fromData={fromData}
+      fromValue={skin.drawsDone}
+      onFromChange={(drawsDone) => onChange(clampSkinGoal(banner, drawsDone, skin.drawTarget))}
+      toData={toData}
+      toValue={skin.drawTarget}
+      onToChange={(drawTarget) => onChange(clampSkinGoal(banner, skin.drawsDone, drawTarget))}
+    />
+  )
+}
+
+export function SkinHeaderRow(props: {
+  skin: SkinGoal,
+  banner: SkinBanner,
+  onChange: (skin: SkinGoal) => void,
+  onRemove: () => void,
+  dragHandleRef?: (node: HTMLElement | null) => void,
+  dragHandleProps?: HTMLAttributes<HTMLElement>,
+}) {
+  const { skin, banner, onChange, onRemove, dragHandleRef, dragHandleProps } = props
+
+  return (
+    <Table.Tr className={unifiedClasses.headerRow}>
+      <Table.Td className={unifiedClasses.goalCell} style={{ cursor: 'default' }}>
+        {dragHandleProps && (
+          <div ref={dragHandleRef} className={unifiedClasses.dragHandle} {...dragHandleProps}>
+            <IconGripVertical size={14} />
+          </div>
+        )}
+
+        <div className={unifiedClasses.previewImageLcWrap} style={{ width: LC_PREVIEW_WIDTH, height: LC_PREVIEW_HEIGHT }}>
+          <img
+            src={Assets.getSkinBanner(banner.image)}
+            className={unifiedClasses.previewImageSkin}
+            draggable={false}
+            decoding='async'
+            onLoad={showImageOnLoad}
+          />
+        </div>
+
+        <Flex className={tableClasses.goalBarOverlay} align='center' style={{ pointerEvents: 'none' }}>
+          <Flex className={tableClasses.goalContent} justify='center' align='center'>
+            <Badge color='#000000aa' className={tableClasses.goalBadge} style={{ fontWeight: 'normal', fontSize: 12 }}>
+              Skin
+            </Badge>
+          </Flex>
+        </Flex>
+      </Table.Td>
+
+      <SkinDrawSelectors skin={skin} banner={banner} onChange={onChange} onRemove={onRemove} />
     </Table.Tr>
   )
 }

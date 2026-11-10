@@ -326,6 +326,18 @@ SetConditionals:
         Display: ATQ
       CdOnly:
         Display: DC
+    DreamlitActor:
+      Off:
+        Display: 'Desactivado'
+        Label: 'Desactivado'
+      CD:
+        Display: DC
+    DivineQueryingMasterSmith:
+      Off:
+        Display: 'Desactivado'
+        Label: 'Desactivado'
+      CD:
+        Display: DC
   Conditionals:
     DefaultMessage: Activado por defecto - los efectos se aplicarán a los cálculos de combate.
     Hunter: Activado, la mejora de Daño CRIT se aplica a los cálculos de Atributos de combate.
@@ -493,6 +505,8 @@ TeammateCard:
   OrnamentsPlaceholder: Ornamentos
   TeammateSyncSuccessMessage: Sincronizada la información del aliado
   TeammateSets:
+    DivineQueryingMasterSmith:
+      Text: 15% DAÑO
     Messenger:
       Desc: '4 Piezas: $t(gameData:RelicSets.114.Name) (+12% VEL)'
       Text: 12% VEL

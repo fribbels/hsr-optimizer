@@ -59,6 +59,7 @@ import { ComboboxNumberInput } from 'lib/ui/ComboboxNumberInput'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import { ExEidolonPill } from 'lib/ui/selectors/ExEidolonPill'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
   useEffect,
@@ -102,23 +103,27 @@ const defaultForm: Partial<BenchmarkForm> = {
   basicSpd: undefined,
   teammate0: {
     characterId: Jade.id,
+    characterEx: 0,
     lightCone: YetHopeIsPriceless.id,
     characterEidolon: 0,
     lightConeSuperimposition: 1,
   },
   teammate1: {
     characterId: TrailblazerRemembranceStelle.id,
+    characterEx: 0,
     lightCone: VictoryInABlink.id,
     characterEidolon: 6,
     lightConeSuperimposition: 5,
   },
   teammate2: {
     characterId: Lingsha.id,
+    characterEx: 0,
     lightCone: ScentAloneStaysTrue.id,
     characterEidolon: 0,
     lightConeSuperimposition: 1,
   },
   characterEidolon: 0,
+  characterEx: 0,
   lightConeSuperimposition: 1,
   errRope: false,
   subDps: false,
@@ -219,15 +224,23 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
     <Flex direction='column' gap={GAP} className={styles.middlePanel} justify='space-between'>
       <Flex direction='column' gap={GAP}>
         <HeaderText>{t('CharacterHeader') /* Character */}</HeaderText>
-        <CharacterSelect
-          value={form.values.characterId}
-          onChange={(id: CharacterId | null) => {
-            if (id) form.setFieldValue('characterId', id)
-            handleCharacterSelectChange(id, form)
-          }}
-          showIcon={false}
-          clearable={false}
-        />
+        <Flex align='center' gap={6}>
+          <CharacterSelect
+            selectStyle={{ flex: 1, minWidth: 0 }}
+            value={form.values.characterId}
+            onChange={(id: CharacterId | null) => {
+              if (id) form.setFieldValue('characterId', id)
+              handleCharacterSelectChange(id, form)
+            }}
+            showIcon={false}
+            clearable={false}
+          />
+          <ExEidolonPill
+            characterId={form.values.characterId}
+            mask={form.values.characterEx}
+            onChange={(mask) => form.setFieldValue('characterEx', mask)}
+          />
+        </Flex>
         <CharacterEidolonFormRadio form={form} />
       </Flex>
 

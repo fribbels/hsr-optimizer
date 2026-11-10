@@ -1,5 +1,8 @@
 TryOut:
   DocumentationTitle: 查看完整指南
   ButtonText: 試試看!
+  description: |-
+    載入示例存檔？
+    ⚠️ 此操作將取代你目前的所有資料！⚠️
   SuccessMessage: 數據加載成功
   Header: 試試看!

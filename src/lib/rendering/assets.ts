@@ -144,6 +144,9 @@ export const Assets = {
   getBlankLightCone: () => {
     return getImageUrl('/misc/blankLightCone.webp')
   },
+  getSkinBanner: (image: string) => {
+    return getImageUrl(`/misc/${image}.webp`)
+  },
   getPart: (part: string) => {
     const mapping: Record<Parts, string> = {
       [Parts.Head]: 'partHead',

@@ -1,0 +1,23 @@
+.count {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 3px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.slash {
+  font-size: calc(1em - 2px);
+  opacity: 0.3;
+}
+
+.total {
+  font-size: calc(1em - 1px);
+  opacity: 0.3;
+}
+
+.leaderboard .slash,
+.leaderboard .total {
+  opacity: 0.35;
+}

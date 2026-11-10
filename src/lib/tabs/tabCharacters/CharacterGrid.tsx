@@ -34,6 +34,7 @@ import {
 import i18next from 'i18next'
 import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
 import { oklchCharacterListColor } from 'lib/characterPreview/color/colorUtilsOklch'
+import { hasExEidolon } from 'lib/conditionals/exEidolons'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { PartsArray } from 'lib/constants/constants'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
@@ -69,9 +70,10 @@ import React, {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import type {
-  Character,
-  CharacterId,
+import {
+  type Character,
+  type CharacterId,
+  ExEidolon,
 } from 'types/character'
 
 const noop = () => {}
@@ -201,7 +203,7 @@ export function CharacterGrid() {
 
   const handleEdit = useCallback((characterId: CharacterId) => {
     useCharacterModalStore.getState().openOverlay({
-      initialCharacter: getCharacterById(characterId) ?? null,
+      initialForm: getCharacterById(characterId)?.form ?? null,
       onOk: CharacterTabController.onCharacterModalOk,
     })
   }, [])
@@ -453,6 +455,7 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
           <div className={classes.subtitle}>
             <span className={classes.subtitleBadge}>{t('EidolonNShort', { eidolon })}</span>
             <span className={classes.subtitleBadge}>{t('SuperimpositionNShort', { superimposition })}</span>
+            {hasExEidolon(character.form.characterEx, ExEidolon.EX1) && <span className={classes.subtitleBadge}>EX1</span>}
             <EquipDotInline characterId={character.id} />
           </div>
         </div>

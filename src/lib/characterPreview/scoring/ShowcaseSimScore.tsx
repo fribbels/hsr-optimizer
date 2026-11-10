@@ -20,6 +20,7 @@ import {
   useSimPreview,
   useSimScore,
 } from 'lib/characterPreview/useSimScoringHooks'
+import { hasExEidolon } from 'lib/conditionals/exEidolons'
 import {
   CUSTOM_TEAM,
   DEFAULT_TEAM,
@@ -46,6 +47,7 @@ import { truncate10ths } from 'lib/utils/mathUtils'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import teammateClasses from 'style/teammateCard.module.css'
+import { ExEidolon } from 'types/character'
 import type { CharacterId } from 'types/character'
 import {
   ScoringConfigType,
@@ -104,6 +106,7 @@ export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
                 return {
                   ...t,
                   characterEidolon: form.characterEidolon,
+                  characterEx: form.characterEx,
                   lightCone: form.lightCone ?? t.lightCone,
                   lightConeSuperimposition: form.lightCone ? form.lightConeSuperimposition : t.lightConeSuperimposition,
                 }
@@ -173,7 +176,7 @@ const CharacterPreviewScoringTeammate = memo(function CharacterPreviewScoringTea
       onClick={() => {
         if (readonly) return
         useCharacterModalStore.getState().openOverlay({
-          initialCharacter: teammate ? { form: teammate } : null,
+          initialForm: teammate ? { ...teammate, characterEx: teammate.characterEx ?? 0 } : undefined,
           onOk: createOnCharacterModalOk(characterId, index, configType),
           showSetSelection: true,
         })
@@ -187,7 +190,12 @@ const CharacterPreviewScoringTeammate = memo(function CharacterPreviewScoringTea
             className={teammateClasses.teammateAvatar}
           />
 
-          <OverlayText text={t('common:EidolonNShort', { eidolon: teammate?.characterEidolon ?? 0 })} top={-12} />
+          <OverlayText
+            text={`${t('common:EidolonNShort', { eidolon: teammate?.characterEidolon ?? 0 })}${
+              hasExEidolon(teammate?.characterEx, ExEidolon.EX1) ? ' EX1' : ''
+            }`}
+            top={-12}
+          />
         </div>
 
         <div className={teammateClasses.iconWrapper}>

@@ -83,7 +83,8 @@ export type WarpRequest = {
   passes: number,
   jades: number,
   income: string[],
-  targets: WarpTarget[],
+  targets: PlannerTarget[],
+  simpleSkinGoal: SkinGoal | null,
   plannerMode: PlannerMode,
   strategy: WarpStrategy,
   starlight: StarlightRefund,
@@ -93,7 +94,15 @@ export type WarpRequest = {
   guaranteedLightCone: boolean,
 }
 
+export enum WarpTargetKind {
+  WARP = 'warp',
+  SKIN = 'skin',
+}
+
+export type PlannerTarget = WarpTarget | SkinTarget
+
 export type WarpTarget = {
+  kind: WarpTargetKind.WARP,
   id: string,
   characterId: CharacterId | null,
   lightConeId: LightConeId | null,
@@ -103,17 +112,32 @@ export type WarpTarget = {
   currentSuperimpositionLevel: SuperimpositionLevel,
 }
 
+export type SkinTarget = {
+  kind: WarpTargetKind.SKIN,
+  id: string,
+  skin: SkinGoal,
+}
+
+// drawsDone: draws already made without the outfit. drawTarget: the last draw the player will go up to.
+export type SkinGoal = {
+  bannerId: string,
+  drawsDone: number,
+  drawTarget: number,
+}
+
 export type WarpMilestoneResult = { warps: number, wins: number }
+
+// Skin rows show the jade cost through this draw and whether earlier goals leave enough jade to reach it.
+export type SkinDrawResult = { draw: number, jades: number, wins: number, unaffordable: boolean }
 
 export type WarpResult = null | {
   targetResults: WarpTargetResult[],
   request: EnrichedWarpRequest,
 }
 
-export type WarpTargetResult = {
-  target: WarpTarget,
-  milestoneResults: Record<string, WarpMilestoneResult>,
-}
+export type WarpTargetResult =
+  | { kind: WarpTargetKind.WARP, target: WarpTarget, milestoneResults: Record<string, WarpMilestoneResult> }
+  | { kind: WarpTargetKind.SKIN, target: SkinTarget, milestoneResults: Record<string, SkinDrawResult> }
 
 export type EnrichedWarpRequest = {
   warps: number,
@@ -132,6 +156,7 @@ export type WarpIncomeDefinition = {
 }
 
 export const DEFAULT_WARP_TARGET: WarpTarget = {
+  kind: WarpTargetKind.WARP,
   id: 'target-1',
   characterId: null,
   lightConeId: null,
@@ -146,6 +171,7 @@ export const DEFAULT_WARP_REQUEST: WarpRequest = {
   jades: 0,
   income: [],
   targets: [],
+  simpleSkinGoal: null,
   plannerMode: PlannerMode.SIMPLE,
   strategy: WarpStrategy.E0,
   starlight: StarlightRefund.REFUND_AVG,

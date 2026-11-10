@@ -80,7 +80,7 @@ function generateOnClickHandler(confirm: ReturnType<typeof useConfirmAction>, t:
     switch (key) {
       case 'add':
         useCharacterModalStore.getState().openOverlay({
-          initialCharacter: null,
+          initialForm: null,
           onOk: CharacterTabController.onCharacterModalOk,
         })
         break
@@ -106,7 +106,7 @@ function generateOnClickHandler(confirm: ReturnType<typeof useConfirmAction>, t:
 
       case 'edit':
         useCharacterModalStore.getState().openOverlay({
-          initialCharacter: selectedCharacter ?? null,
+          initialForm: selectedCharacter?.form ?? null,
           onOk: CharacterTabController.onCharacterModalOk,
         })
         break

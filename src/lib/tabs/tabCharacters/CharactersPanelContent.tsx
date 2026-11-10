@@ -29,8 +29,8 @@ import {
   useCallback,
   useMemo,
 } from 'react'
-import type { Character } from 'types/character'
 import { useTranslation } from 'react-i18next'
+import type { Character } from 'types/character'
 
 const DENSITY_VALUES = ['default', 'compact'] as const
 
@@ -55,7 +55,7 @@ export function CharactersPanelContent() {
 
   const setOriginalCharacterModalInitialCharacter = useCallback((character: Character | null) => {
     useCharacterModalStore.getState().openOverlay({
-      initialCharacter: character,
+      initialForm: character?.form ?? null,
       onOk: CharacterTabController.onCharacterModalOk,
     })
   }, [])

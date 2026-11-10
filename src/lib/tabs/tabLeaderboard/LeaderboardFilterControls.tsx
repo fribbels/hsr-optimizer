@@ -11,16 +11,22 @@ import {
   type LeaderboardEidolonFilter,
 } from 'leaderboard/shared/eidolonConfig'
 import type { PublicTeamMeta } from 'leaderboard/shared/types'
+import { hasExEidolon } from 'lib/conditionals/exEidolons'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { Assets } from 'lib/rendering/assets'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardFilterControls.module.css'
 import { setLeaderboardFilters } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
+import { LeaderboardExFilter } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import {
   useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { CharacterId } from 'types/character'
+import {
+  type CharacterId,
+  ExEidolon,
+} from 'types/character'
 
 interface LeaderboardFilterControlsProps {
   activeTeamId: string
@@ -153,6 +159,7 @@ export function LeaderboardFilterControls() {
   const activeTeamId = useLeaderboardTabStore((s) => s.activeTeamId)
   const availableTeams = useLeaderboardTabStore((s) => s.availableTeams)
   const filterCharacterEidolon = useLeaderboardTabStore((s) => s.filterCharacterEidolon)
+  const filterCharacterEx = useLeaderboardTabStore((s) => s.filterCharacterEx)
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const { t } = useTranslation('leaderboardTab', { keyPrefix: 'Filters' })
   const { t: tCommon } = useTranslation('common')
@@ -177,12 +184,35 @@ export function LeaderboardFilterControls() {
     eidolonOptions,
   }
 
+  const supportsEx = hasExEidolon(getCharacterConfig(selectedCharacterId)?.supportedExFlags, ExEidolon.EX1)
+
   return (
     <div className={classes.filterRows}>
       <div className={classes.labeledFilterRow}>
         <span className={classes.filterLabel}>{t('EidolonLabel')}</span>
         {renderCharacterEidolonBar(props)}
       </div>
+      {supportsEx && (
+        <div className={classes.labeledFilterRow}>
+          <span className={classes.filterLabel}>{t('ExLabel')}</span>
+          <SegmentedControl
+            classNames={{ root: classes.eidolonSegmentedRoot, label: classes.eidolonSegmentedLabel }}
+            data={[
+              { value: LeaderboardExFilter.All, label: t('AllEidolons') },
+              { value: LeaderboardExFilter.Off, label: t('ExOff') },
+              { value: LeaderboardExFilter.On, label: t('EX1') },
+            ]}
+            value={filterCharacterEx}
+            onChange={(value) => {
+              const selected = Object.values(LeaderboardExFilter).find((option) => option === value)
+              if (selected) setLeaderboardFilters({ characterEx: selected })
+            }}
+            size='xs'
+            radius={6}
+            fullWidth
+          />
+        </div>
+      )}
       <div className={classes.labeledFilterRow}>
         <span className={classes.filterLabel}>{t('TeamLabel')}</span>
         <TeamPopover {...props} />

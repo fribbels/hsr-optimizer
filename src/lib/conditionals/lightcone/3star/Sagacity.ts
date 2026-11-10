@@ -30,8 +30,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'postUltAtkBuff',
       formItem: 'switch',
-      text: t('Content.postUltAtkBuff.text'),
-      content: t('Content.postUltAtkBuff.content', { AtkBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.postUltAtkBuff.text),
+      content: t(($) => $.Content.postUltAtkBuff.content, { AtkBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

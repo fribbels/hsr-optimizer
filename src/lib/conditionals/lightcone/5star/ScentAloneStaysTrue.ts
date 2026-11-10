@@ -49,8 +49,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'woefreeState',
       formItem: 'switch',
-      text: t('Content.woefreeState.text'),
-      content: t('Content.woefreeState.content', {
+      text: t(($) => $.Content.woefreeState.text),
+      content: t(($) => $.Content.woefreeState.content, {
         Vulnerability: precisionRound(100 * sValuesVulnerability[s]),
         AdditionalVulnerability: precisionRound(100 * sValuesVulnerabilityAdditional[s]),
       }),
@@ -63,8 +63,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'additionalVulnerability',
       formItem: 'switch',
-      text: t('TeammateContent.additionalVulnerability.text'),
-      content: t('TeammateContent.additionalVulnerability.content', {
+      text: t(($) => $.TeammateContent.additionalVulnerability.text),
+      content: t(($) => $.TeammateContent.additionalVulnerability.content, {
         Vulnerability: precisionRound(100 * sValuesVulnerability[s]),
         AdditionalVulnerability: precisionRound(100 * sValuesVulnerabilityAdditional[s]),
       }),

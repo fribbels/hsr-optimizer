@@ -41,6 +41,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { type CharacterId } from 'types/character'
 import { type Form } from 'types/form'
 import type { OptimizerContext } from 'types/optimizer'
 
@@ -128,6 +129,7 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
       <StatSummaryTable
         sums={statSums}
         avatarSrc={summaryAvatarSrc}
+        id={context?.characterId ?? 'Default'}
       />
     </DeferCreate>
   )
@@ -154,13 +156,14 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
     </>
   )
 
-  const buffsColumn = <GroupedLayout buffGroups={buffGroups} />
+  const buffsColumn = <GroupedLayout buffGroups={buffGroups} characterId={context?.characterId ?? 'Default'} />
 
   const actionSelector = rotationSteps && (
     <ActionSelector
       rotationSteps={rotationSteps}
       selectedAction={selectedAction}
       onActionChange={setSelectedAction}
+      id={context?.characterId ?? 'Default'}
     />
   )
 
@@ -172,7 +175,12 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
             ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING }}>
                 {actionSelector}
-                <FilterBar selectedFilter={selectedFilter} onFilterChange={toggleFilter} relevantTags={relevantTags} />
+                <FilterBar
+                  selectedFilter={selectedFilter}
+                  onFilterChange={toggleFilter}
+                  relevantTags={relevantTags}
+                  id={context?.characterId ?? 'Default'}
+                />
                 <div style={{ display: 'flex', gap: GROUP_SPACING, alignItems: 'start' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
                     {statSummary}
@@ -187,10 +195,20 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
             : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
                 {statSummary}
-                <FilterBar selectedFilter={selectedFilter} onFilterChange={toggleFilter} relevantTags={relevantTags} />
+                <FilterBar
+                  selectedFilter={selectedFilter}
+                  onFilterChange={toggleFilter}
+                  relevantTags={relevantTags}
+                  id={context?.characterId ?? 'Default'}
+                />
                 {actionSelector}
                 {buffsColumn}
-                <FilterBar selectedFilter={selectedFilter} onFilterChange={toggleFilter} relevantTags={relevantTags} />
+                <FilterBar
+                  selectedFilter={selectedFilter}
+                  onFilterChange={toggleFilter}
+                  relevantTags={relevantTags}
+                  id={context?.characterId ?? 'Default'}
+                />
                 {hitAndEnemy}
               </div>
             )}
@@ -200,7 +218,7 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
   )
 })
 
-function GroupedLayout({ buffGroups }: { buffGroups: BuffGroups }) {
+function GroupedLayout({ buffGroups, characterId }: { buffGroups: BuffGroups, characterId: CharacterId | 'Default' }) {
   const groups: ReactElement[] = []
 
   for (const buffType of GROUP_ORDER) {
@@ -216,6 +234,7 @@ function GroupedLayout({ buffGroups }: { buffGroups: BuffGroups }) {
             id={id}
             buffs={buffs}
             buffType={buffType}
+            characterId={characterId}
           />
         </DeferCreate>,
       )

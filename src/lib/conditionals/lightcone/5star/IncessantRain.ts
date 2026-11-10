@@ -37,15 +37,15 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'enemy3DebuffsCrBoost',
       formItem: 'switch',
-      text: t('Content.enemy3DebuffsCrBoost.text'),
-      content: t('Content.enemy3DebuffsCrBoost.content', { CritBuff: precisionRound(100 * sValuesCr[s]) }),
+      text: t(($) => $.Content.enemy3DebuffsCrBoost.text),
+      content: t(($) => $.Content.enemy3DebuffsCrBoost.content, { CritBuff: precisionRound(100 * sValuesCr[s]) }),
     },
     targetCodeDebuff: {
       lc: true,
       id: 'targetCodeDebuff',
       formItem: 'switch',
-      text: t('Content.targetCodeDebuff.text'),
-      content: t('Content.targetCodeDebuff.content', { DmgIncrease: precisionRound(100 * sValuesDmg[s]) }),
+      text: t(($) => $.Content.targetCodeDebuff.text),
+      content: t(($) => $.Content.targetCodeDebuff.content, { DmgIncrease: precisionRound(100 * sValuesDmg[s]) }),
     },
   }
 

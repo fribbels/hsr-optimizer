@@ -47,15 +47,18 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'ultimateEnergyDmgBoost',
       formItem: 'switch',
-      text: t('ultimateEnergyDmgBoost.text'),
-      content: t('ultimateEnergyDmgBoost.content', { DmgBoostStep: precisionRound(sValuesUltDmgPerEnergy[s]), MaxDmgBoost: precisionRound(100 * sValuesUltDmgCap[s]) }),
+      text: t(($) => $.ultimateEnergyDmgBoost.text),
+      content: t(($) => $.ultimateEnergyDmgBoost.content, {
+        DmgBoostStep: precisionRound(sValuesUltDmgPerEnergy[s]),
+        MaxDmgBoost: precisionRound(100 * sValuesUltDmgCap[s]),
+      }),
     },
     kingsEntertainment: {
       lc: true,
       id: 'kingsEntertainment',
       formItem: 'switch',
-      text: t('kingsEntertainment.text'),
-      content: t('kingsEntertainment.content', { CdBoost: precisionRound(100 * sValuesTeamCd[s]) }),
+      text: t(($) => $.kingsEntertainment.text),
+      content: t(($) => $.kingsEntertainment.content, { CdBoost: precisionRound(100 * sValuesTeamCd[s]) }),
     },
   }
 

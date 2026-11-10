@@ -40,7 +40,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Watchmaker',
+  conditionalI18nKey: 'Watchmaker',
   modifiable: true,
   defaultValue: false,
 } as const satisfies SetDisplay
@@ -70,8 +70,8 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.WatchmakerMasterOfDreamMachinations,
-    label: (t) => t('TeammateSets.Watchmaker.Text'),
-    desc: (t) => t('TeammateSets.Watchmaker.Desc'),
+    label: (t) => t(($) => $.TeammateSets.Watchmaker.Text),
+    desc: (t) => t(($) => $.TeammateSets.Watchmaker.Desc),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.BE, 0.30, x.targets(TargetTag.FullTeam).source(Source.WatchmakerMasterOfDreamMachinations))

@@ -12,11 +12,13 @@ import type { RotationDamageStep } from 'lib/simulations/statSimulationTypes'
 import { toI18NVisual } from 'lib/utils/displayUtils'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { CharacterId } from 'types/character'
 import type { ScoringConfigType } from 'types/metadata'
 
 interface SynchronousAbilityDamageSummaryProps {
   rotationDamage: RotationDamageStep[]
   configType: ScoringConfigType
+  id: CharacterId
 }
 interface AsynchronousAbilityDamageSummaryProps {
   promise: Promise<SimulationScore | null>
@@ -24,6 +26,7 @@ interface AsynchronousAbilityDamageSummaryProps {
   configType: ScoringConfigType
   header?: React.ReactNode
   wrapperClassName?: string
+  id: CharacterId
 }
 
 export function SummaryRows({ entries }: { entries: [string, string][] }) {
@@ -42,6 +45,7 @@ export function SummaryRows({ entries }: { entries: [string, string][] }) {
 export const AbilityDamageSummary = memo(function AbilityDamageSummary({
   rotationDamage,
   configType,
+  id
 }: SynchronousAbilityDamageSummaryProps) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const thousands = SCORING_CONFIG_REGISTRY[configType].thousands
@@ -50,7 +54,7 @@ export const AbilityDamageSummary = memo(function AbilityDamageSummary({
   if (displayableSteps.length === 0) return null
 
   const entries: [string, string][] = displayableSteps.map((step, idx) => [
-    `${idx + 1}. ${toI18NVisual(toTurnAbility(step.actionName), t)}`,
+    `${idx + 1}. ${toI18NVisual(toTurnAbility(step.actionName), t, id)}`,
     step.damage ? formatSimScore(step.damage, step.buffStat, 1, thousands) : '',
   ])
 
@@ -58,7 +62,7 @@ export const AbilityDamageSummary = memo(function AbilityDamageSummary({
 })
 
 export const AsyncAbilityDamageSummary = memo(
-  function AsyncAbilityDamageSummary({ promise, mode, configType, header, wrapperClassName }: AsynchronousAbilityDamageSummaryProps) {
+  function AsyncAbilityDamageSummary({ promise, mode, configType, header, wrapperClassName, id }: AsynchronousAbilityDamageSummaryProps) {
     const output = usePromise(promise)
     const rotationDamage = output?.[mode === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim']?.result?.rotationDamage
     if (!rotationDamage?.some((step) => step.actionType !== AbilityKind.NULL)) return null
@@ -67,11 +71,11 @@ export const AsyncAbilityDamageSummary = memo(
       return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }} className={wrapperClassName}>
           {header}
-          <AbilityDamageSummary rotationDamage={rotationDamage} configType={configType} />
+          <AbilityDamageSummary rotationDamage={rotationDamage} configType={configType} id={id} />
         </div>
       )
     }
 
-    return <AbilityDamageSummary rotationDamage={rotationDamage} configType={configType} />
+    return <AbilityDamageSummary rotationDamage={rotationDamage} configType={configType} id={id} />
   },
 )

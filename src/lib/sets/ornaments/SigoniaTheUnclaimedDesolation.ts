@@ -38,7 +38,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Sigonia',
+  conditionalI18nKey: 'Sigonia',
   modifiable: true,
   selectionOptions: selectionOptions,
   defaultValue: 4,
@@ -63,9 +63,9 @@ const conditionals: SetConditionals = {
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 11 }).map((_val, i) => ({
-    display: t('Sigonia.Display', { stackCount: i }),
+    display: t(($) => $.Sigonia.Display, { stackCount: i }),
     value: i,
-    label: t('Sigonia.Label', { stackCount: i, buffValue: 4 * i }),
+    label: t(($) => $.Sigonia.Label, { stackCount: i, buffValue: 4 * i }),
   }))
 }
 

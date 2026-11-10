@@ -122,8 +122,9 @@ export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
         setLoading(false)
       })
       .catch((error) => {
+        const t = i18next.getFixedT(null, 'benchmarksTab', 'Messages.Error')
         console.error('Benchmark generation failed:', error)
-        Message.error(i18next.t('benchmarksTab:Messages.Error.GenerationFailed', 'Benchmark generation failed'))
+        Message.error(t(($) => $.GenerationFailed))
         setLoading(false)
       })
   }, 350)
@@ -145,19 +146,19 @@ function invalidBenchmarkForm(benchmarkForm: BenchmarkForm) {
     || invalidSimpleCharacter(benchmarkForm.teammate1)
     || invalidSimpleCharacter(benchmarkForm.teammate2)
   ) {
-    Message.error(t('MissingField'), 10)
+    Message.error(t(($) => $.MissingField), 10)
     return true
   }
 
   const scoringMetadata = getScoringMetadata(benchmarkForm.characterId)
   const simulationMetadata = scoringMetadata?.simulation
   if (!simulationMetadata) {
-    Message.error(t('UnsupportedCharacter'), 10)
+    Message.error(t(($) => $.UnsupportedCharacter), 10)
     return true
   }
 
   if (benchmarkForm.basicSpd == null) {
-    Message.error(t('SPDUnselected'), 10)
+    Message.error(t(($) => $.SPDUnselected), 10)
     return true
   }
 
@@ -172,7 +173,7 @@ export function handleCharacterSelectChange(id: CharacterId | null, formInstance
   const scoringMetadata = getScoringMetadata(id)
   const simulationMetadata = scoringMetadata?.simulation
   if (!simulationMetadata) {
-    return Message.error(t('UnsupportedCharacter'), 10)
+    return Message.error(t(($) => $.UnsupportedCharacter), 10)
   }
 
   const form = formInstance.getValues()

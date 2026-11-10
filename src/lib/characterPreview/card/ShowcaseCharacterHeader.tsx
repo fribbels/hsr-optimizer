@@ -44,11 +44,10 @@ export const ShowcaseCharacterHeader = memo(function ShowcaseCharacterHeader({ s
           {characterName}
         </StatText>
         <StatText className={classes.characterLevel}>
-          {`${t('common:LevelShort', { level: characterLevel })} · ${t('common:EidolonNShort', { eidolon: characterEidolon })}${
-            hasExEidolon(characterEx, ExEidolon.EX1) ? ' · EX1' : ''
-          }`}
+          {`${t($ => $.LevelShort, { ns: 'common', level: characterLevel })} · ${t($ => $.EidolonNShort, { ns: 'common', eidolon: characterEidolon })}${hasExEidolon(characterEx, ExEidolon.EX1) ? ' · EX1' : ''
+            }`}
         </StatText>
       </div>
     </div>
-  )
+  );
 })

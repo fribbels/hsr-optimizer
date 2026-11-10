@@ -94,8 +94,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     talentDebuffStacks: {
       id: 'talentDebuffStacks',
       formItem: 'slider',
-      text: t('Content.talentDebuffStacks.text'),
-      content: t('Content.talentDebuffStacks.content', {
+      text: t(($) => $.Content.talentDebuffStacks.text),
+      content: t(($) => $.Content.talentDebuffStacks.content, {
         talentDebuffDmgIncreaseValue: precisionRound(talentDebuffDmgIncreaseValue),
         talentDebuffMax,
       }),
@@ -105,27 +105,27 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enemyBurned: {
       id: 'enemyBurned',
       formItem: 'switch',
-      text: t('Content.enemyBurned.text'),
-      content: t('Content.enemyBurned.content'),
+      text: t(($) => $.Content.enemyBurned.text),
+      content: t(($) => $.Content.enemyBurned.content),
     },
     skillDot: {
       id: 'skillDot',
       formItem: 'switch',
-      text: t('Content.skillDot.text'),
-      content: t('Content.skillDot.content'),
+      text: t(($) => $.Content.skillDot.text),
+      content: t(($) => $.Content.skillDot.content),
     },
     e1EffectResShred: {
       id: 'e1EffectResShred',
       formItem: 'switch',
-      text: t('Content.e1EffectResShred.text'),
-      content: t('Content.e1EffectResShred.content'),
+      text: t(($) => $.Content.e1EffectResShred.text),
+      content: t(($) => $.Content.e1EffectResShred.content),
       disabled: e < 1,
     },
     e2BurnMultiBoost: {
       id: 'e2BurnMultiBoost',
       formItem: 'switch',
-      text: t('Content.e2BurnMultiBoost.text'),
-      content: t('Content.e2BurnMultiBoost.content'),
+      text: t(($) => $.Content.e2BurnMultiBoost.text),
+      content: t(($) => $.Content.e2BurnMultiBoost.content),
       disabled: e < 2,
     },
   }

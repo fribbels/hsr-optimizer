@@ -35,8 +35,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'presage',
       formItem: 'switch',
-      text: t('presage.text'),
-      content: t('presage.content', { CdBuff: precisionRound(sValuesCd[s] * 100) }),
+      text: t(($) => $.presage.text),
+      content: t(($) => $.presage.content, { CdBuff: precisionRound(sValuesCd[s] * 100) }),
     },
   }
 

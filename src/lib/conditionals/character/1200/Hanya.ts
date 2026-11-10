@@ -91,8 +91,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultBuff: {
       id: 'ultBuff',
       formItem: 'switch',
-      text: t('Content.ultBuff.text'),
-      content: t('Content.ultBuff.content', {
+      text: t(($) => $.Content.ultBuff.text),
+      content: t(($) => $.Content.ultBuff.content, {
         ultSpdBuffValue: precisionRound(100 * ultSpdBuffValue),
         ultAtkBuffValue: precisionRound(100 * ultAtkBuffValue),
       }),
@@ -100,20 +100,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     targetBurdenActive: {
       id: 'targetBurdenActive',
       formItem: 'switch',
-      text: t('Content.targetBurdenActive.text'),
-      content: t('Content.targetBurdenActive.content', { talentDmgBoostValue: precisionRound(100 * talentDmgBoostValue) }),
+      text: t(($) => $.Content.targetBurdenActive.text),
+      content: t(($) => $.Content.targetBurdenActive.content, { talentDmgBoostValue: precisionRound(100 * talentDmgBoostValue) }),
     },
     burdenAtkBuff: {
       id: 'burdenAtkBuff',
       formItem: 'switch',
-      text: t('Content.burdenAtkBuff.text'),
-      content: t('Content.burdenAtkBuff.content'),
+      text: t(($) => $.Content.burdenAtkBuff.text),
+      content: t(($) => $.Content.burdenAtkBuff.content),
     },
     e2SkillSpdBuff: {
       id: 'e2SkillSpdBuff',
       formItem: 'switch',
-      text: t('Content.e2SkillSpdBuff.text'),
-      content: t('Content.e2SkillSpdBuff.content'),
+      text: t(($) => $.Content.e2SkillSpdBuff.text),
+      content: t(($) => $.Content.e2SkillSpdBuff.content),
       disabled: e < 2,
     },
   }
@@ -123,8 +123,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateSPDValue: {
       id: 'teammateSPDValue',
       formItem: 'slider',
-      text: t('TeammateContent.teammateSPDValue.text'),
-      content: t('TeammateContent.teammateSPDValue.content', {
+      text: t(($) => $.TeammateContent.teammateSPDValue.text),
+      content: t(($) => $.TeammateContent.teammateSPDValue.content, {
         ultSpdBuffValue: precisionRound(100 * ultSpdBuffValue),
         ultAtkBuffValue: precisionRound(100 * ultAtkBuffValue),
       }),

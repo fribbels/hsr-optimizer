@@ -18,13 +18,12 @@ export const CharacterTabController = {
   onCharacterModalOk: (form: CharacterModalForm): boolean => {
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
     const { characterId, lightCone, ...values } = form
-
     if (!characterId) {
-      Message.error(t('NoSelectedCharacter'))
+      Message.error(t(($) => $.NoSelectedCharacter))
       return false
     }
     if (!lightCone) {
-      Message.error(t('NoSelectedLightCone'))
+      Message.error(t(($) => $.NoSelectedLightCone))
       return false
     }
     const character = persistenceService.upsertCharacterFromForm({
@@ -40,9 +39,9 @@ export const CharacterTabController = {
   onSwitchRelicsOk: (switchTo: SwitchRelicsFormSelectedCharacter) => {
     const focusCharacter = useCharacterTabStore.getState().focusCharacter
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
-    if (!focusCharacter) return Message.error(t('NoSelectedCharacter'))
+    if (!focusCharacter) return Message.error(t(($) => $.NoSelectedCharacter))
     equipmentService.switchRelics(focusCharacter, switchTo.value)
-    Message.success(t('SwitchSuccess', { charId: switchTo.value }))
+    Message.success(t(($) => $.SwitchSuccess, { charId: switchTo.value }))
     SaveState.delayedSave()
   },
 
@@ -52,7 +51,7 @@ export const CharacterTabController = {
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
     equipmentService.unequipCharacter(focusCharacter)
     SaveState.delayedSave()
-    Message.success(t('UnequipSuccess'))
+    Message.success(t(($) => $.UnequipSuccess))
   },
 
   removeCharacter: (characterId: CharacterId) => {
@@ -63,7 +62,7 @@ export const CharacterTabController = {
       useCharacterTabStore.getState().setFocusCharacter(null)
     }
     SaveState.delayedSave()
-    Message.success(t('RemoveSuccess'))
+    Message.success(t(($) => $.RemoveSuccess))
   },
 
   removeFocusCharacter: () => {
@@ -73,7 +72,7 @@ export const CharacterTabController = {
     equipmentService.removeCharacter(focusCharacter)
     useCharacterTabStore.getState().setFocusCharacter(null)
     SaveState.delayedSave()
-    Message.success(t('RemoveSuccess'))
+    Message.success(t(($) => $.RemoveSuccess))
   },
 
   moveFocusCharacterToTop: () => {

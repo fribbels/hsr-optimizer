@@ -118,8 +118,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     skillEnhances: {
       id: 'skillEnhances',
       formItem: 'slider',
-      text: t('skillEnhances.text'),
-      content: t('skillEnhances.content', {
+      text: t(($) => $.skillEnhances.text),
+      content: t(($) => $.skillEnhances.content, {
         SkillPrimaryScaling: precisionRound(skillScaling * 100),
         SkillAdjacentScaling: precisionRound(skill(e, 50, 55)),
         EnhancedSkillPrimaryScaling: precisionRound(skillEnhanced1Scaling * 100),
@@ -133,40 +133,40 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     vendettaState: {
       id: 'vendettaState',
       formItem: 'switch',
-      text: t('vendettaState.text'),
-      content: t('vendettaState.content', { HpRestoration: precisionRound(talent(e, 25, 27)) }),
+      text: t(($) => $.vendettaState.text),
+      content: t(($) => $.vendettaState.content, { HpRestoration: precisionRound(talent(e, 25, 27)) }),
     },
     hpToCrConversion: {
       id: 'hpToCrConversion',
       formItem: 'switch',
-      text: t('hpToCrConversion.text'),
-      content: t('hpToCrConversion.content'),
+      text: t(($) => $.hpToCrConversion.text),
+      content: t(($) => $.hpToCrConversion.content),
     },
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: t('cyreneSpecialEffect.text'),
-      content: t('cyreneSpecialEffect.content'),
+      text: t(($) => $.cyreneSpecialEffect.text),
+      content: t(($) => $.cyreneSpecialEffect.content),
     },
     e1EnhancedSkillBuff: {
       id: 'e1EnhancedSkillBuff',
       formItem: 'switch',
-      text: t('e1EnhancedSkillBuff.text'),
-      content: t('e1EnhancedSkillBuff.content'),
+      text: t(($) => $.e1EnhancedSkillBuff.text),
+      content: t(($) => $.e1EnhancedSkillBuff.content),
       disabled: e < 1,
     },
     e2DefPen: {
       id: 'e2DefPen',
       formItem: 'switch',
-      text: t('e2DefPen.text'),
-      content: t('e2DefPen.content'),
+      text: t(($) => $.e2DefPen.text),
+      content: t(($) => $.e2DefPen.content),
       disabled: e < 2,
     },
     e4CdBuff: {
       id: 'e4CdBuff',
       formItem: 'switch',
-      text: t('e4CdBuff.text'),
-      content: t('e4CdBuff.content'),
+      text: t(($) => $.e4CdBuff.text),
+      content: t(($) => $.e4CdBuff.content),
       disabled: e < 4,
     },
   }

@@ -61,7 +61,7 @@ export const SavedTeamsSidebar = memo(function SavedTeamsSidebar({
       />
 
       <div className={styles.gallerySection}>
-        <h3 className={styles.title}>{t('SavedTeams.Header')}</h3>
+        <h3 className={styles.title}>{t($ => $.SavedTeams.Header)}</h3>
         <Button
           fullWidth
           size='sm'
@@ -70,7 +70,7 @@ export const SavedTeamsSidebar = memo(function SavedTeamsSidebar({
           disabled={!canSave}
           onClick={saveCurrentTeam}
         >
-          {t('SavedTeams.Save')}
+          {t($ => $.SavedTeams.Save)}
         </Button>
         <div className={styles.listSlot} inert={screenshotPending}>
           <SavedTeamsList
@@ -84,5 +84,5 @@ export const SavedTeamsSidebar = memo(function SavedTeamsSidebar({
         </div>
       </div>
     </aside>
-  )
+  );
 })

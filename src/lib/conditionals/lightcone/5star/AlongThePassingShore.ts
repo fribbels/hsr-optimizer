@@ -32,8 +32,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'emptyBubblesDebuff',
       formItem: 'switch',
-      text: t('Content.emptyBubblesDebuff.text'),
-      content: t('Content.emptyBubblesDebuff.content', {
+      text: t(($) => $.Content.emptyBubblesDebuff.text),
+      content: t(($) => $.Content.emptyBubblesDebuff.content, {
         UltDmgBoost: precisionRound(100 * sValuesUltDmgBoost[s]),
         DmgBoost: precisionRound(100 * sValuesDmgBoost[s]),
       }),

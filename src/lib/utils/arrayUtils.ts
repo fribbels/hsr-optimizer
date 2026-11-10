@@ -1,4 +1,4 @@
-export function arrayIncludes<T>(array: T[], element: T): boolean {
+export function arrayIncludes<T>(array: ReadonlyArray<T>, element: T): boolean {
   return array.includes(element)
 }
 

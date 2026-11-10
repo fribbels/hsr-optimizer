@@ -143,14 +143,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ehrBasedBuff: {
       id: 'ehrBasedBuff',
       formItem: 'switch',
-      text: t('ehrBasedBuff.text'),
-      content: t('ehrBasedBuff.content'),
+      text: t(($) => $.ehrBasedBuff.text),
+      content: t(($) => $.ehrBasedBuff.content),
     },
     tickCoefficient: {
       id: 'tickCoefficient',
       formItem: 'slider',
-      text: tDot('Text'),
-      content: tDot('Content'),
+      text: tDot(($) => $.Text),
+      content: tDot(($) => $.Content),
       min: 0,
       max: 20,
       percent: true,
@@ -158,15 +158,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e1DotDmgReceivedDebuff: {
       id: 'e1DotDmgReceivedDebuff',
       formItem: 'switch',
-      text: t('e1DotDmgReceivedDebuff.text'),
-      content: t('e1DotDmgReceivedDebuff.content'),
+      text: t(($) => $.e1DotDmgReceivedDebuff.text),
+      content: t(($) => $.e1DotDmgReceivedDebuff.content),
       disabled: e < 1,
     },
     e2TeamDotDmg: {
       id: 'e2TeamDotDmg',
       formItem: 'switch',
-      text: t('e2TeamDotDmg.text'),
-      content: t('e2TeamDotDmg.content'),
+      text: t(($) => $.e2TeamDotDmg.text),
+      content: t(($) => $.e2TeamDotDmg.content),
       disabled: e < 2,
     },
   }

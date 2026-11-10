@@ -119,15 +119,19 @@ function ShowcaseLoading() {
     <div className={styles.loadingContainer}>
       <Loader size='lg' />
       <div className={styles.loadingText}>
-        {t('Loading.FetchingShowcase', { scorerId: scorerId ?? '' })}
+        {t($ => $.Loading.FetchingShowcase, {
+          scorerId: scorerId ?? ''
+        })}
       </div>
       {SHOWCASE_DOWNTIME && (
         <h3 className={styles.downtimeWarning}>
-          {t('Header.DowntimeWarning', { game_version: DOWNTIME_VERSION })}
+          {t($ => $.Header.DowntimeWarning, {
+            game_version: DOWNTIME_VERSION
+          })}
         </h3>
       )}
     </div>
-  )
+  );
 }
 
 function ShowcaseLoaded() {
@@ -211,15 +215,15 @@ function ShowcaseLoaded() {
 
   const importMenuItems = [
     {
-      label: t('ImportLabels.Relics'),
+      label: t($ => $.ImportLabels.Relics),
       key: 'relics' as const,
     },
     {
-      label: t('ImportLabels.SingleCharacter'),
+      label: t($ => $.ImportLabels.SingleCharacter),
       key: 'singleCharacter' as const,
     },
     {
-      label: t('ImportLabels.AllCharacters'),
+      label: t($ => $.ImportLabels.AllCharacters),
       key: 'multiCharacter' as const,
     },
   ]
@@ -229,14 +233,16 @@ function ShowcaseLoaded() {
       <Flex direction='column' align='center' gap={8} className={styles.loadedContainer}>
         {SHOWCASE_DOWNTIME && (
           <h3 className={styles.downtimeWarning}>
-            {t('Header.DowntimeWarning', { game_version: DOWNTIME_VERSION })}
+            {t($ => $.Header.DowntimeWarning, {
+              game_version: DOWNTIME_VERSION
+            })}
           </h3>
         )}
         {/* UID input row */}
         <Flex className={styles.formRow} justify='center' align='center' gap={10}>
           <TextInput
             className={styles.uidInput}
-            placeholder={t('SubmissionBar.Placeholder')}
+            placeholder={t($ => $.SubmissionBar.Placeholder)}
             value={uid}
             onChange={(e) => setUid(e.currentTarget.value)}
             onKeyDown={(e) => {
@@ -249,7 +255,9 @@ function ShowcaseLoaded() {
             leftSection={<IconSearch size={16} />}
             onClick={handleSubmit}
           >
-            {t('common:Submit')}
+            {t($ => $.Submit, {
+              ns: "common"
+            })}
           </Button>
           {hasCharacters && (
             <Menu>
@@ -258,7 +266,9 @@ function ShowcaseLoaded() {
                   rightSection={<IconChevronDown size={14} />}
                   variant='default'
                 >
-                  {t('relicScorerTab:Buttons.Import')}
+                  {t($ => $.Buttons.Import, {
+                    ns: "relicScorerTab"
+                  })}
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
@@ -304,5 +314,5 @@ function ShowcaseLoaded() {
         </div>
       </Flex>
     </Flex>
-  )
+  );
 }

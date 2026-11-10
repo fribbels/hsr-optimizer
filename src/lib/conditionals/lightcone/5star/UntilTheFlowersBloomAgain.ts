@@ -37,15 +37,15 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'maxEnergyErrConversion',
       formItem: 'switch',
-      text: t('maxEnergyErrConversion.text'),
-      content: t('maxEnergyErrConversion.content', { baseErr: precisionRound(100 * sValuesErr[s]) }),
+      text: t(($) => $.maxEnergyErrConversion.text),
+      content: t(($) => $.maxEnergyErrConversion.content, { baseErr: precisionRound(100 * sValuesErr[s]) }),
     },
     vulnerability: {
       lc: true,
       id: 'vulnerability',
       formItem: 'switch',
-      text: t('vulnerability.text'),
-      content: t('vulnerability.content', { vuln: precisionRound(100 * sValuesVulnerability[s]) }),
+      text: t(($) => $.vulnerability.text),
+      content: t(($) => $.vulnerability.content, { vuln: precisionRound(100 * sValuesVulnerability[s]) }),
     },
   }
 

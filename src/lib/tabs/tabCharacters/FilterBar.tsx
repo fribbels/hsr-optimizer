@@ -38,7 +38,7 @@ export const FilterBar = memo(function FilterBar() {
         // Revisit width of search + filters with Remembrance path
         styles={{ input: { height: 40, lineHeight: '40px', fontSize: 14, borderRadius: 4 } }}
         w={200}
-        placeholder={t('SearchPlaceholder') /* Search */}
+        placeholder={t($ => $.SearchPlaceholder) /* Search */}
         value={nameFilter}
         onChange={(e) => {
           setNameFilter(e.target.value.toLowerCase())
@@ -66,5 +66,5 @@ export const FilterBar = memo(function FilterBar() {
         />
       </div>
     </Flex>
-  )
+  );
 })

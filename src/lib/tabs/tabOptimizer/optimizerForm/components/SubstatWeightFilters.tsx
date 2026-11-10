@@ -11,11 +11,11 @@ export const SubstatWeightFilters = () => {
   return (
     <Flex direction='column' gap={optimizerTabDefaultGap}>
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('WeightFilterHeader') /* Substat weight filter */}</HeaderText>
+        <HeaderText>{t($ => $.WeightFilterHeader) /* Substat weight filter */}</HeaderText>
         <TooltipImage type={Hint.substatWeightFilter()} />
       </Flex>
 
-      <FormStatRollSliders rollsHeader={t('RollFilterHeader')} />
+      <FormStatRollSliders rollsHeader={t($ => $.RollFilterHeader)} />
     </Flex>
-  )
+  );
 }

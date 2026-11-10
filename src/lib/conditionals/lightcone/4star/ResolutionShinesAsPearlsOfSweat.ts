@@ -35,8 +35,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'targetEnsnared',
       formItem: 'switch',
-      text: t('Content.targetEnsnared.text'),
-      content: t('Content.targetEnsnared.content', { BaseChance: precisionRound(60 + 10 * s), DefShred: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.targetEnsnared.text),
+      content: t(($) => $.Content.targetEnsnared.content, { BaseChance: precisionRound(60 + 10 * s), DefShred: precisionRound(100 * sValues[s]) }),
     },
   }
 

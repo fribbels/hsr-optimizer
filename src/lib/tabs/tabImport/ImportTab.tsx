@@ -81,7 +81,7 @@ function SaveDataSubmenu() {
       )
 
       await saveFile(blob, 'fribbels-optimizer-save.json')
-      Message.success(t('SuccessMessage') /* Done */)
+      Message.success(t($ => $.SuccessMessage) /* Done */)
     } catch (e) {
       console.warn(e)
     }
@@ -90,13 +90,13 @@ function SaveDataSubmenu() {
   return (
     <Flex direction='column' gap={5}>
       <div>
-        {t('Label') /* Save your optimizer data to a file. */}
+        {t($ => $.Label) /* Save your optimizer data to a file. */}
       </div>
       <Button onClick={saveClicked} leftSection={<IconDownload size={16} />} w={buttonWidth}>
-        {t('ButtonText') /* Save data */}
+        {t($ => $.ButtonText) /* Save data */}
       </Button>
     </Flex>
-  )
+  );
 }
 
 export function ImportTab() {
@@ -115,10 +115,10 @@ export function ImportTab() {
           styles={{ tab: { height: 42, paddingInline: 32 }, panel: { paddingTop: 'var(--mantine-spacing-xl)' } }}
         >
           <Tabs.List>
-            <Tabs.Tab value='Import'>{t('Import')}</Tabs.Tab>
-            <Tabs.Tab value='Load'>{t('Load')}</Tabs.Tab>
-            <Tabs.Tab value='Save'>{t('Save')}</Tabs.Tab>
-            <Tabs.Tab value='Clear'>{t('Clear')}</Tabs.Tab>
+            <Tabs.Tab value='Import'>{t($ => $.Import)}</Tabs.Tab>
+            <Tabs.Tab value='Load'>{t($ => $.Load)}</Tabs.Tab>
+            <Tabs.Tab value='Save'>{t($ => $.Save)}</Tabs.Tab>
+            <Tabs.Tab value='Clear'>{t($ => $.Clear)}</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value='Import'>
@@ -136,5 +136,5 @@ export function ImportTab() {
         </Tabs>
       </Flex>
     </div>
-  )
+  );
 }

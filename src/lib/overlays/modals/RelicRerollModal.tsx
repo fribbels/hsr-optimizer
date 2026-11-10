@@ -22,7 +22,7 @@ export function RelicRerollModal({ open, onClose, relic }: RelicRerollModalProps
   const { t } = useTranslation('modals', { keyPrefix: 'RelicReroll' })
   return (
     <Modal
-      title={t('Title') /* Relic Reroll Detected */}
+      title={t($ => $.Title) /* Relic Reroll Detected */}
       opened={open}
       onClose={onClose}
       centered
@@ -30,7 +30,7 @@ export function RelicRerollModal({ open, onClose, relic }: RelicRerollModalProps
     >
       {open && relic && <RelicRerollModalContent relic={relic} />}
     </Modal>
-  )
+  );
 }
 
 function RelicRerollModalContent({ relic }: { relic: V4ParserRelic }) {
@@ -58,7 +58,7 @@ function RelicRerollModalContent({ relic }: { relic: V4ParserRelic }) {
             scoringType={originalRelic.equippedBy ? ScoringType.SUBSTAT_SCORE : ScoringType.NONE}
             unhoverable
           />
-          <Text fw={700}>{t('OriginalSubstats') /* Original Substats */}</Text>
+          <Text fw={700}>{t($ => $.OriginalSubstats) /* Original Substats */}</Text>
         </Flex>
 
         <IconChevronsRight size={24} />
@@ -70,9 +70,9 @@ function RelicRerollModalContent({ relic }: { relic: V4ParserRelic }) {
             scoringType={rerolledRelic.equippedBy ? ScoringType.SUBSTAT_SCORE : ScoringType.NONE}
             unhoverable
           />
-          <Text fw={700}>{t('RerolledSubstats') /* Rerolled Substats */}</Text>
+          <Text fw={700}>{t($ => $.RerolledSubstats) /* Rerolled Substats */}</Text>
         </Flex>
       </Flex>
     </Flex>
-  )
+  );
 }

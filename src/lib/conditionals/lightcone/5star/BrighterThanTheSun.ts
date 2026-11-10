@@ -31,8 +31,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'dragonsCallStacks',
       formItem: 'slider',
-      text: t('Content.dragonsCallStacks.text'),
-      content: t('Content.dragonsCallStacks.content', {
+      text: t(($) => $.Content.dragonsCallStacks.text),
+      content: t(($) => $.Content.dragonsCallStacks.content, {
         AtkBuff: precisionRound(100 * sValuesAtk[s]),
         RegenBuff: precisionRound(100 * sValuesErr[s]),
       }),

@@ -82,9 +82,9 @@ export type ComboOptionLabel = typeof AbilityMeta[AbilityKind]['label']
 // =============================================================================
 
 // ComboOptionsLabelMapping - derived from AbilityMeta
-export const ComboOptionsLabelMapping: Record<AbilityKind, ComboOptionLabel> = Object.fromEntries(
+export const ComboOptionsLabelMapping: { [K in AbilityKind]: typeof AbilityMeta[K]['label'] } = Object.fromEntries(
   Object.entries(AbilityMeta).map(([kind, meta]) => [kind, meta.label]),
-) as Record<AbilityKind, ComboOptionLabel>
+) as { [K in AbilityKind]: typeof AbilityMeta[K]['label'] }
 
 // AbilityToSortOption - maps AbilityKind to SortOption key (only for abilities with sortKey)
 export const AbilityToSortOption: Partial<Record<AbilityKind, SortOptionKey>> = Object.fromEntries(

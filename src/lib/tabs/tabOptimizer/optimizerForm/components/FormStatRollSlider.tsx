@@ -73,7 +73,7 @@ export function FormStatRollSliders({ rollsHeader }: { rollsHeader?: ReactNode }
     <div style={{ display: 'grid', gridTemplateColumns: 'max-content 1fr', columnGap: 20, rowGap: 7 }}>
       {StatSliders.map((stat) => (
         <Fragment key={stat.name}>
-          <span style={labelStyle}>{t(stat.text)}</span>
+          <span style={labelStyle}>{t($ => $[stat.text])}</span>
           <div style={sliderRowStyle}>
             <WeightSlider stat={stat.name} />
           </div>
@@ -91,5 +91,5 @@ export function FormStatRollSliders({ rollsHeader }: { rollsHeader?: ReactNode }
         </>
       )}
     </div>
-  )
+  );
 }

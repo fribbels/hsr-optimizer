@@ -136,25 +136,25 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     buffPriority: {
       id: 'buffPriority',
       formItem: 'select',
-      text: tBuff('Text'),
-      content: tBuff('Content'),
+      text: tBuff(($) => $.Text),
+      content: tBuff(($) => $.Content),
       options: [
-        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
+        { display: tBuff(($) => $.Self), value: BuffPriority.SELF, label: tBuff(($) => $.Self) },
+        { display: tBuff(($) => $.Memo), value: BuffPriority.MEMO, label: tBuff(($) => $.Memo) },
       ],
       fullWidth: true,
     },
     enhancedBasic: {
       id: 'enhancedBasic',
       formItem: 'switch',
-      text: t('Content.enhancedBasic.text'),
-      content: t('Content.enhancedBasic.content', { Scaling: precisionRound(100 * enhancedBasicScaling) }),
+      text: t(($) => $.Content.enhancedBasic.text),
+      content: t(($) => $.Content.enhancedBasic.content, { Scaling: precisionRound(100 * enhancedBasicScaling) }),
     },
     memoSkillHits: {
       id: 'memoSkillHits',
       formItem: 'slider',
-      text: t('Content.memoSkillHits.text'),
-      content: t('Content.memoSkillHits.content', {
+      text: t(($) => $.Content.memoSkillHits.text),
+      content: t(($) => $.Content.memoSkillHits.content, {
         SingleScaling: precisionRound(memoSkillHitScaling * 100),
         AoeScaling: precisionRound(memoSkillFinalScaling * 100),
       }),
@@ -164,8 +164,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teamCdBuff: {
       id: 'teamCdBuff',
       formItem: 'switch',
-      text: t('Content.teamCdBuff.text'),
-      content: t('Content.teamCdBuff.content', {
+      text: t(($) => $.Content.teamCdBuff.text),
+      content: t(($) => $.Content.teamCdBuff.content, {
         ScalingBuff: precisionRound(memoTalentCdBuffScaling * 100),
         FlatBuff: precisionRound(memoTalentCdBuffFlat * 100),
       }),
@@ -173,34 +173,34 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     memsSupport: {
       id: 'memsSupport',
       formItem: 'switch',
-      text: t('Content.memsSupport.text'),
-      content: t('Content.memsSupport.content', { TrueDmgScaling: precisionRound(trueDmgScaling * 100) }),
+      text: t(($) => $.Content.memsSupport.text),
+      content: t(($) => $.Content.memsSupport.content, { TrueDmgScaling: precisionRound(trueDmgScaling * 100) }),
     },
     energyTrueDmgValue: {
       id: 'energyTrueDmgValue',
       formItem: 'switch',
-      text: t('Content.energyTrueDmgValue.text'),
-      content: t('Content.energyTrueDmgValue.content'),
+      text: t(($) => $.Content.energyTrueDmgValue.text),
+      content: t(($) => $.Content.energyTrueDmgValue.content),
     },
     e1CrBuff: {
       id: 'e1CrBuff',
       formItem: 'switch',
-      text: t('Content.e1CrBuff.text'),
-      content: t('Content.e1CrBuff.content'),
+      text: t(($) => $.Content.e1CrBuff.text),
+      content: t(($) => $.Content.e1CrBuff.content),
       disabled: e < 1,
     },
     e4TrueDmgBoost: {
       id: 'e4TrueDmgBoost',
       formItem: 'switch',
-      text: t('Content.e4TrueDmgBoost.text'),
-      content: t('Content.e4TrueDmgBoost.content'),
+      text: t(($) => $.Content.e4TrueDmgBoost.text),
+      content: t(($) => $.Content.e4TrueDmgBoost.content),
       disabled: e < 4,
     },
     e6UltCrBoost: {
       id: 'e6UltCrBoost',
       formItem: 'switch',
-      text: t('Content.e6UltCrBoost.text'),
-      content: t('Content.e6UltCrBoost.content'),
+      text: t(($) => $.Content.e6UltCrBoost.text),
+      content: t(($) => $.Content.e6UltCrBoost.content),
       disabled: e < 6,
     },
   }
@@ -210,8 +210,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     memCDValue: {
       id: 'memCDValue',
       formItem: 'slider',
-      text: t('TeammateContent.memCDValue.text'),
-      content: t('TeammateContent.memCDValue.content', {
+      text: t(($) => $.TeammateContent.memCDValue.text),
+      content: t(($) => $.TeammateContent.memCDValue.content, {
         ScalingBuff: precisionRound(memoTalentCdBuffScaling * 100),
         FlatBuff: precisionRound(memoTalentCdBuffFlat * 100),
       }),

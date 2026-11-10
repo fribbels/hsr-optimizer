@@ -45,18 +45,20 @@ export function generateCharacterList(
             style={{ height: 22, marginRight: 4 }}
           />
           {listOptions.longNameLabel
-            ? t(`${character.id}.LongName`)
-            : t(`${character.id}.Name`)}
+            ? t(($) => $[character.id].LongName)
+            : t(($) => $[character.id].Name)}
         </div>
       ),
       title: listOptions.longNameTitle
-        ? t(`${character.id}.LongName`)
-        : t(`${character.id}.Name`),
+        ? t(($) => $[character.id].LongName)
+        : t(($) => $[character.id].Name),
     }))
     .sort(sortAlphabeticEmojiLast('title'))
 
   if (withNobodyOption) {
-    const nobodyLabel = i18next.t('common:None')
+    const nobodyLabel = i18next.t($ => $.None, {
+      ns: "common"
+    })
     options.unshift({ value: 'None', label: nobodyLabel, title: nobodyLabel })
   }
 

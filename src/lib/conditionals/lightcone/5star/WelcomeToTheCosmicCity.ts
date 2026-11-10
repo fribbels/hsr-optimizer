@@ -31,8 +31,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'elationDefPen',
       formItem: 'switch',
-      text: t('elationDefPen.text'),
-      content: t('elationDefPen.content', { defShred: precisionRound(100 * sValuesDefPen[s]) }),
+      text: t(($) => $.elationDefPen.text),
+      content: t(($) => $.elationDefPen.content, { defShred: precisionRound(100 * sValuesDefPen[s]) }),
     },
   }
 

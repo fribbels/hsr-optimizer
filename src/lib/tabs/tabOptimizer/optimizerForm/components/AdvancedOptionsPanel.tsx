@@ -29,7 +29,7 @@ export function AdvancedOptionsPanel() {
 
   return (
     <Flex direction='column' gap={optimizerTabDefaultGap}>
-      <HeaderText style={{ marginTop: 25 }}>{t('Header') /* Advanced options */}</HeaderText>
+      <HeaderText style={{ marginTop: 25 }}>{t($ => $.Header) /* Advanced options */}</HeaderText>
 
       <Button
         variant='default'
@@ -39,7 +39,7 @@ export function AdvancedOptionsPanel() {
         }}
         leftSection={<IconSettings size={16} />}
       >
-        {t('CustomTracesButtonText') /* Custom stat traces */}
+        {t($ => $.CustomTracesButtonText) /* Custom stat traces */}
       </Button>
 
       <Button
@@ -48,7 +48,9 @@ export function AdvancedOptionsPanel() {
         leftSection={<IconSettings size={16} />}
       >
         {
-          buffsActive ? t('CombatBuffsButtonText', { activeCount: buffsActive }) : t('CombatBuffsButtonTextNone')
+          buffsActive ? t($ => $.CombatBuffsButtonText, {
+            activeCount: buffsActive
+          }) : t($ => $.CombatBuffsButtonTextNone)
           // Extra combat buffs (activeCount) / Extra combat buffs
         }
       </Button>
@@ -58,8 +60,8 @@ export function AdvancedOptionsPanel() {
         onClick={() => setOpen(OpenCloseIDs.ENEMY_DRAWER)}
         leftSection={<IconSettings size={16} />}
       >
-        {t('EnemyConfigButtonText') /* Enemy configurations */}
+        {t($ => $.EnemyConfigButtonText) /* Enemy configurations */}
       </Button>
     </Flex>
-  )
+  );
 }

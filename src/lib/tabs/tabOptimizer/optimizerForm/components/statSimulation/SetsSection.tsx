@@ -27,9 +27,9 @@ function useRelicSetOptions(): SearchableComboboxOption[] {
       .filter((x) => !UnreleasedSets[x])
       .map((x) => ({
         value: x,
-        label: t(`${setToId[x]}.Name`),
+        label: t($ => $[setToId[x]].Name),
         icon: Assets.getSetImage(x, Constants.Parts.Head),
-      })), [t, i18n.resolvedLanguage])
+      })), [t, i18n.resolvedLanguage]);
 }
 
 function useOrnamentSetOptions(): SearchableComboboxOption[] {
@@ -39,9 +39,9 @@ function useOrnamentSetOptions(): SearchableComboboxOption[] {
       .filter((x) => !UnreleasedSets[x])
       .map((x) => ({
         value: x,
-        label: t(`${setToId[x]}.Name`),
+        label: t($ => $[setToId[x]].Name),
         icon: Assets.getSetImage(x, Constants.Parts.PlanarSphere),
-      })), [t, i18n.resolvedLanguage])
+      })), [t, i18n.resolvedLanguage]);
 }
 
 // Optimizer-tab version: reads/writes from Zustand store (no AntD Form context needed)
@@ -69,26 +69,26 @@ export function OptimizerSetsSection({ simType }: { simType: StatSimType }) {
         options={relicSetData}
         value={simRelicSet1}
         onChange={handleRelicSet1Change}
-        placeholder={t('SetSelection.RelicPlaceholder')}
+        placeholder={t($ => $.SetSelection.RelicPlaceholder)}
         clearable
       />
       <SearchableCombobox
         options={relicSetData}
         value={simRelicSet2}
         onChange={(value) => updateField(simType, 'simRelicSet2', value ?? '')}
-        placeholder={t('SetSelection.RelicPlaceholder')}
+        placeholder={t($ => $.SetSelection.RelicPlaceholder)}
         clearable
       />
       <SearchableCombobox
         options={ornamentSetData}
         value={simOrnamentSet}
         onChange={(value) => updateField(simType, 'simOrnamentSet', value ?? '')}
-        placeholder={t('SetSelection.OrnamentPlaceholder')}
+        placeholder={t($ => $.SetSelection.OrnamentPlaceholder)}
         dropdownMaxHeight={600}
         clearable
       />
     </>
-  )
+  );
 }
 
 // BenchmarksTab version: uses Mantine form instance passed as prop
@@ -110,24 +110,24 @@ export function SetsSection({ simType, form }: { simType: StatSimType, form: Use
         options={relicSetData}
         value={form.getValues().simRelicSet1 ?? null}
         onChange={handleRelicSet1Change}
-        placeholder={t('SetSelection.RelicPlaceholder')}
+        placeholder={t($ => $.SetSelection.RelicPlaceholder)}
         clearable
       />
       <SearchableCombobox
         options={relicSetData}
         value={form.getValues().simRelicSet2 ?? null}
         onChange={(value) => form.setFieldValue('simRelicSet2', (value ?? undefined) as never)}
-        placeholder={t('SetSelection.RelicPlaceholder')}
+        placeholder={t($ => $.SetSelection.RelicPlaceholder)}
         clearable
       />
       <SearchableCombobox
         options={ornamentSetData}
         value={form.getValues().simOrnamentSet ?? null}
         onChange={(value) => form.setFieldValue('simOrnamentSet', (value ?? undefined) as never)}
-        placeholder={t('SetSelection.OrnamentPlaceholder')}
+        placeholder={t($ => $.SetSelection.OrnamentPlaceholder)}
         dropdownMaxHeight={600}
         clearable
       />
     </>
-  )
+  );
 }

@@ -41,8 +41,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'atkBuffActive',
       formItem: 'switch',
-      text: t('Content.atkBuffActive.text'),
-      content: t('Content.atkBuffActive.content', {
+      text: t(($) => $.Content.atkBuffActive.text),
+      content: t(($) => $.Content.atkBuffActive.content, {
         AtkBuff: precisionRound(100 * sValuesAtk[s]),
         CritBuff: precisionRound(100 * sValuesCd[s]),
         RegenBuff: precisionRound(100 * sValuesErr[s]),
@@ -52,8 +52,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'cdBuffActive',
       formItem: 'switch',
-      text: t('Content.cdBuffActive.text'),
-      content: t('Content.cdBuffActive.content', {
+      text: t(($) => $.Content.cdBuffActive.text),
+      content: t(($) => $.Content.cdBuffActive.content, {
         AtkBuff: precisionRound(100 * sValuesAtk[s]),
         CritBuff: precisionRound(100 * sValuesCd[s]),
         RegenBuff: precisionRound(100 * sValuesErr[s]),
@@ -63,8 +63,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'errBuffActive',
       formItem: 'switch',
-      text: t('Content.errBuffActive.text'),
-      content: t('Content.errBuffActive.content', {
+      text: t(($) => $.Content.errBuffActive.text),
+      content: t(($) => $.Content.errBuffActive.content, {
         AtkBuff: precisionRound(100 * sValuesAtk[s]),
         CritBuff: precisionRound(100 * sValuesCd[s]),
         RegenBuff: precisionRound(100 * sValuesErr[s]),

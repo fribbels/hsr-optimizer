@@ -515,7 +515,7 @@ function buildPreBakedBlurPlugin(blurCache: Map<string, string>): SnapdomPlugin 
         img.setAttribute('style', styleAttr.replace(/blur\(\s*[\d.]+px\s*\)/g, 'blur(0px)'))
       }
     },
-  }
+  };
 }
 
 const hideHoverButtonsPlugin: SnapdomPlugin = {
@@ -545,7 +545,7 @@ function buildBlurMultiplierPlugin(blurMultiplier: number): SnapdomPlugin {
         }
       }
     },
-  }
+  };
 }
 
 function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
@@ -664,20 +664,30 @@ export async function screenshotElementById(
           navigator.share({ files: [file], title: '', text: '' }).catch((e: unknown) => {
             // Don't show error toast when user cancels the share dialog
             if (e instanceof Error && e.name === 'AbortError') return
-            Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
+            Message.error(i18next.t($ => $.ScreenshotMessages.ScreenshotFailed.Default, {
+              ns: "charactersTab"
+            }))
           })
         } else {
-          Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
+          Message.error(i18next.t($ => $.ScreenshotMessages.ScreenshotFailed.Default, {
+            ns: "charactersTab"
+          }))
         }
       } else {
         const data = [new ClipboardItem({ [blob.type]: blob })]
         void navigator.clipboard.write(data)
-          .then(() => Message.success(i18next.t('charactersTab:ScreenshotMessages.ScreenshotSuccess')))
+          .then(() => Message.success(i18next.t($ => $.ScreenshotMessages.ScreenshotSuccess, {
+          ns: "charactersTab"
+        })))
           .catch((e) => {
             if (e instanceof DOMException && e.name === 'NotAllowedError') {
-              Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.NotAllowed'))
+              Message.error(i18next.t($ => $.ScreenshotMessages.ScreenshotFailed.NotAllowed, {
+                ns: "charactersTab"
+              }))
             } else {
-              Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
+              Message.error(i18next.t($ => $.ScreenshotMessages.ScreenshotFailed.Default, {
+                ns: "charactersTab"
+              }))
             }
             console.error(e)
           })
@@ -694,7 +704,9 @@ export async function screenshotElementById(
       anchorElement.click()
       anchorElement.remove()
       window.URL.revokeObjectURL(fileUrl)
-      Message.success(i18next.t('charactersTab:ScreenshotMessages.DownloadSuccess'))
+      Message.success(i18next.t($ => $.ScreenshotMessages.DownloadSuccess, {
+        ns: "charactersTab"
+      }))
     }
   }
 
@@ -702,7 +714,9 @@ export async function screenshotElementById(
   try {
     blob = await repeatLoadBlob()
   } catch (e) {
-    Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
+    Message.error(i18next.t($ => $.ScreenshotMessages.ScreenshotFailed.Default, {
+      ns: "charactersTab"
+    }))
     console.error(e)
     return
   }

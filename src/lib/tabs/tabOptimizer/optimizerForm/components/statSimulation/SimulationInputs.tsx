@@ -45,14 +45,14 @@ export function SimulationInputs() {
       <>
         <Flex gap={5} style={{ display: statSimulationDisplay === StatSimTypes.SubstatRolls ? 'flex' : 'none' }}>
           <Flex direction='column' gap={5} w={STAT_SIMULATION_OPTIONS_WIDTH}>
-            <HeaderText>{t('SetSelection.Header')}</HeaderText>
+            <HeaderText>{t($ => $.SetSelection.Header)}</HeaderText>
             <OptimizerSetsSection simType={simType} />
             <MainStatsSection simType={simType} />
 
-            <HeaderText>{t('OptionsHeader')}</HeaderText>
+            <HeaderText>{t($ => $.OptionsHeader)}</HeaderText>
 
             <TextInput
-              placeholder={t('SimulationNamePlaceholder')}
+              placeholder={t($ => $.SimulationNamePlaceholder)}
               autoComplete='off'
               value={nameValue ?? ''}
               onChange={(e) => useOptimizerRequestStore.getState().updateStatSimField(simType, 'name', e.target.value)}
@@ -61,7 +61,7 @@ export function SimulationInputs() {
 
           <VerticalDivider />
 
-          <SubstatsSection simType={simType} title={t('RollsHeader')} total={substatRollsTotal} />
+          <SubstatsSection simType={simType} title={t($ => $.RollsHeader)} total={substatRollsTotal} />
         </Flex>
 
         <Flex gap={5} style={{ display: statSimulationDisplay === StatSimTypes.Disabled ? 'flex' : 'none' }}>
@@ -69,7 +69,7 @@ export function SimulationInputs() {
           <VerticalDivider />
         </Flex>
       </>
-    )
+    );
   }, [statSimulationDisplay, substatRollsTotal, nameValue, simType, t])
 
   return (

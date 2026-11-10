@@ -20,18 +20,26 @@ type TimelineTFunction = TFunction<'leaderboardTab', 'Timeline'>
 
 function formatRelativeTime(dateString: string, t: TimelineTFunction): string {
   const diffMs = Date.now() - new Date(dateString).getTime()
-  if (diffMs < 0) return t('HoursAgo', { count: 0 })
+  if (diffMs < 0) return t($ => $.HoursAgo, {
+    count: 0
+  });
 
   const hours = Math.floor(diffMs / MS_PER_HOUR)
-  if (hours < 1) return t('HoursAgo', { count: 1 })
-  if (hours < 24) return t('HoursAgo', { count: hours })
+  if (hours < 1) return t($ => $.HoursAgo, {
+    count: 1
+  });
+  if (hours < 24) return t($ => $.HoursAgo, {
+    count: hours
+  });
 
-  return t('DaysAgo', { count: Math.floor(hours / 24) })
+  return t($ => $.DaysAgo, {
+    count: Math.floor(hours / 24)
+  });
 }
 
 function renderScoreDelta(event: TimelineEvent, t: TimelineTFunction) {
   if (event.type === TimelineEventType.NEW_CHARACTER) {
-    return <span>{t('New')}</span>
+    return <span>{t($ => $.New)}</span>
   }
   const clampedPrevious = Math.max(event.previousScore, TIMELINE_MIN_SCORE)
   const delta = (event.score - clampedPrevious) * 100
@@ -65,12 +73,12 @@ export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
 
   return (
     <div className={classes.feedContainer}>
-      <span className={classes.feedHeader}>{t('Header')}</span>
+      <span className={classes.feedHeader}>{t($ => $.Header)}</span>
       <div className={classes.feedGrid}>
         {displayed.map((event) => {
           const characterId = event.characterId
           const nameKey = characterId.startsWith('80') ? 'LongName' : 'Name'
-          const name = tGame(`Characters.${characterId}.${nameKey}`)
+          const name = tGame($ => $.Characters[characterId][nameKey])
           const scorePercent = percentageToLocaleString(truncate10ths(event.score * 100), 1)
 
           return (
@@ -95,5 +103,5 @@ export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
         })}
       </div>
     </div>
-  )
+  );
 }

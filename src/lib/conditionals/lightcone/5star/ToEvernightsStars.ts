@@ -37,15 +37,15 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'defPen',
       formItem: 'switch',
-      text: t('defPen.text'),
-      content: t('defPen.content', { MemoDefPen: precisionRound(100 * sValuesDefPen[s]) }),
+      text: t(($) => $.defPen.text),
+      content: t(($) => $.defPen.content, { MemoDefPen: precisionRound(100 * sValuesDefPen[s]) }),
     },
     dmgBoost: {
       lc: true,
       id: 'dmgBoost',
       formItem: 'switch',
-      text: t('dmgBoost.text'),
-      content: t('dmgBoost.content', { DmgBuff: precisionRound(100 * sValuesDmgBoost[s]) }),
+      text: t(($) => $.dmgBoost.text),
+      content: t(($) => $.dmgBoost.content, { DmgBuff: precisionRound(100 * sValuesDmgBoost[s]) }),
     },
   }
 

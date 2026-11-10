@@ -31,8 +31,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'enemyHp50FuaBuff',
       formItem: 'switch',
-      text: t('Content.enemyHp50FuaBuff.text'),
-      content: t('Content.enemyHp50FuaBuff.content', { DmgBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.enemyHp50FuaBuff.text),
+      content: t(($) => $.Content.enemyHp50FuaBuff.content, { DmgBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

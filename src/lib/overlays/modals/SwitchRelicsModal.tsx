@@ -89,7 +89,7 @@ function SwitchRelicsModalContent({ close }: { close: () => void }) {
     <>
       <div>
         <Flex justify='space-between' align='center'>
-          <HeaderText>{t('Title') /* Switch relics with character */}</HeaderText>
+          <HeaderText>{t($ => $.Title) /* Switch relics with character */}</HeaderText>
         </Flex>
 
         <Flex direction='column' gap={defaultGap}>
@@ -98,7 +98,7 @@ function SwitchRelicsModalContent({ close }: { close: () => void }) {
               options={comboboxOptions}
               value={characterForm.values.selectedCharacter}
               onChange={(val) => characterForm.setFieldValue('selectedCharacter', val)}
-              placeholder={t('Placeholder')}
+              placeholder={t($ => $.Placeholder)}
               style={{ width: panelWidth }}
             />
           </Flex>
@@ -106,12 +106,12 @@ function SwitchRelicsModalContent({ close }: { close: () => void }) {
       </div>
       <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
         <Button key='back' variant='default' onClick={close}>
-          {tCommon('Cancel') /* Cancel */}
+          {tCommon($ => $.Cancel) /* Cancel */}
         </Button>
         <Button key='submit' onClick={onModalOk}>
-          {tCommon('Save') /* Save */}
+          {tCommon($ => $.Save) /* Save */}
         </Button>
       </Flex>
     </>
-  )
+  );
 }

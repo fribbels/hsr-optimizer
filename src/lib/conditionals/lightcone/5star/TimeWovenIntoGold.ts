@@ -36,8 +36,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'brocadeStacks',
       formItem: 'slider',
-      text: t('Content.brocadeStacks.text'),
-      content: t('Content.brocadeStacks.content', {
+      text: t(($) => $.Content.brocadeStacks.text),
+      content: t(($) => $.Content.brocadeStacks.content, {
         CdBuff: precisionRound(sValuesCd[s] * 100),
         DmgBuff: precisionRound(sValuesBasicDmg[s] * 100),
       }),
@@ -48,8 +48,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'maxStacksBasicDmgBoost',
       formItem: 'switch',
-      text: t('Content.maxStacksBasicDmgBoost.text'),
-      content: t('Content.maxStacksBasicDmgBoost.content', {
+      text: t(($) => $.Content.maxStacksBasicDmgBoost.text),
+      content: t(($) => $.Content.maxStacksBasicDmgBoost.content, {
         CdBuff: precisionRound(sValuesCd[s] * 100),
         DmgBuff: precisionRound(sValuesBasicDmg[s] * 100),
       }),

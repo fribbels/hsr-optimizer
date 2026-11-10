@@ -120,7 +120,7 @@ export function ScannerImportSubmenu() {
       setLoading1(true)
 
       if (!json) {
-        throw new Error(t('Import.ErrorMsg.InvalidJson') /* Invalid JSON */)
+        throw new Error(t($ => $.Import.ErrorMsg.InvalidJson) /* Invalid JSON */)
       }
 
       if (json.data) {
@@ -143,7 +143,7 @@ export function ScannerImportSubmenu() {
       }
 
       if (!ValidScannerSources.includes(json.source)) {
-        throw new Error(t('Import.ErrorMsg.InvalidFile') /* Invalid scanner file */)
+        throw new Error(t($ => $.Import.ErrorMsg.InvalidFile) /* Invalid scanner file */)
       }
 
       const parser = ScannerSourceToParser[json.source]
@@ -164,11 +164,11 @@ export function ScannerImportSubmenu() {
         setOnlyImportExisting(false)
       }, importerTabSpinnerMs)
     } catch (e) {
-      let message: string = t('Import.ErrorMsg.Unknown' /* Unknown Error */)
+      let message: string = t($ => $.Import.ErrorMsg.Unknown)
       if (e instanceof Error) message = e.message
 
       console.error(e)
-      Message.error(t('Import.ErrorMsg.Fragment' /* Error occurred while importing file: */) + message, 10)
+      Message.error(t($ => $.Import.ErrorMsg.Fragment) + message, 10)
 
       setTimeout(() => {
         setLoading1(false)
@@ -214,48 +214,48 @@ export function ScannerImportSubmenu() {
       <Flex className={classes.uploadStage} gap={30}>
         <Flex direction='column' gap={10}>
           <div>
-            {t('Import.Stage1.Header')}
+            {t($ => $.Import.Stage1.Header)}
           </div>
           <div>
             <ul>
               <ReliquaryDescription />
               <li>
-                {t('Import.Stage1.KelzDesc.Title')} (
+                {t($ => $.Import.Stage1.KelzDesc.Title)} (
                 <ColorizedLinkWithIcon
-                  text={t('Import.Stage1.KelzDesc.Link')}
+                  text={t($ => $.Import.Stage1.KelzDesc.Link)}
                   url={KelzScannerConfig.releases}
                   linkIcon={true}
                 />
                 )
                 <ul>
-                  <li>{t('Import.Stage1.KelzDesc.l1')}</li>
-                  <li>{t('Import.Stage1.KelzDesc.l2')}</li>
+                  <li>{t($ => $.Import.Stage1.KelzDesc.l1)}</li>
+                  <li>{t($ => $.Import.Stage1.KelzDesc.l2)}</li>
                 </ul>
               </li>
               <li>
-                {t('Import.Stage1.ScorerDesc.Title')} (
+                {t($ => $.Import.Stage1.ScorerDesc.Title)} (
                 <ColorizedLinkWithIcon
-                  text={t('Import.Stage1.ScorerDesc.Link')}
+                  text={t($ => $.Import.Stage1.ScorerDesc.Link)}
                   linkIcon={true}
                   onClick={() => navigateTo(AppPages.SHOWCASE)}
                 />
                 )
                 <ul>
-                  <li>{t('Import.Stage1.ScorerDesc.l1')}</li>
-                  <li>{t('Import.Stage1.ScorerDesc.l2')}</li>
+                  <li>{t($ => $.Import.Stage1.ScorerDesc.l1)}</li>
+                  <li>{t($ => $.Import.Stage1.ScorerDesc.l2)}</li>
                 </ul>
               </li>
               <li>
-                {t('Import.Stage1.HoyolabDesc.Title')} (
+                {t($ => $.Import.Stage1.HoyolabDesc.Title)} (
                 <ColorizedLinkWithIcon
-                  text={t('Import.Stage1.HoyolabDesc.Link')}
+                  text={t($ => $.Import.Stage1.HoyolabDesc.Link)}
                   url='https://github.com/fribbels/hsr-optimizer/discussions/403'
                   linkIcon={true}
                 />
                 )
                 <ul>
-                  <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
-                  <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
+                  <li>{t($ => $.Import.Stage1.HoyolabDesc.l1)}</li>
+                  <li>{t($ => $.Import.Stage1.HoyolabDesc.l2)}</li>
                 </ul>
               </li>
             </ul>
@@ -263,7 +263,7 @@ export function ScannerImportSubmenu() {
           <Flex direction='column' align='flex-start'>
             {/* Wrap the row (not the disabled controls) so the hint still shows on hover */}
             <Tooltip
-              label={t('Import.LiveImport.ImportDisabledHint')}
+              label={t($ => $.Import.LiveImport.ImportDisabledHint)}
               disabled={!isLiveImporting}
               multiline
               w={280}
@@ -294,15 +294,15 @@ export function ScannerImportSubmenu() {
                   }}
                   variant='default'
                 >
-                  {t('Import.Stage1.ButtonText')}
+                  {t($ => $.Import.Stage1.ButtonText)}
                 </Button>
 
-                {t('Import.Stage1.Or')}
+                {t($ => $.Import.Stage1.Or)}
 
                 <TextInput
                   style={{ width: importerTabButtonWidth }}
                   className='centered-placeholder'
-                  placeholder={t('Import.Stage1.Placeholder')}
+                  placeholder={t($ => $.Import.Stage1.Placeholder)}
                   value=''
                   disabled={loading1 || isLiveImporting}
                   onChange={(e) => {
@@ -317,18 +317,18 @@ export function ScannerImportSubmenu() {
                 />
               </Flex>
             </Tooltip>
-            <Divider w='100%' my={20} label={t('Import.LiveImport.Title') /* Live Import Controls */} labelPosition='center' />
+            <Divider w='100%' my={20} label={t($ => $.Import.LiveImport.Title) /* Live Import Controls */} labelPosition='center' />
             <Flex direction='column' gap={10}>
               <div>
                 {
                   t(
-                    'Import.LiveImport.Description.l1',
+                    $ => $.Import.LiveImport.Description.l1,
                   ) /* When using the Reliquary Archiver, you can enable the "Live Import" mode to import your inventory in real time. */
                 }
                 <br />
-                {t('Import.LiveImport.Description.l2') /* This includes new relics, enhanced relics, warp/gacha results, and more. */} (
+                {t($ => $.Import.LiveImport.Description.l2) /* This includes new relics, enhanced relics, warp/gacha results, and more. */} (
                 <ColorizedLinkWithIcon
-                  text={t('Import.Stage1.ReliquaryDesc.Link')}
+                  text={t($ => $.Import.Stage1.ReliquaryDesc.Link)}
                   url={'https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/live-import.md'}
                   linkIcon={true}
                 />
@@ -341,17 +341,17 @@ export function ScannerImportSubmenu() {
                   onChange={(event) => setIngest(event.currentTarget.checked)}
                 />
 
-                <div>{t('Import.LiveImport.Enable') /* Enable Live Import (Recommended) */}</div>
+                <div>{t($ => $.Import.LiveImport.Enable) /* Enable Live Import (Recommended) */}</div>
 
                 <Divider variant='dashed' className={classes.dividerLine} />
 
                 <Tooltip
                   position='top-end'
                   opened={ingest && !connected ? undefined : false} // Only show tooltip if ingest is enabled but we are haven't been able to connect
-                  label={t('Import.LiveImport.DisconnectedHint') /* Unable to connect to the scanner. Please check that it is running. */}
+                  label={t($ => $.Import.LiveImport.DisconnectedHint) /* Unable to connect to the scanner. Please check that it is running. */}
                 >
                   <Flex gap={10} align='center'>
-                    <div>{connected ? t('Import.LiveImport.Connected') /* Connected */ : t('Import.LiveImport.Disconnected') /* Disconnected */}</div>
+                    <div>{connected ? t($ => $.Import.LiveImport.Connected) /* Connected */ : t($ => $.Import.LiveImport.Disconnected) /* Disconnected */}</div>
 
                     <div
                       className={classes.connectionDot}
@@ -367,7 +367,7 @@ export function ScannerImportSubmenu() {
                   onChange={(event) => setIngestCharacters(event.currentTarget.checked)}
                 />
 
-                <div>{t('Import.LiveImport.UpdateCharacters') /* Enable updating characters' equipped relics and lightcones */}</div>
+                <div>{t($ => $.Import.LiveImport.UpdateCharacters) /* Enable updating characters' equipped relics and lightcones */}</div>
               </Flex>
 
               {ingestCharacters && (
@@ -380,11 +380,11 @@ export function ScannerImportSubmenu() {
                   <Tooltip
                     label={
                       t(
-                        'Import.LiveImport.OnlyExistingCharactersTooltip',
+                        $ => $.Import.LiveImport.OnlyExistingCharactersTooltip,
                       ) /* Prevents live import from adding characters that are not already in the Characters tab. */
                     }
                   >
-                    <div>{t('Import.LiveImport.OnlyExistingCharacters') /* Only update existing characters */}</div>
+                    <div>{t($ => $.Import.LiveImport.OnlyExistingCharacters) /* Only update existing characters */}</div>
                   </Tooltip>
                 </Flex>
               )}
@@ -395,23 +395,23 @@ export function ScannerImportSubmenu() {
                   onChange={(event) => setIngestWarpResources(event.currentTarget.checked)}
                 />
 
-                <div>{t('Import.LiveImport.UpdateWarpResources') /* Enable importing Warp resources (jades, passes, pity) */}</div>
+                <div>{t($ => $.Import.LiveImport.UpdateWarpResources) /* Enable importing Warp resources (jades, passes, pity) */}</div>
               </Flex>
 
               <Accordion>
                 <Accordion.Item value='1'>
-                  <Accordion.Control>{t('Import.LiveImport.AdvancedSettings.Title') /* Advanced Settings */}</Accordion.Control>
+                  <Accordion.Control>{t($ => $.Import.LiveImport.AdvancedSettings.Title) /* Advanced Settings */}</Accordion.Control>
                   <Accordion.Panel>
                     <Flex direction='column' gap={10}>
                       <Flex direction='column'>
-                        <div>{t('Import.LiveImport.AdvancedSettings.WebsocketUrl') /* Websocket URL */}</div>
+                        <div>{t($ => $.Import.LiveImport.AdvancedSettings.WebsocketUrl) /* Websocket URL */}</div>
                         <Flex gap={10}>
                           <TextInput
                             id='websocket-url'
                             value={websocketUrl}
                             onChange={(e) => setWebsocketUrl(e.target.value)}
                           />
-                          <Tooltip label={t('Import.LiveImport.AdvancedSettings.WebsocketUrlReset') /* Reset to default */}>
+                          <Tooltip label={t($ => $.Import.LiveImport.AdvancedSettings.WebsocketUrlReset) /* Reset to default */}>
                             <Button onClick={() => setWebsocketUrl(DEFAULT_WEBSOCKET_URL)} variant='default'>
                               <IconRefresh size={16} />
                             </Button>
@@ -426,7 +426,7 @@ export function ScannerImportSubmenu() {
           </Flex>
         </Flex>
       </Flex>
-    )
+    );
   }
 
   function confirmDataMerge() {
@@ -434,24 +434,26 @@ export function ScannerImportSubmenu() {
       return (
         <Flex className={classes.stageContainer}>
           <Flex direction='column' gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
-            {t('Import.Stage2.NoRelics')}
+            {t($ => $.Import.Stage2.NoRelics)}
           </Flex>
         </Flex>
-      )
+      );
     }
 
     return (
       <Flex className={classes.confirmStage}>
         <Flex direction='column' gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
           <div>
-            {t('Import.Stage2.FileInfo', {
+            {t($ => $.Import.Stage2.FileInfo, {
               relicCount: currentRelics.length ?? 0,
-              characterCount: currentCharacters?.length ?? 0,
+              characterCount: currentCharacters?.length ?? 0
             })}
           </div>
 
           <div>
-            {t('Import.Stage2.RelicsImport.Label', { relicCount: currentRelics.length ?? 0 })}
+            {t($ => $.Import.Stage2.RelicsImport.Label, {
+              relicCount: currentRelics.length ?? 0
+            })}
           </div>
 
           <Button
@@ -459,14 +461,16 @@ export function ScannerImportSubmenu() {
             onClick={mergeRelicsConfirmed}
             loading={loading2}
           >
-            {t('Import.Stage2.RelicsImport.ButtonText', { relicCount: currentRelics.length ?? 0 })}
+            {t($ => $.Import.Stage2.RelicsImport.ButtonText, {
+              relicCount: currentRelics.length ?? 0
+            })}
           </Button>
 
-          <Divider label={<span className={classes.dividerText}>{t('Import.Stage2.Or')}</span>} labelPosition='center' />
+          <Divider label={<span className={classes.dividerText}>{t($ => $.Import.Stage2.Or)}</span>} labelPosition='center' />
           <div>
-            {t('Import.Stage2.CharactersImport.Label', {
+            {t($ => $.Import.Stage2.CharactersImport.Label, {
               relicCount: currentRelics.length ?? 0,
-              characterCount: currentCharacters?.length ?? 0,
+              characterCount: currentCharacters?.length ?? 0
             })}
           </div>
 
@@ -474,7 +478,7 @@ export function ScannerImportSubmenu() {
             checked={onlyImportExisting}
             disabled={loading2 || !getCharacters().length}
             onChange={(e) => setOnlyImportExisting(e.currentTarget.checked)}
-            label={t('Import.Stage2.CharactersImport.OnlyImportExisting') /* Only import existing characters */}
+            label={t($ => $.Import.Stage2.CharactersImport.OnlyImportExisting) /* Only import existing characters */}
           />
 
           <Button
@@ -482,21 +486,25 @@ export function ScannerImportSubmenu() {
             loading={loading2}
             onClick={() =>
               modals.openConfirmModal({
-                title: t('Import.Stage2.CharactersImport.WarningTitle'),
-                children: t('Import.Stage2.CharactersImport.WarningDescription'),
-                labels: { confirm: t('common:Yes'), cancel: t('common:Cancel') },
+                title: t($ => $.Import.Stage2.CharactersImport.WarningTitle),
+                children: t($ => $.Import.Stage2.CharactersImport.WarningDescription),
+                labels: { confirm: t($ => $.Yes, {
+                  ns: "common"
+                }), cancel: t($ => $.Cancel, {
+                  ns: "common"
+                }) },
                 centered: true,
                 onConfirm: mergeCharactersConfirmed,
               })}
           >
-            {t('Import.Stage2.CharactersImport.ButtonText', {
+            {t($ => $.Import.Stage2.CharactersImport.ButtonText, {
               relicCount: currentRelics.length ?? 0,
-              characterCount: currentCharacters?.length ?? 0,
+              characterCount: currentCharacters?.length ?? 0
             })}
           </Button>
         </Flex>
       </Flex>
-    )
+    );
   }
 
   function mergeCompleted() {
@@ -504,11 +512,11 @@ export function ScannerImportSubmenu() {
       <Flex className={classes.stageContainer}>
         <Flex direction='column' gap={10} style={{ display: currentStage >= 2 ? 'flex' : 'none' }}>
           <div>
-            {t('Import.Stage3.SuccessMessage')}
+            {t($ => $.Import.Stage3.SuccessMessage)}
           </div>
         </Flex>
       </Flex>
-    )
+    );
   }
 
   return (

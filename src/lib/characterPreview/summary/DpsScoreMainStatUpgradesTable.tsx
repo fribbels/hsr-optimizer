@@ -140,7 +140,7 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
     >
       <Table.Thead>
         <Table.Tr>
-          <Table.Th className={styles.headerCell}>{t('MainStatUpgrade')}</Table.Th>
+          <Table.Th className={styles.headerCell}>{t($ => $.MainStatUpgrade)}</Table.Th>
           {sharedCols.map((col) => <Table.Th key={col.key} className={styles.centeredCell}>{col.title}</Table.Th>)}
         </Table.Tr>
       </Table.Thead>
@@ -161,16 +161,16 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
                   <img src={Assets.getPart(part)} className={styles.partIcon} style={{ width: iconSize, height: iconSize }} />
                   <span>➔</span>
                   <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize }} />
-                  <span>{`${tCommon(`ShortReadableStats.${stat}`)}`}</span>
+                  <span>{`${tCommon($ => $.ShortReadableStats[stat])}`}</span>
                 </div>
               </Table.Td>
               <SuspendedValues sharedCols={sharedCols} part={part} stat={stat} resolvedScore={resolvedScore} />
             </Table.Tr>
-          )
+          );
         })}
       </Table.Tbody>
     </Table>
-  )
+  );
 })
 
 const SuspendedValues = memo(function({ sharedCols, part, stat, resolvedScore }: {
@@ -236,23 +236,23 @@ function RelicDoubleImageWithTooltip({ name, width, height }: { name: Sets, heig
   const id = setToId[name]
   const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   return (
-    <Tooltip label={t(`${id}.Name`)}>
+    <Tooltip label={t($ => $[id].Name)}>
       <div style={{ display: 'flex', gap: 3 }}>
         <img src={Assets.getSetImage(name)} style={{ width, height }} />
         <img src={Assets.getSetImage(name)} style={{ width, height }} />
       </div>
     </Tooltip>
-  )
+  );
 }
 
 function RelicImageWithTooltip({ name, width, height }: { name: Sets, height: number, width: number }) {
   const id = setToId[name]
   const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   return (
-    <Tooltip label={t(`${id}.Name`)}>
+    <Tooltip label={t($ => $[id].Name)}>
       <img src={Assets.getSetImage(name)} style={{ width, height }} />
     </Tooltip>
-  )
+  );
 }
 
 export function sharedSimResultComparator(simScore: SimulationScore, upgrade: SimulationStatUpgrade) {
@@ -284,7 +284,7 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
   return [
     {
       key: 'damagePercentUpgrade',
-      title: t('ComboDmgPercentUpgrade'), // Combo DMG Δ %
+      title: t($ => $.ComboDmgPercentUpgrade), // Combo DMG Δ %
       dataIndex: 'damagePercentUpgrade',
       type: 'damageUpgrade',
       render: (n: number | null) =>
@@ -299,7 +299,7 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
     },
     {
       key: 'scorePercentUpgrade',
-      title: t('DpsScorePercentUpgrade'), // DPS Score Δ %
+      title: t($ => $.DpsScorePercentUpgrade), // DPS Score Δ %
       dataIndex: 'scorePercentUpgrade',
       type: 'scoreUpgrade',
       render: (n: number | null, stat?: StatsValues) =>
@@ -314,7 +314,7 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
     },
     {
       key: 'damageValueUpgrade',
-      title: t('ComboDmgUpgrade'), // Combo DMG Δ
+      title: t($ => $.ComboDmgUpgrade), // Combo DMG Δ
       dataIndex: 'damageValueUpgrade',
       type: 'damageUpgrade',
       render: (n: number | null) =>
@@ -328,7 +328,7 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
     },
     {
       key: 'scoreValueUpgrade',
-      title: t('UpgradedDpsScore'), // Upgraded DPS Score
+      title: t($ => $.UpgradedDpsScore), // Upgraded DPS Score
       dataIndex: 'scoreValueUpgrade',
       type: 'scoreUpgrade',
       render: (n: number | null, stat?: StatsValues) =>
@@ -340,7 +340,7 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
             </>
           ),
     },
-  ]
+  ];
 }
 
 export const tableStyle = {

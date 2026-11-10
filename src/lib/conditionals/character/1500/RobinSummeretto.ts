@@ -154,19 +154,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     buffPriority: {
       id: 'buffPriority',
       formItem: 'select',
-      text: tBuff('Text'),
-      content: tBuff('Content'),
+      text: tBuff(($) => $.Text),
+      content: tBuff(($) => $.Content),
       options: [
-        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
+        { display: tBuff(($) => $.Self), value: BuffPriority.SELF, label: tBuff(($) => $.Self) },
+        { display: tBuff(($) => $.Memo), value: BuffPriority.MEMO, label: tBuff(($) => $.Memo) },
       ],
       fullWidth: true,
     },
     feverState: {
       id: 'feverState',
       formItem: 'switch',
-      text: t('feverState.text'),
-      content: t('feverState.content', {
+      text: t(($) => $.feverState.text),
+      content: t(($) => $.feverState.content, {
         DamageBoost: precisionRound(100 * memoTalentDmgBoost),
         DamageBoostPerVibe: precisionRound(100 * memoTalentDmgBoostPerVibe),
         DefPen: precisionRound(100 * talentZoneDefPen),
@@ -175,8 +175,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     vibes: {
       id: 'vibes',
       formItem: 'slider',
-      text: t('vibes.text'),
-      content: t('vibes.content', {
+      text: t(($) => $.vibes.text),
+      content: t(($) => $.vibes.content, {
         MaxVibes: maxVibes,
         DamageBoostPerVibe: precisionRound(100 * memoTalentDmgBoostPerVibe),
         DefPenPerVibe: 0.5,
@@ -189,8 +189,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     songbirdCount: {
       id: 'songbirdCount',
       formItem: 'slider',
-      text: t('songbirdCount.text'),
-      content: t('songbirdCount.content', {
+      text: t(($) => $.songbirdCount.text),
+      content: t(($) => $.songbirdCount.content, {
         Vulnerability1: precisionRound(100 * memoTalentVulnerabilityByCount[1]),
         Vulnerability2: precisionRound(100 * memoTalentVulnerabilityByCount[2]),
         Vulnerability3: precisionRound(100 * memoTalentVulnerabilityByCount[3]),
@@ -201,8 +201,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     deviatedChordCdBuff: {
       id: 'deviatedChordCdBuff',
       formItem: 'switch',
-      text: t('deviatedChordCdBuff.text'),
-      content: t('deviatedChordCdBuff.content'),
+      text: t(($) => $.deviatedChordCdBuff.text),
+      content: t(($) => $.deviatedChordCdBuff.content),
     },
     techniqueDmgBuff: {
       id: 'techniqueDmgBuff',
@@ -213,22 +213,22 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e2ResPen: {
       id: 'e2ResPen',
       formItem: 'switch',
-      text: t('e2ResPen.text'),
-      content: t('e2ResPen.content'),
+      text: t(($) => $.e2ResPen.text),
+      content: t(($) => $.e2ResPen.content),
       disabled: e < 2,
     },
     e4MemoSpdBuff: {
       id: 'e4MemoSpdBuff',
       formItem: 'switch',
-      text: t('e4MemoSpdBuff.text'),
-      content: t('e4MemoSpdBuff.content'),
+      text: t(($) => $.e4MemoSpdBuff.text),
+      content: t(($) => $.e4MemoSpdBuff.content),
       disabled: e < 4,
     },
     e6MemoSkillBuff: {
       id: 'e6MemoSkillBuff',
       formItem: 'switch',
-      text: t('e6MemoSkillBuff.text'),
-      content: t('e6MemoSkillBuff.content'),
+      text: t(($) => $.e6MemoSkillBuff.text),
+      content: t(($) => $.e6MemoSkillBuff.content),
       disabled: e < 6,
     },
   }
@@ -240,24 +240,32 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateHPValue: {
       id: 'teammateHPValue',
       formItem: 'slider',
-      text: t('teammateHPValue.text'),
-      content: t('teammateHPValue.content'),
+      text: t(($) => $.teammateHPValue.text),
+      content: t(($) => $.teammateHPValue.content),
       min: 0,
       max: 20000,
     },
     deviatedChordBranch: {
       id: 'deviatedChordBranch',
       formItem: 'select',
-      text: t('deviatedChordBranch.text'),
-      content: t('deviatedChordBranch.content'),
+      text: t(($) => $.deviatedChordBranch.text),
+      content: t(($) => $.deviatedChordBranch.content),
       options: [
         {
-          display: t('deviatedChordBranch.options.weightBased.display'),
+          display: t(($) => $.deviatedChordBranch.options.weightBased.display),
           value: DeviatedChordBranch.WEIGHT_BASED,
-          label: t('deviatedChordBranch.options.weightBased.label'),
+          label: t(($) => $.deviatedChordBranch.options.weightBased.label),
         },
-        { display: t('deviatedChordBranch.options.atk.display'), value: DeviatedChordBranch.ATK, label: t('deviatedChordBranch.options.atk.label') },
-        { display: t('deviatedChordBranch.options.critDmg.display'), value: DeviatedChordBranch.CD, label: t('deviatedChordBranch.options.critDmg.label') },
+        {
+          display: t(($) => $.deviatedChordBranch.options.atk.display),
+          value: DeviatedChordBranch.ATK,
+          label: t(($) => $.deviatedChordBranch.options.atk.label),
+        },
+        {
+          display: t(($) => $.deviatedChordBranch.options.critDmg.display),
+          value: DeviatedChordBranch.CD,
+          label: t(($) => $.deviatedChordBranch.options.critDmg.label),
+        },
       ],
       fullWidth: true,
     },

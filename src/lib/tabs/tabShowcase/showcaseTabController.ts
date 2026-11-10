@@ -117,11 +117,11 @@ export function handleCharacterModalOk(form: CharacterModalForm): boolean {
   const { characterId, lightCone, ...values } = form
 
   if (!characterId) {
-    Message.error(t('NoCharacterSelected'))
+    Message.error(t(($) => $.NoCharacterSelected))
     return false
   }
   if (!lightCone) {
-    Message.error(t('NoSelectedLightCone'))
+    Message.error(t(($) => $.NoSelectedLightCone))
     return false
   }
 

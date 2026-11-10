@@ -26,7 +26,9 @@ function getGpuOptions(computeEngine: ComputeEngine): GpuOption[] {
     {
       label: (
         <div style={{ width: '100%', fontWeight: computeEngine === COMPUTE_ENGINE_GPU_EXPERIMENTAL ? 'bold' : '' }}>
-          {i18next.t('optimizerTab:Sidebar.GPUOptions.Experimental')}
+          {i18next.t($ => $.Sidebar.GPUOptions.Experimental, {
+            ns: "optimizerTab"
+          })}
           {/* GPU acceleration enabled (experimental) */}
         </div>
       ),
@@ -35,7 +37,9 @@ function getGpuOptions(computeEngine: ComputeEngine): GpuOption[] {
     {
       label: (
         <div style={{ width: '100%', fontWeight: computeEngine === COMPUTE_ENGINE_GPU_STABLE ? 'bold' : '' }}>
-          {i18next.t('optimizerTab:Sidebar.GPUOptions.Stable')}
+          {i18next.t($ => $.Sidebar.GPUOptions.Stable, {
+            ns: "optimizerTab"
+          })}
           {/* GPU acceleration enabled (stable) */}
         </div>
       ),
@@ -44,13 +48,15 @@ function getGpuOptions(computeEngine: ComputeEngine): GpuOption[] {
     {
       label: (
         <div style={{ width: '100%', fontWeight: computeEngine === COMPUTE_ENGINE_CPU ? 'bold' : '' }}>
-          {i18next.t('optimizerTab:Sidebar.GPUOptions.CPU')}
+          {i18next.t($ => $.Sidebar.GPUOptions.CPU, {
+            ns: "optimizerTab"
+          })}
           {/* CPU only */}
         </div>
       ),
       key: COMPUTE_ENGINE_CPU,
     },
-  ]
+  ];
 }
 
 export function ComputeEngineSelect() {
@@ -59,13 +65,13 @@ export function ComputeEngineSelect() {
   const handleGpuOptionClick = (key: GpuOption['key']) => {
     if (key === COMPUTE_ENGINE_CPU) {
       useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
-      Message.success(t('EngineSwitchSuccessMsg.CPU') /* Switched compute engine to CPU */)
+      Message.success(t($ => $.EngineSwitchSuccessMsg.CPU) /* Switched compute engine to CPU */)
       SaveState.delayedSave()
     } else {
       void verifyWebgpuSupport(true).then((device) => {
         if (device) {
           useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, key)
-          Message.success(key === COMPUTE_ENGINE_GPU_EXPERIMENTAL ? t('EngineSwitchSuccessMsg.Experimental') : t('EngineSwitchSuccessMsg.Stable'))
+          Message.success(key === COMPUTE_ENGINE_GPU_EXPERIMENTAL ? t($ => $.EngineSwitchSuccessMsg.Experimental) : t($ => $.EngineSwitchSuccessMsg.Stable))
           SaveState.delayedSave()
         }
       })
@@ -80,7 +86,7 @@ export function ComputeEngineSelect() {
             <div style={{ width: 1 }} />
             <div>
               {
-                t(`Display.${computeEngine}`)
+                t($ => $.Display[computeEngine])
                 /*
                   [COMPUTE_ENGINE_GPU_EXPERIMENTAL]: 'GPU acceleration: Enabled',
                   [COMPUTE_ENGINE_GPU_STABLE]: 'GPU acceleration: Enabled',
@@ -100,5 +106,5 @@ export function ComputeEngineSelect() {
         ))}
       </Menu.Dropdown>
     </Menu>
-  )
+  );
 }

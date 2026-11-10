@@ -23,8 +23,8 @@ import {
 } from 'types/optimizer'
 import {
   type SelectOptionContent,
-  type SetConditionalTFunction,
   type SetConditionals,
+  type SetConditionalTFunction,
   type SetConfig,
   type SetDisplay,
   type SetInfo,
@@ -73,8 +73,8 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.DivineQueryingMasterSmith,
-    label: (t) => t('TeammateSets.DivineQueryingMasterSmith.Text'),
-    desc: (t) => t('TeammateSets.DivineQueryingMasterSmith.Desc'),
+    label: (t) => t(($) => $.TeammateSets.DivineQueryingMasterSmith.Text),
+    desc: (t) => t(($) => $.TeammateSets.DivineQueryingMasterSmith.Desc),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.DivineQueryingMasterSmith))
@@ -84,9 +84,9 @@ const conditionals: SetConditionals = {
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return [
-    { display: t('DivineQueryingMasterSmith.Off.Display'), value: 0, label: t('DivineQueryingMasterSmith.Off.Label') },
-    { display: t('DivineQueryingMasterSmith.CD.Display'), value: 1, label: t('DivineQueryingMasterSmith.CD.Label') },
-    { display: t('DivineQueryingMasterSmith.CDAndDmg.Display'), value: 2, label: t('DivineQueryingMasterSmith.CDAndDmg.Label') },
+    { display: t(($) => $.DivineQueryingMasterSmith.Off.Display), value: 0, label: t(($) => $.DivineQueryingMasterSmith.Off.Label) },
+    { display: t(($) => $.DivineQueryingMasterSmith.CD.Display), value: 1, label: t(($) => $.DivineQueryingMasterSmith.CD.Label) },
+    { display: t(($) => $.DivineQueryingMasterSmith.CDAndDmg.Display), value: 2, label: t(($) => $.DivineQueryingMasterSmith.CDAndDmg.Label) },
   ]
 }
 

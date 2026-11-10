@@ -100,8 +100,8 @@ const conditionals: SetConditionals = {
   dynamicConditionals: [FleetOfTheAgelessConditional],
   teammate: [{
     value: Sets.FleetOfTheAgeless,
-    label: (t) => t('TeammateSets.Ageless.Text'),
-    desc: (t) => t('TeammateSets.Ageless.Desc'),
+    label: (t) => t(($) => $.TeammateSets.Ageless.Text),
+    desc: (t) => t(($) => $.TeammateSets.Ageless.Desc),
     nonstackable: false,
     effect: ({ x }) => {
       x.buff(StatKey.ATK_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.FleetOfTheAgeless))

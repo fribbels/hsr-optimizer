@@ -17,7 +17,10 @@ import {
 } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const betaContent = i18next.t($ => $.BetaMessage, {
+    ns: 'conditionals',
+    Version: CURRENT_DATA_VERSION
+  })
   const { SOURCE_LC } = Source.lightCone(UponTheFirstEchoOfAha.id)
 
   const sValuesDefPen = [0.16, 0.18, 0.20, 0.22, 0.24]

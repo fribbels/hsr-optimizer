@@ -113,11 +113,11 @@ function PriorityCombobox(props: {
                 </Group>
               </Combobox.Option>
             ))}
-          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>{t('NoResults')}</Combobox.Empty>}
+          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>{t($ => $.NoResults)}</Combobox.Empty>}
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>
-  )
+  );
 }
 
 function setFilterAndRecalculate<K extends keyof RelicFilterFields>(field: K, value: RelicFilterFields[K]) {
@@ -156,17 +156,20 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
     return characters.map((x, i) => {
       return {
         value: String(i),
-        label: t('Priority.Label', { rank: i + 1, id: x.id }),
+        label: t($ => $.Priority.Label, {
+          rank: i + 1,
+          id: x.id
+        }),
         characterId: x.id,
-      }
-    })
+      };
+    });
   }, [characters, t])
 
   return (
     <Flex direction='column'>
       <Flex direction='column' gap={optimizerTabDefaultGap}>
         <Flex justify='space-between' align='center'>
-          <HeaderText>{t('Header') /* Optimizer options */}</HeaderText>
+          <HeaderText>{t($ => $.Header) /* Optimizer options */}</HeaderText>
           <TooltipImage type={Hint.optimizerOptions()} />
         </Flex>
 
@@ -176,7 +179,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
             onChange={(event) => setFilterAndRecalculate('includeEquippedRelics', event.currentTarget.checked)}
             className={classes.switchRow}
           />
-          <div>{t('AllowEquipped') /* Allow equipped relics */}</div>
+          <div>{t($ => $.AllowEquipped) /* Allow equipped relics */}</div>
         </Flex>
 
         <Flex align='center'>
@@ -185,7 +188,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
             onChange={(event) => setFilterAndRecalculate('rankFilter', event.currentTarget.checked)}
             className={classes.switchRow}
           />
-          <div>{t('PriorityFilter') /* Character priority filter */}</div>
+          <div>{t($ => $.PriorityFilter) /* Character priority filter */}</div>
         </Flex>
 
         <Flex align='center'>
@@ -194,23 +197,23 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
             onChange={(event) => setFilterAndRecalculate('keepCurrentRelics', event.currentTarget.checked)}
             className={classes.switchRow}
           />
-          <div>{t('KeepCurrent') /* Keep current relics */}</div>
+          <div>{t($ => $.KeepCurrent) /* Keep current relics */}</div>
         </Flex>
 
         <Flex gap={optimizerTabDefaultGap} className={classes.sectionSpacerTop}>
           <Flex direction='column' gap={2}>
             <HeaderText>
-              {t('Priority.Header') /* Priority */}
+              {t($ => $.Priority.Header) /* Priority */}
             </HeaderText>
             <PriorityCombobox
               options={characterPriorityOptions}
               rank={rank}
-              placeholder={t('Priority.Header') /* Priority */}
+              placeholder={t($ => $.Priority.Header) /* Priority */}
             />
           </Flex>
           <Flex direction='column' gap={2}>
             <HeaderText>
-              {t('Exclude') /* Exclude */}
+              {t($ => $.Exclude) /* Exclude */}
             </HeaderText>
             <MultiSelectPills
               height={30}
@@ -220,7 +223,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
               maxDisplayedValues={0}
               clearable
               searchable
-              placeholder={t('Exclude') /* Exclude */}
+              placeholder={t($ => $.Exclude) /* Exclude */}
               renderOption={(option) => (
                 <Flex align='center' gap={10}>
                   <img src={Assets.getCharacterAvatarById(option.value)} className={iconClasses.icon22} />
@@ -237,7 +240,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
         <Flex justify='space-between'>
           <Flex direction='column' gap={2}>
             <HeaderText>
-              {t('MinEnhance.Header') /* Min enhance */}
+              {t($ => $.MinEnhance.Header) /* Min enhance */}
             </HeaderText>
             <Select
               style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
@@ -247,19 +250,19 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
                 setFilterAndRecalculate('enhance', Number(val))
               }}
               data={[
-                { value: '0', label: t('MinEnhance.Label0') }, // '+0'
-                { value: '3', label: t('MinEnhance.Label3') }, // '+3'
-                { value: '6', label: t('MinEnhance.Label6') }, // '+6'
-                { value: '9', label: t('MinEnhance.Label9') }, // '+9'
-                { value: '12', label: t('MinEnhance.Label12') }, // '+12'
-                { value: '15', label: t('MinEnhance.Label15') }, // '+15'
+                { value: '0', label: t($ => $.MinEnhance.Label0) }, // '+0'
+                { value: '3', label: t($ => $.MinEnhance.Label3) }, // '+3'
+                { value: '6', label: t($ => $.MinEnhance.Label6) }, // '+6'
+                { value: '9', label: t($ => $.MinEnhance.Label9) }, // '+9'
+                { value: '12', label: t($ => $.MinEnhance.Label12) }, // '+12'
+                { value: '15', label: t($ => $.MinEnhance.Label15) }, // '+15'
               ]}
             />
           </Flex>
 
           <Flex direction='column' gap={2}>
             <HeaderText>
-              {t('MinRarity.Header') /* Min rarity */}
+              {t($ => $.MinRarity.Header) /* Min rarity */}
             </HeaderText>
             <Select
               style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
@@ -269,10 +272,10 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
                 setFilterAndRecalculate('grade', Number(val))
               }}
               data={[
-                { value: '2', label: t('MinRarity.Label2') }, // '2 ★ +'
-                { value: '3', label: t('MinRarity.Label3') }, // '3 ★ +'
-                { value: '4', label: t('MinRarity.Label4') }, // '4 ★ +'
-                { value: '5', label: t('MinRarity.Label5') }, // '5 ★'
+                { value: '2', label: t($ => $.MinRarity.Label2) }, // '2 ★ +'
+                { value: '3', label: t($ => $.MinRarity.Label3) }, // '3 ★ +'
+                { value: '4', label: t($ => $.MinRarity.Label4) }, // '4 ★ +'
+                { value: '5', label: t($ => $.MinRarity.Label5) }, // '5 ★'
               ]}
             />
           </Flex>
@@ -281,7 +284,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
         <Flex justify='space-between' align='center'>
           <Flex direction='column' gap={2}>
             <HeaderText>
-              {t('BoostMain.Header') /* Boost main stat */}
+              {t($ => $.BoostMain.Header) /* Boost main stat */}
             </HeaderText>
             <Select
               style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
@@ -291,12 +294,12 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
                 setFilterAndRecalculate('mainStatUpscaleLevel', Number(val))
               }}
               data={[
-                { value: '0', label: t('BoostMain.Label0') }, // '+0'
-                { value: '3', label: t('BoostMain.Label3') }, // '+3'
-                { value: '6', label: t('BoostMain.Label6') }, // '+6'
-                { value: '9', label: t('BoostMain.Label9') }, // '+9'
-                { value: '12', label: t('BoostMain.Label12') }, // '+12'
-                { value: '15', label: t('BoostMain.Label15') }, // '+15'
+                { value: '0', label: t($ => $.BoostMain.Label0) }, // '+0'
+                { value: '3', label: t($ => $.BoostMain.Label3) }, // '+3'
+                { value: '6', label: t($ => $.BoostMain.Label6) }, // '+6'
+                { value: '9', label: t($ => $.BoostMain.Label9) }, // '+9'
+                { value: '12', label: t($ => $.BoostMain.Label12) }, // '+12'
+                { value: '15', label: t($ => $.BoostMain.Label15) }, // '+15'
               ]}
             />
           </Flex>
@@ -305,20 +308,20 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
         <Flex align='center' className={classes.dpsModeSection}>
           <Flex direction='column' gap={2} className={classes.dpsModeColumn}>
             <HeaderText>
-              {t('DPSMode.Header') /* DPS Mode */}
+              {t($ => $.DPSMode.Header) /* DPS Mode */}
             </HeaderText>
             <SegmentedControl
               fullWidth
               value={String(deprioritizeBuffs)}
               onChange={(value) => useOptimizerRequestStore.getState().setDeprioritizeBuffs(value === 'true')}
               data={[
-                { label: t('DPSMode.Main'), /* Main */ value: 'false' },
-                { label: t('DPSMode.Sub'), /* Sub */ value: 'true' },
+                { label: t($ => $.DPSMode.Main), /* Main */ value: 'false' },
+                { label: t($ => $.DPSMode.Sub), /* Sub */ value: 'true' },
               ]}
             />
           </Flex>
         </Flex>
       </Flex>
     </Flex>
-  )
+  );
 })

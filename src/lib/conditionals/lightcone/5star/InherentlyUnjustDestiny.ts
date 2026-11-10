@@ -37,15 +37,15 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'shieldCdBuff',
       formItem: 'switch',
-      text: t('Content.shieldCdBuff.text'),
-      content: t('Content.shieldCdBuff.content', { CritBuff: precisionRound(100 * sValuesCd[s]) }),
+      text: t(($) => $.Content.shieldCdBuff.text),
+      content: t(($) => $.Content.shieldCdBuff.content, { CritBuff: precisionRound(100 * sValuesCd[s]) }),
     },
     targetVulnerability: {
       lc: true,
       id: 'targetVulnerability',
       formItem: 'switch',
-      text: t('Content.targetVulnerability.text'),
-      content: t('Content.targetVulnerability.content', {
+      text: t(($) => $.Content.targetVulnerability.text),
+      content: t(($) => $.Content.targetVulnerability.content, {
         baseChance: precisionRound(100 + 15 * s),
         Vulnerability: precisionRound(100 * sValuesVulnerability[s]),
       }),

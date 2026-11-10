@@ -245,13 +245,13 @@ export function showcaseOnEditOk(relic: Relic, selectedRelic: Relic, setSelected
 }
 
 export function showcaseOnAddOk(relic: Relic, setSelectedRelic: (r: Relic) => void) {
-  const t = i18next.getFixedT(null, ['charactersTab', 'modals', 'common'])
+  const t = i18next.getFixedT(null, 'charactersTab')
 
   equipmentService.upsertRelicWithEquipment(relic)
   setSelectedRelic(relic)
   SaveState.delayedSave()
 
-  Message.success(t('CharacterPreview.Messages.AddedRelic') /* Successfully added relic */)
+  Message.success(t($ => $.CharacterPreview.Messages.AddedRelic) /* Successfully added relic */)
 }
 
 export function showcaseOnEditPortraitOk(
@@ -260,7 +260,7 @@ export function showcaseOnEditPortraitOk(
   setCustomPortrait: (c: CustomImageConfig | undefined) => void,
   setEditPortraitModalOpen: (b: boolean) => void,
 ) {
-  const t = i18next.getFixedT(null, ['charactersTab', 'modals', 'common'])
+  const t = i18next.getFixedT(null, 'charactersTab')
 
   const { type, config } = portraitPayload
   switch (type) {
@@ -271,7 +271,7 @@ export function showcaseOnEditPortraitOk(
         char = persistenceService.upsertCharacterFromForm({ characterId: character.id })
       }
       useCharacterStore.getState().setCharacter({ ...char, portrait: config })
-      Message.success(t('CharacterPreview.Messages.SavedPortrait') /* Successfully saved portrait */)
+      Message.success(t($ => $.CharacterPreview.Messages.SavedPortrait) /* Successfully saved portrait */)
       SaveState.delayedSave()
       break
     }
@@ -283,7 +283,7 @@ export function showcaseOnEditPortraitOk(
       }
       useCharacterStore.getState().setCharacter({ ...charToDelete, portrait: undefined })
       setCustomPortrait(undefined)
-      Message.success(t('CharacterPreview.Messages.RevertedPortrait') /* Successfully reverted portrait */)
+      Message.success(t($ => $.CharacterPreview.Messages.RevertedPortrait) /* Successfully reverted portrait */)
       SaveState.delayedSave()
       break
     }
@@ -306,7 +306,7 @@ export function handleTeamSelection(
 
     const hasCustom = scoringMetadata[simulationKey]?.teammates
       && objectHash(scoringMetadata[simulationKey]!.teammates)
-        !== objectHash(defaultScoringMetadata[simulationKey]!.teammates)
+      !== objectHash(defaultScoringMetadata[simulationKey]!.teammates)
 
     if (hasCustom && currentSelection !== DEFAULT_TEAM) {
       currentSelection = CUSTOM_TEAM
@@ -323,14 +323,14 @@ export function getShowcaseMetadata(character: Character, t: TFunction<'gameData
   const characterLevel = 80
   const characterEidolon = character.form.characterEidolon
   const characterEx = character.form.characterEx
-  const characterName = characterId ? t(`Characters.${characterId}.Name`) : ''
+  const characterName = characterId ? t($ => $.Characters[characterId].Name) : ''
   const characterPath = characterMetadata.path
 
   const lightConeId = character.form.lightCone
   const lightConeLevel = 80
   const lightConeSuperimposition = character.form.lightConeSuperimposition
   const lightConeMetadata = getGameMetadata().lightCones[lightConeId]
-  const lightConeName = lightConeId ? t(`Lightcones.${lightConeId}.Name`) : ''
+  const lightConeName = lightConeId ? t($ => $.Lightcones[lightConeId].Name) : ''
   const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
 
   const elementalDmgType = ElementToDamage[characterElement]

@@ -36,7 +36,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Duran',
+  conditionalI18nKey: 'Duran',
   modifiable: true,
   selectionOptions: selectionOptions,
   defaultValue: 5,
@@ -61,9 +61,9 @@ const conditionals: SetConditionals = {
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 6 }).map((_val, i) => {
-    const label = i === 5 ? t('Duran.Label5') : t('Duran.Label', { stackCount: i, buffValue: precisionRound(5 * i) })
+    const label = i === 5 ? t(($) => $.Duran.Label5) : t(($) => $.Duran.Label, { stackCount: i, buffValue: precisionRound(5 * i) })
     return {
-      display: t('Duran.Display', { stackCount: i }),
+      display: t(($) => $.Duran.Display, { stackCount: i }),
       value: i,
       label,
     }

@@ -51,7 +51,7 @@ export const ShowcaseSubstatRolls = memo(function ShowcaseSubstatRolls({
           <div className={classes.statLine}>
             <div className={classes.statLabel}>
               <img src={Assets.getStatIcon(entry.stat)} className={iconClasses.statIcon} />
-              <StatTextSm>{t(`Stats.${entry.stat}`)}</StatTextSm>
+              <StatTextSm>{t($ => $.Stats[entry.stat])}</StatTextSm>
             </div>
             <StatTextSm className={classes.rollCount}>
               <RollCountDisplay effective={entry.effective} total={entry.total} />
@@ -61,5 +61,5 @@ export const ShowcaseSubstatRolls = memo(function ShowcaseSubstatRolls({
         </div>
       ))}
     </div>
-  )
+  );
 })

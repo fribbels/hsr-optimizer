@@ -1,9 +1,9 @@
 import type { TFunction } from 'i18next'
-import { resolveShowcaseScoringData } from 'lib/characterPreview/showcaseDerivedData'
 import {
   buildShowcaseScoringOptions,
   type ShowcaseScoringOption,
 } from 'lib/characterPreview/scoring/showcaseScoringOrder'
+import { resolveShowcaseScoringData } from 'lib/characterPreview/showcaseDerivedData'
 import {
   CUSTOM_TEAM,
   type TeamSelection,
@@ -62,9 +62,9 @@ export function resolveCustomAutofillTeammateIds(
 function resolveScoringLabel(scoringType: ScoringType, t: TFunction<'charactersTab'>): string {
   const configType = configTypeForScoringType(scoringType)
   if (configType != null) {
-    return t(`CharacterPreview.AlgorithmSlider.Labels.${SCORING_CONFIG_REGISTRY[configType].configType}`)
+    return t(($) => $.CharacterPreview.AlgorithmSlider.Labels[SCORING_CONFIG_REGISTRY[configType].configType])
   }
   return scoringType === ScoringTypeEnum.SUBSTAT_SCORE
-    ? t('CharacterPreview.AlgorithmSlider.Labels.StatScore')
-    : t('CharacterPreview.AlgorithmSlider.Labels.NoneScore')
+    ? t(($) => $.CharacterPreview.AlgorithmSlider.Labels.StatScore)
+    : t(($) => $.CharacterPreview.AlgorithmSlider.Labels.NoneScore)
 }

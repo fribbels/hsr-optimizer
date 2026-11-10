@@ -51,19 +51,19 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
   return (
     <Flex justify='space-between' align='center' h={45} key={rootCause} gap={10}>
       <div style={{ width: 550 }}>
-        {t(fixes.descriptionKey)}
+        {t($ => fixes.descriptionSelector($))}
       </div>
       <Button
         onClick={() => {
           fixes.applyFix()
-          Message.success(t(fixes.successMessageKey), 2)
+          Message.success(t($ => fixes.successMessageSelector($)), 2)
         }}
         style={{ width: 350 }}
       >
-        {t(fixes.buttonTextKey)}
+        {t($ => fixes.buttonTextSelector($))}
       </Button>
     </Flex>
-  )
+  );
 }
 
 export function ZeroPermutationsSuggestionsModal() {
@@ -72,7 +72,7 @@ export function ZeroPermutationsSuggestionsModal() {
 
   return (
     <Modal
-      title={t('0Perms.Title') /* Search generated 0 permutations */}
+      title={t($ => $["0Perms"].Title) /* Search generated 0 permutations */}
       opened={isOpenZeroPermsModal}
       size={950}
       centered
@@ -80,7 +80,7 @@ export function ZeroPermutationsSuggestionsModal() {
     >
       {isOpenZeroPermsModal && <ZeroPermutationsSuggestionsContent />}
     </Modal>
-  )
+  );
 }
 
 function ZeroPermutationsSuggestionsContent() {
@@ -92,14 +92,14 @@ function ZeroPermutationsSuggestionsContent() {
       <div>
         {
           t(
-            '0Perms.Description',
+            $ => $["0Perms"].Description,
           ) /* This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar. */
         }
       </div>
       <HorizontalDivider />
       {rootCauseDisplay}
     </Flex>
-  )
+  );
 }
 
 export function ZeroResultSuggestionModal() {
@@ -108,7 +108,7 @@ export function ZeroResultSuggestionModal() {
 
   return (
     <Modal
-      title={t('0Results.Title') /* Search generated 0 results */}
+      title={t($ => $["0Results"].Title) /* Search generated 0 results */}
       opened={isOpenZeroResultsModal}
       size={950}
       centered
@@ -116,7 +116,7 @@ export function ZeroResultSuggestionModal() {
     >
       {isOpenZeroResultsModal && <ZeroResultSuggestionContent close={closeZeroResultsModal} />}
     </Modal>
-  )
+  );
 }
 
 function ZeroResultSuggestionContent({ close: closeZeroResultsModal }: { close: () => void }) {
@@ -127,7 +127,7 @@ function ZeroResultSuggestionContent({ close: closeZeroResultsModal }: { close: 
     <Flex direction='column' gap={15} style={{ marginBottom: 15 }}>
       <Flex justify='space-between' align='center' h={45}>
         <div>
-          {t('0Results.ResetAll.Description') /* This means your stat and/or rating filters are too restrictive. */}
+          {t($ => $["0Results"].ResetAll.Description) /* This means your stat and/or rating filters are too restrictive. */}
         </div>
         <Button
           onClick={() => {
@@ -137,16 +137,16 @@ function ZeroResultSuggestionContent({ close: closeZeroResultsModal }: { close: 
             }
             const setStatDisplay = useOptimizerRequestStore.getState().setStatDisplay
             setStatDisplay('combat')
-            Message.success(t('0Results.ResetAll.SuccessMessage')) /* Cleared all filters */
+            Message.success(t($ => $["0Results"].ResetAll.SuccessMessage)) /* Cleared all filters */
             closeZeroResultsModal()
           }}
           style={{ width: 350 }}
         >
-          {t('0Results.ResetAll.ButtonText') /* Reset all filters */}
+          {t($ => $["0Results"].ResetAll.ButtonText) /* Reset all filters */}
         </Button>
       </Flex>
       <HorizontalDivider />
       {rootCauseDisplay}
     </Flex>
-  )
+  );
 }

@@ -22,9 +22,9 @@ export function useOrnamentsOptions() {
         label: (
           <Flex gap={5} align='center'>
             <img src={Assets.getSetImage(x, Constants.Parts.PlanarSphere)} className={classes.icon} />
-            <div className={classes.label}>{t(`RelicSets.${setToId[x]}.Name`)}</div>
+            <div className={classes.label}>{t($ => $.RelicSets[setToId[x]].Name)}</div>
           </Flex>
         ),
-      }))
-  }, [t])
+      }));
+  }, [t]);
 }

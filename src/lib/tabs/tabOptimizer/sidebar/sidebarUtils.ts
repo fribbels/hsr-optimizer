@@ -16,7 +16,9 @@ export function calculateProgressText(
   optimizerProgress: number = 0,
 ) {
   if (!startTime) {
-    return i18next.t('optimizerTab:Sidebar.ProgressText.Progress') // Progress
+    return i18next.t($ => $.Sidebar.ProgressText.Progress, {
+      ns: "optimizerTab"
+    }); // Progress
   }
 
   let endTime = Date.now()
@@ -26,7 +28,9 @@ export function calculateProgressText(
 
   const msDiff = endTime - startTime
   if (!optimizerEndTime && msDiff < 5_000 && optimizerProgress < 0.05 || !permutationsSearched) {
-    return i18next.t('optimizerTab:Sidebar.ProgressText.CalculatingETA') // Progress  (calculating ETA..)
+    return i18next.t($ => $.Sidebar.ProgressText.CalculatingETA, {
+      ns: "optimizerTab"
+    }); // Progress  (calculating ETA..)
   }
 
   // ETA based on dispatch progress (wall-clock proportional) rather than valid-perm progress
@@ -35,13 +39,13 @@ export function calculateProgressText(
     : 0
   const perSecond = permutationsSearched / (msDiff / 1000)
   return optimizationInProgress
-    ? i18next.t('optimizerTab:Sidebar.ProgressText.TimeRemaining', {
-      // {{rate}} / sec — ${{timeRemaining}} left
-      rate: localeNumberComma(Math.floor(perSecond)),
-      timeRemaining: msToReadable(msRemaining),
-    })
-    : i18next.t('optimizerTab:Sidebar.ProgressText.Finished', {
-      // {{rate}} / sec — Finished
-      rate: localeNumberComma(Math.floor(perSecond)),
-    })
+    ? i18next.t($ => $.Sidebar.ProgressText.TimeRemaining, {
+    ns: "optimizerTab",
+    rate: localeNumberComma(Math.floor(perSecond)),
+    timeRemaining: msToReadable(msRemaining)
+  })
+    : i18next.t($ => $.Sidebar.ProgressText.Finished, {
+    ns: "optimizerTab",
+    rate: localeNumberComma(Math.floor(perSecond))
+  });
 }

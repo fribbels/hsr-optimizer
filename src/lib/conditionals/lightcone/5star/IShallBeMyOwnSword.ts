@@ -32,8 +32,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'eclipseStacks',
       formItem: 'slider',
-      text: t('Content.eclipseStacks.text'),
-      content: t('Content.eclipseStacks.content', { DmgBuff: precisionRound(100 * sValuesStackDmg[s]) }),
+      text: t(($) => $.Content.eclipseStacks.text),
+      content: t(($) => $.Content.eclipseStacks.content, { DmgBuff: precisionRound(100 * sValuesStackDmg[s]) }),
       min: 0,
       max: 3,
     },
@@ -41,8 +41,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'maxStackDefPen',
       formItem: 'switch',
-      text: t('Content.maxStackDefPen.text'),
-      content: t('Content.maxStackDefPen.content', { DefIgnore: precisionRound(100 * sValuesDefPen[s]) }),
+      text: t(($) => $.Content.maxStackDefPen.text),
+      content: t(($) => $.Content.maxStackDefPen.content, { DefIgnore: precisionRound(100 * sValuesDefPen[s]) }),
     },
   }
 

@@ -44,7 +44,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Sacerdos',
+  conditionalI18nKey: 'Sacerdos',
   modifiable: true,
   selectionOptions: selectionOptions,
   defaultValue: 0,
@@ -80,8 +80,8 @@ const conditionals: SetConditionals = {
   teammate: [
     {
       value: SACERDOS_RELIVED_ORDEAL_1_STACK,
-      label: (t) => t('TeammateSets.Sacerdos1Stack.Text'),
-      desc: (t) => t('TeammateSets.Sacerdos1Stack.Desc'),
+      label: (t) => t(($) => $.TeammateSets.Sacerdos1Stack.Text),
+      desc: (t) => t(($) => $.TeammateSets.Sacerdos1Stack.Desc),
       nonstackable: false,
       effect: ({ x, teammateActorId }) => {
         if (teammateActorId == Sunday.id) {
@@ -93,8 +93,8 @@ const conditionals: SetConditionals = {
     },
     {
       value: SACERDOS_RELIVED_ORDEAL_2_STACK,
-      label: (t) => t('TeammateSets.Sacerdos2Stack.Text'),
-      desc: (t) => t('TeammateSets.Sacerdos2Stack.Desc'),
+      label: (t) => t(($) => $.TeammateSets.Sacerdos2Stack.Text),
+      desc: (t) => t(($) => $.TeammateSets.Sacerdos2Stack.Desc),
       nonstackable: false,
       effect: ({ x, teammateActorId }) => {
         if (teammateActorId == Sunday.id) {
@@ -109,7 +109,7 @@ const conditionals: SetConditionals = {
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   const selfOptions = Array.from({ length: 3 }).map((_val, i) => ({
-    display: t('Sacerdos.Display', { stackCount: i }),
+    display: t(($) => $.Sacerdos.Display, { stackCount: i }),
     value: i,
     label: i === 0
       ? '0 stacks: (+0% CD)'

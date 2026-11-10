@@ -122,9 +122,9 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
               disabled={disabled}
               onClick={() => {
                 updateTeammate({ [`teammate${index}` as TeammateProperty]: { characterId: teammateCharacterId } })
-                Message.success(t('TeammateSyncSuccessMessage'))
+                Message.success(t($ => $.TeammateSyncSuccessMessage))
               }}
-              aria-label={t('SyncFromRoster')}
+              aria-label={t($ => $.SyncFromRoster)}
             >
               <IconRefresh size={16} />
             </ActionIcon>
@@ -164,7 +164,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 
           <button
             type='button'
-            aria-label={t('SelectCharacter')}
+            aria-label={t($ => $.SelectCharacter)}
             className={`${classes.avatar} ${classes.characterAvatar}`}
             onClick={() => setTeammateSelectModalOpen(true)}
             style={{ backgroundImage: `url(${Assets.getCharacterAvatarById(teammateCharacterId)})` }}
@@ -175,14 +175,14 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
               data={teammateRelicSetOptions}
               value={teammateTeamRelicSet}
               onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(index, 'teamRelicSet', val)}
-              placeholder={t('RelicsPlaceholder')}
+              placeholder={t($ => $.RelicsPlaceholder)}
               disabled={disabled}
             />
             <ClearableCombobox
               data={teammateOrnamentSetOptions}
               value={teammateTeamOrnamentSet}
               onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(index, 'teamOrnamentSet', val)}
-              placeholder={t('OrnamentsPlaceholder')}
+              placeholder={t($ => $.OrnamentsPlaceholder)}
               disabled={disabled}
             />
           </Flex>
@@ -247,7 +247,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 
           <button
             type='button'
-            aria-label={t('SelectLightcone')}
+            aria-label={t($ => $.SelectLightcone)}
             className={`${classes.avatar} ${classes.lightConeAvatar}`}
             style={{ backgroundImage: `url(${Assets.getLightConeIconById(teammateLightConeId)})` }}
             onClick={() => setTeammateLightConeSelectOpen(true)}
@@ -255,7 +255,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
         </Flex>
       </Flex>
     </Flex>
-  )
+  );
 })
 
 function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {

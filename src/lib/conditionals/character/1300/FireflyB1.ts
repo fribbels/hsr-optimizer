@@ -120,34 +120,34 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enhancedStateActive: {
       id: 'enhancedStateActive',
       formItem: 'switch',
-      text: t('Content.enhancedStateActive.text'),
-      content: t('Content.enhancedStateActive.content', {
+      text: t(($) => $.Content.enhancedStateActive.text),
+      content: t(($) => $.Content.enhancedStateActive.content, {
         breakDmgDealt: precisionRound(100 * ultWeaknessBrokenBreakVulnerability),
       }),
     },
     enhancedStateSpdBuff: {
       id: 'enhancedStateSpdBuff',
       formItem: 'switch',
-      text: t('Content.enhancedStateSpdBuff.text'),
-      content: t('Content.enhancedStateSpdBuff.content', { ultSpdBuff }),
+      text: t(($) => $.Content.enhancedStateSpdBuff.text),
+      content: t(($) => $.Content.enhancedStateSpdBuff.content, { ultSpdBuff }),
     },
     superBreakDmg: {
       id: 'superBreakDmg',
       formItem: 'switch',
-      text: t('Content.superBreakDmg.text'),
-      content: t('Content.superBreakDmg.content'),
+      text: t(($) => $.Content.superBreakDmg.text),
+      content: t(($) => $.Content.superBreakDmg.content),
     },
     atkToBeConversion: {
       id: 'atkToBeConversion',
       formItem: 'switch',
-      text: t('Content.atkToBeConversion.text'),
-      content: t('Content.atkToBeConversion.content'),
+      text: t(($) => $.Content.atkToBeConversion.text),
+      content: t(($) => $.Content.atkToBeConversion.content),
     },
     talentDmgReductionBuff: {
       id: 'talentDmgReductionBuff',
       formItem: 'switch',
-      text: t('Content.talentDmgReductionBuff.text'),
-      content: t('Content.talentDmgReductionBuff.content', {
+      text: t(($) => $.Content.talentDmgReductionBuff.text),
+      content: t(($) => $.Content.talentDmgReductionBuff.content, {
         talentResBuff: precisionRound(100 * talentResBuff),
         talentDmgReductionBuff: precisionRound(100 * talentDmgReductionBuff),
       }),
@@ -155,22 +155,22 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e1DefShred: {
       id: 'e1DefShred',
       formItem: 'switch',
-      text: t('Content.e1DefShred.text'),
-      content: t('Content.e1DefShred.content'),
+      text: t(($) => $.Content.e1DefShred.text),
+      content: t(($) => $.Content.e1DefShred.content),
       disabled: e < 1,
     },
     e4ResBuff: {
       id: 'e4ResBuff',
       formItem: 'switch',
-      text: t('Content.e4ResBuff.text'),
-      content: t('Content.e4ResBuff.content'),
+      text: t(($) => $.Content.e4ResBuff.text),
+      content: t(($) => $.Content.e4ResBuff.content),
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: t('Content.e6Buffs.text'),
-      content: t('Content.e6Buffs.content'),
+      text: t(($) => $.Content.e6Buffs.text),
+      content: t(($) => $.Content.e6Buffs.content),
       disabled: e < 6,
     },
   }

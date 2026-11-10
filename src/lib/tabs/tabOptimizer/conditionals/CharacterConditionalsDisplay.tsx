@@ -45,7 +45,7 @@ export const CharacterConditionalsDisplay = memo(
         {(teammateIndex == null)
           && (
             <Flex justify='space-between' align='center'>
-              <HeaderText>{t('CharacterPassives') /* Character passives */}</HeaderText>
+              <HeaderText>{t($ => $.CharacterPassives) /* Character passives */}</HeaderText>
               <TooltipImage type={Hint.characterPassives()} />
             </Flex>
           )}

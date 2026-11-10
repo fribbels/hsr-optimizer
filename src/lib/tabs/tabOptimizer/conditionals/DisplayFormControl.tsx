@@ -23,8 +23,8 @@ export function DisplayFormControl({ content, teammateIndex }: {
 
   if (!content || content.length === 0) {
     const message = teammateIndex != null
-      ? t('NoTeamConditionals') /* No conditional team passives */
-      : t('NoConditionals') /* No conditional passives */
+      ? t($ => $.NoTeamConditionals) /* No conditional team passives */
+      : t($ => $.NoConditionals) /* No conditional passives */
     return (
       <Flex direction='column' gap={5}>
         <div>{message}</div>

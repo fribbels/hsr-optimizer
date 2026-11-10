@@ -33,8 +33,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean, wearerMeta:
       lc: true,
       id: 'basicAtkBuff',
       formItem: 'switch',
-      text: t('Content.basicAtkBuff.text'),
-      content: t('Content.basicAtkBuff.content', { MultiplierBonus: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.basicAtkBuff.text),
+      content: t(($) => $.Content.basicAtkBuff.content, { MultiplierBonus: precisionRound(100 * sValues[s]) }),
     },
   }
 

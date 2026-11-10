@@ -41,8 +41,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'trickStacks',
       formItem: 'slider',
-      text: t('Content.trickStacks.text'),
-      content: t('Content.trickStacks.content', {
+      text: t(($) => $.Content.trickStacks.text),
+      content: t(($) => $.Content.trickStacks.content, {
         DmgBuff: precisionRound(100 * sValuesDmg[s]),
         AtkBuff: precisionRound(100 * sValuesAtkBuff[s]),
       }),

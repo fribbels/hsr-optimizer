@@ -105,8 +105,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     selfCurrentHpPercent: {
       id: 'selfCurrentHpPercent',
       formItem: 'slider',
-      text: t('Content.selfCurrentHpPercent.text'),
-      content: t('Content.selfCurrentHpPercent.content', { talentMissingHpDmgBoostMax: precisionRound(100 * talentMissingHpDmgBoostMax) }),
+      text: t(($) => $.Content.selfCurrentHpPercent.text),
+      content: t(($) => $.Content.selfCurrentHpPercent.content, { talentMissingHpDmgBoostMax: precisionRound(100 * talentMissingHpDmgBoostMax) }),
       min: 0.01,
       max: 1.0,
       percent: true,

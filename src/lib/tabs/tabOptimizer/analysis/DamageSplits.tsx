@@ -18,8 +18,8 @@ function ModeToggle({ mode, onModeChange }: {
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageSplits.Mode' })
   const modes: { key: SplitMode, label: string }[] = [
-    { key: 'default', label: t('Default') },
-    { key: 'rotation', label: t('Rotation') },
+    { key: 'default', label: t($ => $.Default) },
+    { key: 'rotation', label: t($ => $.Rotation) },
   ]
 
   return (
@@ -59,7 +59,7 @@ export function DamageSplits({ analysis }: {
   const actions = mode === 'default' ? context.defaultActions : context.rotationActions
 
   const data = useMemo(
-    () => extractDamageSplits(newX, actions, mode, t),
+    () => extractDamageSplits(newX, actions, mode, t, analysis.context.characterId),
     [newX, actions, mode, t],
   )
 
@@ -79,10 +79,10 @@ export function DamageSplits({ analysis }: {
       }}
     >
       <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid var(--border-default)', paddingBottom: 4 }}>
-        {t('ExpandedDataPanel.DamageSplits.Title') /* Combo Breakdown */}
+        {t($ => $.ExpandedDataPanel.DamageSplits.Title) /* Combo Breakdown */}
       </span>
       <ModeToggle mode={mode} onModeChange={setMode} />
       <DamageSplitsChart data={data} />
     </div>
-  )
+  );
 }

@@ -34,8 +34,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'debuffCdStacks',
       formItem: 'slider',
-      text: t('Content.debuffCdStacks.text'),
-      content: t('Content.debuffCdStacks.content', { DmgStep: precisionRound(100 * sValuesCd[s]) }),
+      text: t(($) => $.Content.debuffCdStacks.text),
+      content: t(($) => $.Content.debuffCdStacks.content, { DmgStep: precisionRound(100 * sValuesCd[s]) }),
       min: 0,
       max: 3,
     },
@@ -43,8 +43,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'postUltBuff',
       formItem: 'switch',
-      text: t('Content.postUltBuff.text'),
-      content: t('Content.postUltBuff.content', {
+      text: t(($) => $.Content.postUltBuff.text),
+      content: t(($) => $.Content.postUltBuff.content, {
         DmgStep: precisionRound(100 * sValuesDmg[s]),
         DefIgnore: precisionRound(100 * sValuesFuaPen[s]),
       }),

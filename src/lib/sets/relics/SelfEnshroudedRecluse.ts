@@ -36,7 +36,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Recluse',
+  conditionalI18nKey: 'Recluse',
   modifiable: true,
   defaultValue: true,
 } as const satisfies SetDisplay
@@ -66,8 +66,8 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.SelfEnshroudedRecluse,
-    label: (t) => t('TeammateSets.SelfEnshrouded.Text'),
-    desc: (t) => t('TeammateSets.SelfEnshrouded.Desc'),
+    label: (t) => t(($) => $.TeammateSets.SelfEnshrouded.Text),
+    desc: (t) => t(($) => $.TeammateSets.SelfEnshrouded.Desc),
     nonstackable: false,
     effect: ({ x }) => {
       x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.SelfEnshroudedRecluse))

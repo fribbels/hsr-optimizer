@@ -119,20 +119,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teamDmgBuff: {
       id: 'teamDmgBuff',
       formItem: 'switch',
-      text: t('Content.teamDmgBuff.text'),
-      content: t('Content.teamDmgBuff.content'),
+      text: t(($) => $.Content.teamDmgBuff.text),
+      content: t(($) => $.Content.teamDmgBuff.content),
     },
     skillBuff: {
       id: 'skillBuff',
       formItem: 'switch',
-      text: t('Content.skillBuff.text'),
-      content: t('Content.skillBuff.content', { skillDmgBoostValue: precisionRound(100 * skillDmgBoostValue) }),
+      text: t(($) => $.Content.skillBuff.text),
+      content: t(($) => $.Content.skillBuff.content, { skillDmgBoostValue: precisionRound(100 * skillDmgBoostValue) }),
     },
     ultBuff: {
       id: 'ultBuff',
       formItem: 'switch',
-      text: t('Content.ultBuff.text'),
-      content: t('Content.ultBuff.content', {
+      text: t(($) => $.Content.ultBuff.text),
+      content: t(($) => $.Content.ultBuff.content, {
         ultAtkBoostValue: precisionRound(100 * ultAtkBoostValue),
         ultCdBoostValue: precisionRound(100 * ultCdBoostValue),
         ultCdBoostBaseValue: precisionRound(100 * ultCdBoostBaseValue),
@@ -141,20 +141,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     battleStartDefBuff: {
       id: 'battleStartDefBuff',
       formItem: 'switch',
-      text: t('Content.battleStartDefBuff.text'),
-      content: t('Content.battleStartDefBuff.content'),
+      text: t(($) => $.Content.battleStartDefBuff.text),
+      content: t(($) => $.Content.battleStartDefBuff.content),
     },
     techniqueBuff: {
       id: 'techniqueBuff',
       formItem: 'switch',
-      text: t('Content.techniqueBuff.text'),
-      content: t('Content.techniqueBuff.content'),
+      text: t(($) => $.Content.techniqueBuff.text),
+      content: t(($) => $.Content.techniqueBuff.content),
     },
     e2SkillSpdBuff: {
       id: 'e2SkillSpdBuff',
       formItem: 'switch',
-      text: t('Content.e2SkillSpdBuff.text'),
-      content: t('Content.e2SkillSpdBuff.content'),
+      text: t(($) => $.Content.e2SkillSpdBuff.text),
+      content: t(($) => $.Content.e2SkillSpdBuff.content),
       disabled: e < 2,
     },
   }
@@ -168,8 +168,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateCDValue: {
       id: 'teammateCDValue',
       formItem: 'slider',
-      text: t('TeammateContent.teammateCDValue.text'),
-      content: t('TeammateContent.teammateCDValue.content', {
+      text: t(($) => $.TeammateContent.teammateCDValue.text),
+      content: t(($) => $.TeammateContent.teammateCDValue.content, {
         ultAtkBoostValue: precisionRound(100 * ultAtkBoostValue),
         ultCdBoostValue: precisionRound(100 * ultCdBoostValue),
         ultCdBoostBaseValue: precisionRound(100 * ultCdBoostBaseValue),

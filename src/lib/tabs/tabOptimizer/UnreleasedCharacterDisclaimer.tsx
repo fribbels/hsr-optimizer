@@ -40,7 +40,7 @@ export function UnreleasedCharacterDisclaimer() {
 
     for (const id of [characterId, teammate0CharId, teammate1CharId, teammate2CharId]) {
       if (id && UNRELEASED_CHARACTER_IDS.has(id)) {
-        const name = tGameData(`Characters.${id}.LongName`)
+        const name = tGameData($ => $.Characters[id].LongName)
         if (!names.includes(name)) {
           names.push(name)
         }
@@ -49,7 +49,7 @@ export function UnreleasedCharacterDisclaimer() {
 
     for (const id of [lightConeId, teammate0LcId, teammate1LcId, teammate2LcId]) {
       if (id && UNRELEASED_LIGHT_CONE_IDS.has(id)) {
-        const name = tGameData(`Lightcones.${id}.Name`)
+        const name = tGameData($ => $.Lightcones[id].Name)
         if (!names.includes(name)) {
           names.push(name)
         }
@@ -65,7 +65,9 @@ export function UnreleasedCharacterDisclaimer() {
 
   return (
     <Alert color='yellow'>
-      {t('UnreleasedDisclaimer', { nameList: unreleasedNames.join(', ') })}
+      {t($ => $.UnreleasedDisclaimer, {
+        nameList: unreleasedNames.join(', ')
+      })}
     </Alert>
-  )
+  );
 }

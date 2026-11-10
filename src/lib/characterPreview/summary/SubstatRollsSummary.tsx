@@ -151,7 +151,7 @@ const RenderStats = memo(function({ stats, diminishingReturns, precision, column
         {orderedSubstats.map(([stat, prec]) => (
           <ScoringNumberParens
             key={stat}
-            label={t(stat)}
+            label={t($ => $[stat])}
             number={stats[stat]}
             parens={diminishingReturns[stat]}
             precision={prec ?? precision}
@@ -159,7 +159,7 @@ const RenderStats = memo(function({ stats, diminishingReturns, precision, column
           />
         ))}
       </div>
-    )
+    );
   }
 
   return (
@@ -168,7 +168,7 @@ const RenderStats = memo(function({ stats, diminishingReturns, precision, column
         <div key={i} className={styles.zebraRow}>
           <div className={styles.zebraCell}>
             <ScoringNumberParens
-              label={t(leftStat)}
+              label={t($ => $[leftStat])}
               number={stats[leftStat]}
               parens={diminishingReturns[leftStat]}
               precision={leftPrec ?? precision}
@@ -177,7 +177,7 @@ const RenderStats = memo(function({ stats, diminishingReturns, precision, column
           </div>
           <div className={styles.zebraCell}>
             <ScoringNumberParens
-              label={t(rightStat)}
+              label={t($ => $[rightStat])}
               number={stats[rightStat]}
               parens={diminishingReturns[rightStat]}
               precision={rightPrec ?? precision}
@@ -187,5 +187,5 @@ const RenderStats = memo(function({ stats, diminishingReturns, precision, column
         </div>
       ))}
     </div>
-  )
+  );
 })

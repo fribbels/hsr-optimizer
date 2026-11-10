@@ -26,26 +26,39 @@ import {
   HiddenSelectHost,
   useHiddenSelectTrigger,
 } from 'lib/tabs/tabWarp/HiddenSelectTrigger'
+import { SkinBannerButton } from 'lib/tabs/tabWarp/SkinBannerButton'
 import classes from 'lib/tabs/tabWarp/WarpCalculatorTab.module.css'
 import {
   type EnrichedWarpRequest,
   isPremiumCharacter,
   isPremiumLightCone,
+  type PlannerTarget,
   type WarpRequest,
-  type WarpTarget,
+  WarpTargetKind,
   type WarpTargetResult,
 } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import {
-  toMilestoneRows,
+  SkinDrawRows,
   WarpMilestoneRows,
   WarpTableHeader,
 } from 'lib/tabs/tabWarp/WarpMilestoneTable'
-import { TargetHeaderRow } from 'lib/tabs/tabWarp/WarpTargetHeaderCard'
+import {
+  getSkinBanner,
+  SKIN_BANNERS,
+} from 'lib/tabs/tabWarp/warpSkinBanners'
+import {
+  SkinHeaderRow,
+  TargetHeaderRow,
+} from 'lib/tabs/tabWarp/WarpTargetHeaderCard'
 import {
   addCharAndSignatureGoal,
   addCharGoal,
   addLcGoal,
+  addSkinGoal,
+  hasSkinTarget,
   moveTarget,
+  removeTarget,
+  updateSkinGoal,
 } from 'lib/tabs/tabWarp/warpTargetMutations'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
@@ -93,6 +106,8 @@ export function WarpUnifiedTable(props: {
   const addChar = useHiddenSelectTrigger()
   const addLc = useHiddenSelectTrigger()
   const addCharAndSig = useHiddenSelectTrigger()
+  const targets = form.getValues().targets
+  const skinButtonBanner = SKIN_BANNERS.find((banner) => banner.enabled)
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 1 } }),
@@ -116,18 +131,27 @@ export function WarpUnifiedTable(props: {
     >
       <SortableContext items={targetIds} strategy={verticalListSortingStrategy}>
         <Flex direction='column' gap={12} style={{ marginTop: 16 }}>
-          {targetResults.map((targetResult, targetIndex) => (
+          {skinButtonBanner && (
+            <Flex justify='center'>
+              <SkinBannerButton
+                banner={skinButtonBanner}
+                disabled={hasSkinTarget(targets)}
+                onClick={() => addSkinGoal(form, skinButtonBanner.id)}
+              />
+            </Flex>
+          )}
+          {targetResults.map((targetResult, resultIndex) => (
             <SortableTargetGroup
               key={targetResult.target.id}
               id={targetResult.target.id}
               form={form}
               targetResult={targetResult}
-              targetIndex={targetIndex}
-              thead={targetIndex === 0 ? thead : undefined}
+              targetIndex={targets.findIndex((target) => target.id === targetResult.target.id)}
+              thead={resultIndex === 0 ? thead : undefined}
             />
           ))}
 
-          <CollabBannerWarning targets={form.getValues().targets} />
+          <CollabBannerWarning targets={targets} />
 
           <Flex gap={8} py={4}>
             <Button variant='subtle' size='xs' leftSection={<IconPlus size={14} />} onClick={addCharAndSig.open}>
@@ -221,10 +245,12 @@ function SortableTargetGroup(props: {
   )
 }
 
-function CollabBannerWarning({ targets }: { targets: WarpTarget[] }) {
+function CollabBannerWarning({ targets }: { targets: PlannerTarget[] }) {
   const hasCollab = targets.some((t) =>
-    (t.characterId && COLLAB_CHARACTER_IDS.has(t.characterId))
-    || (t.lightConeId && COLLAB_LIGHT_CONE_IDS.has(t.lightConeId))
+    t.kind === WarpTargetKind.WARP && (
+      (t.characterId && COLLAB_CHARACTER_IDS.has(t.characterId))
+      || (t.lightConeId && COLLAB_LIGHT_CONE_IDS.has(t.lightConeId))
+    )
   )
 
   if (!hasCollab) return null
@@ -244,19 +270,37 @@ const TargetSection = memo(function TargetSection(props: {
   dragHandleProps?: HTMLAttributes<HTMLElement>,
 }) {
   const { form, targetResult, targetIndex, dragHandleRef, dragHandleProps } = props
-  const target = targetResult.target
-  const milestones = toMilestoneRows(targetResult.milestoneResults)
+  if (targetResult.kind === WarpTargetKind.WARP) {
+    return (
+      <>
+        <TargetHeaderRow
+          form={form}
+          target={targetResult.target}
+          targetIndex={targetIndex}
+          dragHandleRef={dragHandleRef}
+          dragHandleProps={dragHandleProps}
+        />
+        <WarpMilestoneRows milestones={targetResult.milestoneResults} rowKeyPrefix={targetResult.target.id} />
+      </>
+    )
+  }
+
+  const { target } = targetResult
+  const skinBanner = getSkinBanner(target.skin.bannerId)
+
+  if (!skinBanner) return null
 
   return (
     <>
-      <TargetHeaderRow
-        form={form}
-        target={target}
-        targetIndex={targetIndex}
+      <SkinHeaderRow
+        skin={target.skin}
+        banner={skinBanner}
+        onChange={(skin) => updateSkinGoal(form, targetIndex, skin)}
+        onRemove={() => removeTarget(form, targetIndex)}
         dragHandleRef={dragHandleRef}
         dragHandleProps={dragHandleProps}
       />
-      <WarpMilestoneRows milestones={milestones} rowKeyPrefix={target.id} />
+      <SkinDrawRows draws={targetResult.milestoneResults} rowKeyPrefix={target.id} />
     </>
   )
 })

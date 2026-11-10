@@ -7,15 +7,23 @@ import { getCharacterById } from 'lib/stores/character/characterStore'
 import {
   DEFAULT_WARP_TARGET,
   EidolonLevel,
+  type PlannerTarget,
+  type SkinGoal,
   SuperimpositionLevel,
   type WarpRequest,
   type WarpTarget,
+  WarpTargetKind,
   WarpType,
 } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import {
   WARP_DIMENSIONS,
   type WarpDimension,
 } from 'lib/tabs/tabWarp/warpDimensions'
+import {
+  clampSkinGoal,
+  createSkinTarget,
+  getSkinBanner,
+} from 'lib/tabs/tabWarp/warpSkinBanners'
 import { uuid } from 'lib/utils/miscUtils'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
@@ -43,7 +51,7 @@ function getOwnedEidolon(characterId: CharacterId | null): EidolonLevel {
 
 // --- Single gateway: every mutation goes through here ---
 
-function setTargets(form: UseFormReturnType<WarpRequest>, targets: WarpTarget[]) {
+function setTargets(form: UseFormReturnType<WarpRequest>, targets: PlannerTarget[]) {
   reflowTargetChains(targets)
   form.setFieldValue('targets', targets)
 }
@@ -52,7 +60,7 @@ function setTargets(form: UseFormReturnType<WarpRequest>, targets: WarpTarget[])
 
 export function updateTarget(form: UseFormReturnType<WarpRequest>, index: number, patch: Partial<WarpTarget>) {
   const targets = form.getValues().targets.map((target, targetIndex) => {
-    if (targetIndex !== index) return target
+    if (targetIndex !== index || target.kind !== WarpTargetKind.WARP) return target
     return { ...target, ...patch }
   })
   setTargets(form, targets)
@@ -65,10 +73,16 @@ export function updateTarget(form: UseFormReturnType<WarpRequest>, index: number
 export function updateTargetFrom(form: UseFormReturnType<WarpRequest>, index: number, warpType: WarpType, newFrom: number) {
   const dimension = WARP_DIMENSIONS[warpType]
   const targets = form.getValues().targets
-  const chainId = dimension.getId(targets[index])
+  const target = targets[index]
+
+  if (target?.kind !== WarpTargetKind.WARP) return
+
+  const chainId = dimension.getId(target)
+
   if (chainId === null) return
+
   const next = targets.map((other) =>
-    dimension.getId(other) === chainId && dimension.getGoal(other) !== dimension.none
+    other.kind === WarpTargetKind.WARP && dimension.getId(other) === chainId && dimension.getGoal(other) !== dimension.none
       ? dimension.withLevels(other, newFrom, dimension.getGoal(other))
       : other
   )
@@ -79,6 +93,9 @@ export function updateTargetFrom(form: UseFormReturnType<WarpRequest>, index: nu
 export function updateTargetTo(form: UseFormReturnType<WarpRequest>, index: number, warpType: WarpType, newTo: number) {
   const dimension = WARP_DIMENSIONS[warpType]
   const target = form.getValues().targets[index]
+
+  if (target?.kind !== WarpTargetKind.WARP) return
+
   updateTarget(form, index, dimension.withLevels(target, dimension.getCurrent(target), newTo))
 }
 
@@ -87,7 +104,7 @@ export function removeTarget(form: UseFormReturnType<WarpRequest>, index: number
   const removed = before[index]
   const targets = before.filter((_, targetIndex) => targetIndex !== index)
 
-  if (targets.length > 0) {
+  if (targets.length > 0 && removed.kind === WarpTargetKind.WARP) {
     if (removed.targetEidolonLevel !== EidolonLevel.NONE) preserveOwnedLevel(before, targets, WARP_DIMENSIONS[WarpType.CHARACTER], removed)
     if (removed.targetSuperimpositionLevel !== SuperimpositionLevel.NONE) preserveOwnedLevel(before, targets, WARP_DIMENSIONS[WarpType.LIGHTCONE], removed)
   }
@@ -160,33 +177,72 @@ export function addCharAndSignatureGoal(form: UseFormReturnType<WarpRequest>, ch
   setTargets(form, [...existing, charTarget, lcTarget])
 }
 
+// A plan supports one skin target, including a saved target whose banner is disabled.
+export function addSkinGoal(form: UseFormReturnType<WarpRequest>, bannerId: string) {
+  const existing = form.getValues().targets
+  const banner = getSkinBanner(bannerId)
+
+  if (!banner?.enabled || hasSkinTarget(existing)) return
+
+  const skin: SkinGoal = { bannerId, drawsDone: 0, drawTarget: banner.draws.length }
+  setTargets(form, [...existing, createSkinTarget(uuid(), skin)])
+}
+
+export function hasSkinTarget(targets: PlannerTarget[]): boolean {
+  return targets.some((target) => target.kind === WarpTargetKind.SKIN)
+}
+
+// Raising draws done also raises the target when needed.
+export function updateSkinGoal(form: UseFormReturnType<WarpRequest>, index: number, patch: { drawsDone?: number, drawTarget?: number }) {
+  const targets = form.getValues().targets
+  const target = targets[index]
+
+  if (target?.kind !== WarpTargetKind.SKIN) return
+
+  const banner = getSkinBanner(target.skin.bannerId)
+
+  if (!banner) return
+
+  const next = { ...target.skin, ...patch }
+  const replacement = createSkinTarget(target.id, clampSkinGoal(banner, next.drawsDone, next.drawTarget))
+  setTargets(form, targets.map((other, targetIndex) => targetIndex === index ? replacement : other))
+}
+
 // --- Reflow: enforce FROM/TO invariants across target chains ---
 
-export function getCharacterEidolonFloor(targets: WarpTarget[], characterId: string | null, beforeIndex: number): EidolonLevel {
+export function getCharacterEidolonFloor(targets: PlannerTarget[], characterId: string | null, beforeIndex: number): EidolonLevel {
   if (!characterId) return EidolonLevel.NONE
   let max = EidolonLevel.NONE
   for (let i = 0; i < beforeIndex; i++) {
-    if (targets[i].characterId === characterId && targets[i].targetEidolonLevel > max) {
-      max = targets[i].targetEidolonLevel
+    const target = targets[i]
+    if (target.kind === WarpTargetKind.WARP && target.characterId === characterId && target.targetEidolonLevel > max) {
+      max = target.targetEidolonLevel
     }
   }
   return max
 }
 
-export function getLightConeSuperimpositionFloor(targets: WarpTarget[], lightConeId: string | null, beforeIndex: number): SuperimpositionLevel {
+export function getLightConeSuperimpositionFloor(targets: PlannerTarget[], lightConeId: string | null, beforeIndex: number): SuperimpositionLevel {
   if (!lightConeId) return SuperimpositionLevel.NONE
   let max = SuperimpositionLevel.NONE
   for (let i = 0; i < beforeIndex; i++) {
-    if (targets[i].lightConeId === lightConeId && targets[i].targetSuperimpositionLevel > max) {
-      max = targets[i].targetSuperimpositionLevel
+    const target = targets[i]
+    if (target.kind === WarpTargetKind.WARP && target.lightConeId === lightConeId && target.targetSuperimpositionLevel > max) {
+      max = target.targetSuperimpositionLevel
     }
   }
   return max
 }
 
-function reflowTargetChains(targets: WarpTarget[]) {
-  reflowChain(targets, WARP_DIMENSIONS[WarpType.CHARACTER])
-  reflowChain(targets, WARP_DIMENSIONS[WarpType.LIGHTCONE])
+function reflowTargetChains(targets: PlannerTarget[]) {
+  const warpTargets = targets.filter((target) => target.kind === WarpTargetKind.WARP)
+  reflowChain(warpTargets, WARP_DIMENSIONS[WarpType.CHARACTER])
+  reflowChain(warpTargets, WARP_DIMENSIONS[WarpType.LIGHTCONE])
+
+  let warpIndex = 0
+  for (let i = 0; i < targets.length; i++) {
+    if (targets[i].kind === WarpTargetKind.WARP) targets[i] = warpTargets[warpIndex++]
+  }
 }
 
 // For each id-group (a character / light cone with one or more goals): the owned level (base) is the
@@ -231,26 +287,29 @@ function reflowChain(targets: WarpTarget[], dimension: WarpDimension) {
 
 // Carries a chain's owned level (base) across a removal. If the removed row was the lowest goal it was
 // holding the base, so stamp that base onto the surviving lowest goal; the reflow derives the rest.
-function preserveOwnedLevel(before: WarpTarget[], after: WarpTarget[], dimension: WarpDimension, removed: WarpTarget) {
+function preserveOwnedLevel(before: PlannerTarget[], after: PlannerTarget[], dimension: WarpDimension, removed: WarpTarget) {
   const id = dimension.getId(removed)
   if (!id) return
 
   let base: number | null = null
   for (const target of before) {
-    if (dimension.getId(target) === id && dimension.getGoal(target) !== dimension.none) {
+    if (target.kind === WarpTargetKind.WARP && dimension.getId(target) === id && dimension.getGoal(target) !== dimension.none) {
       base = base === null ? dimension.getCurrent(target) : Math.min(base, dimension.getCurrent(target))
     }
   }
   if (base === null) return
 
   let lowestIndex = -1
+  let lowestTarget: WarpTarget | null = null
   for (let i = 0; i < after.length; i++) {
-    if (dimension.getId(after[i]) !== id || dimension.getGoal(after[i]) === dimension.none) continue
-    if (lowestIndex === -1 || dimension.getGoal(after[i]) < dimension.getGoal(after[lowestIndex])) {
+    const target = after[i]
+    if (target.kind !== WarpTargetKind.WARP || dimension.getId(target) !== id || dimension.getGoal(target) === dimension.none) continue
+    if (lowestTarget === null || dimension.getGoal(target) < dimension.getGoal(lowestTarget)) {
       lowestIndex = i
+      lowestTarget = target
     }
   }
-  if (lowestIndex === -1) return
+  if (lowestTarget === null) return
 
-  after[lowestIndex] = dimension.withLevels(after[lowestIndex], base, dimension.getGoal(after[lowestIndex]))
+  after[lowestIndex] = dimension.withLevels(lowestTarget, base, dimension.getGoal(lowestTarget))
 }

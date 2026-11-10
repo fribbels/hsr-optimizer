@@ -5,7 +5,12 @@ import {
   type EnrichedWarpRequest,
   generateOptions,
   NONE_WARP_INCOME_OPTION,
+  type PlannerTarget,
+  type SkinDrawResult,
+  type SkinGoal,
+  type SkinTarget,
   StarlightMultiplier,
+  type StarlightRefund,
   SuperimpositionLevel,
   type WarpIncomeDefinition,
   WarpIncomeType,
@@ -14,10 +19,22 @@ import {
   type WarpResult,
   WarpStrategy,
   type WarpTarget,
+  WarpTargetKind,
   type WarpTargetResult,
   WarpType,
 } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import { WARP_DIMENSIONS } from 'lib/tabs/tabWarp/warpDimensions'
+import {
+  createSkinTarget,
+  getSkinBanner,
+  normalizeSkinGoal,
+  type SkinBanner,
+  skinOutcomes,
+} from 'lib/tabs/tabWarp/warpSkinBanners'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
+
+const JADE_PER_WARP = 160
 
 // Modified each patch
 export const WarpIncomeOptions: WarpIncomeDefinition[] = [
@@ -46,22 +63,51 @@ export const WarpIncomeOptions: WarpIncomeDefinition[] = [
   ...generateOptions('4.7', 119, 96, 143, 108, 151, 115),
 ]
 
+interface SavedWarpRequest extends Partial<WarpRequest> {
+  simpleSkin?: Partial<SkinGoal> | null
+}
+
+interface SavedWarpTarget {
+  kind?: WarpTargetKind
+  id?: string
+  characterId?: CharacterId | null
+  lightConeId?: LightConeId | null
+  targetEidolonLevel?: number
+  targetSuperimpositionLevel?: number
+  currentEidolonLevel?: number
+  currentSuperimpositionLevel?: number
+  skin?: Partial<SkinGoal> | null
+}
+
 export function normalizeWarpRequest(raw: unknown): WarpRequest {
-  const source = (raw ?? {}) as Partial<WarpRequest>
+  const source = (raw ?? {}) as SavedWarpRequest
 
   const income = Array.isArray(source.income)
     ? source.income.filter((id) => WarpIncomeOptions.some((option) => option.id === id))
     : []
 
-  const targets = Array.isArray(source.targets)
-    ? source.targets.map(normalizeWarpTarget)
-    : DEFAULT_WARP_REQUEST.targets.map((target) => ({ ...target }))
+  const rawTargets = Array.isArray(source.targets) ? source.targets : DEFAULT_WARP_REQUEST.targets
+  const targets: PlannerTarget[] = []
+  let hasSkin = false
+
+  for (const [index, rawTarget] of rawTargets.entries()) {
+    const target = normalizeWarpTarget(rawTarget, index)
+    if (!target) continue
+
+    if (target.kind === WarpTargetKind.SKIN) {
+      if (hasSkin) continue
+      hasSkin = true
+    }
+
+    targets.push(target)
+  }
 
   return {
     passes: Math.max(0, Number(source.passes) || 0),
     jades: Math.max(0, Number(source.jades) || 0),
     income,
     targets,
+    simpleSkinGoal: normalizeSkinGoal(source.simpleSkinGoal === undefined ? source.simpleSkin : source.simpleSkinGoal),
     plannerMode: source.plannerMode ?? DEFAULT_WARP_REQUEST.plannerMode,
     strategy: source.strategy ?? DEFAULT_WARP_REQUEST.strategy,
     starlight: source.starlight ?? DEFAULT_WARP_REQUEST.starlight,
@@ -72,9 +118,20 @@ export function normalizeWarpRequest(raw: unknown): WarpRequest {
   }
 }
 
-function normalizeWarpTarget(raw: Partial<WarpTarget>, index: number): WarpTarget {
-  return {
-    id: raw.id || `target-${index + 1}`,
+// Legacy mixed targets keep their warp goals. Unknown skin banners are dropped.
+function normalizeWarpTarget(raw: SavedWarpTarget | null | undefined, index: number): PlannerTarget | null {
+  if (raw == null || typeof raw !== 'object') return null
+
+  const id = raw.id || `target-${index + 1}`
+
+  if (raw.kind === WarpTargetKind.SKIN) {
+    const skin = normalizeSkinGoal(raw.skin)
+    return skin ? createSkinTarget(id, skin) : null
+  }
+
+  const target: WarpTarget = {
+    kind: WarpTargetKind.WARP,
+    id,
     characterId: raw.characterId ?? null,
     lightConeId: raw.lightConeId ?? null,
     targetEidolonLevel: clampLevel(raw.targetEidolonLevel, DEFAULT_WARP_TARGET.targetEidolonLevel, EidolonLevel.NONE, EidolonLevel.E6),
@@ -92,19 +149,48 @@ function normalizeWarpTarget(raw: Partial<WarpTarget>, index: number): WarpTarge
       SuperimpositionLevel.S5,
     ),
   }
+
+  if (raw.kind === WarpTargetKind.WARP) return target
+  if (raw.skin == null) return target
+  if (target.targetEidolonLevel !== EidolonLevel.NONE) return target
+  if (target.targetSuperimpositionLevel !== SuperimpositionLevel.NONE) return target
+
+  const skin = normalizeSkinGoal(raw.skin)
+
+  return skin ? createSkinTarget(id, skin) : null
 }
 
-function clampLevel<T extends number>(value: unknown, fallback: T, min: T, max: T): T {
+// Simple mode builds temporary targets without changing the saved Multi plan.
+export function createSimpleWarpRequest(request: WarpRequest): WarpRequest {
+  const combinedTarget: WarpTarget = {
+    ...DEFAULT_WARP_TARGET,
+    id: 'quick-combined',
+    targetEidolonLevel: EidolonLevel.E6,
+    targetSuperimpositionLevel: SuperimpositionLevel.S5,
+    currentEidolonLevel: EidolonLevel.NONE,
+    currentSuperimpositionLevel: SuperimpositionLevel.NONE,
+  }
+  const skin = normalizeSkinGoal(request.simpleSkinGoal)
+  const targets = skin && getSkinBanner(skin.bannerId)?.enabled
+    ? [createSkinTarget('quick-skin', skin), combinedTarget]
+    : [combinedTarget]
+
+  return { ...request, targets }
+}
+
+function clampLevel<T extends number>(value: number | undefined, fallback: T, min: T, max: T): T {
   return typeof value === 'number' && Number.isInteger(value) && value >= min && value <= max ? value as T : fallback
 }
 
 type WarpMilestone = {
+  label: string,
   warpType: WarpType,
   pity: number,
   guaranteed: boolean,
 }
 
-type LabeledWarpMilestone = WarpMilestone & { label: string }
+// Total warp budgets after successful skin outcomes.
+type WarpBudgetScenario = { warps: number, probability: number }
 
 type StartingBannerState = {
   character: {
@@ -126,7 +212,9 @@ export function calculateWarps(originalRequest: WarpRequest): Exclude<WarpResult
   }
 
   const targetResults: WarpTargetResult[] = []
-  let cumulativePmf: number[] = [1] // P(total cost = 0) = 1 before any milestones
+  let warpCostPmf: number[] = [1] // No warps spent before the first goal
+  let budgets: WarpBudgetScenario[] = [{ warps: request.warps, probability: 1 }]
+  let hasSkin = false
   let hasUsedCharacterStart = false
   let hasUsedLightConeStart = false
 
@@ -134,6 +222,19 @@ export function calculateWarps(originalRequest: WarpRequest): Exclude<WarpResult
   // pulled for an earlier target, later targets start that type fresh (pity 0). The flags below are flipped
   // as we walk targets in array order, so this relies on targets being processed in that order.
   for (const target of request.targets) {
+    if (target.kind === WarpTargetKind.SKIN) {
+      const banner = getSkinBanner(target.skin.bannerId)
+      if (!banner || hasSkin) continue
+
+      hasSkin = true
+      if (!banner.enabled) continue
+
+      const skinResult = calculateSkinMilestones(target, banner, request, warpCostPmf)
+      budgets = skinResult.budgets
+      targetResults.push({ kind: WarpTargetKind.SKIN, target, milestoneResults: skinResult.milestoneResults })
+      continue
+    }
+
     const startingState: StartingBannerState = {
       character: {
         pity: hasUsedCharacterStart ? 0 : request.pityCharacter,
@@ -155,26 +256,55 @@ export function calculateWarps(originalRequest: WarpRequest): Exclude<WarpResult
       const milestoneStartDist = pityAdjustedPmf(dimension.distribution, pity, dimension.warpCap)
       const milestoneDist = milestoneCostPmf(milestoneStartDist, guaranteed, dimension.fiftyFifty, freshStartDistByType[warpType])
 
-      cumulativePmf = convolveArrays(cumulativePmf, milestoneDist)
+      warpCostPmf = convolveArrays(warpCostPmf, milestoneDist)
 
-      const result = milestoneStats(cumulativePmf, request.warps)
-      targetMilestoneResults[label] = result
+      targetMilestoneResults[label] = milestoneStats(warpCostPmf, budgets)
 
       if (warpType === WarpType.CHARACTER) hasUsedCharacterStart = true
       if (warpType === WarpType.LIGHTCONE) hasUsedLightConeStart = true
     }
 
-    targetResults.push({ target, milestoneResults: targetMilestoneResults })
+    targetResults.push({ kind: WarpTargetKind.WARP, target, milestoneResults: targetMilestoneResults })
   }
 
   return { targetResults, request }
+}
+
+function calculateSkinMilestones(target: SkinTarget, banner: SkinBanner, request: EnrichedWarpRequest, warpCostPmf: number[]) {
+  const milestoneResults: Record<string, SkinDrawResult> = {}
+  // Failed attempts spend jade but cannot complete the combined goal.
+  const budgets: WarpBudgetScenario[] = []
+  const minWarps = warpCostPmf.findIndex((p) => p > 0)
+  let wins = 0
+
+  for (const outcome of skinOutcomes(banner, target.skin)) {
+    const jadeLeft = request.totalJade - outcome.jadeCost
+    const warps = warpBudget(jadeLeft, request.totalPasses, request.starlight)
+
+    if (jadeLeft >= 0) {
+      budgets.push({ warps, probability: outcome.probability })
+      wins += outcome.probability * cumulativeProbability(warpCostPmf, warps)
+    }
+
+    // Free draws stay enabled even when earlier goals are impossible.
+    const unaffordable = outcome.jadeCost > 0 && (jadeLeft < 0 || warps < minWarps)
+
+    milestoneResults[`Draw${outcome.draw}`] = {
+      draw: outcome.draw,
+      jades: outcome.jadeCost,
+      wins: unaffordable ? 0 : wins,
+      unaffordable,
+    }
+  }
+
+  return { milestoneResults, budgets }
 }
 
 export function enrichWarpRequest(originalRequest: WarpRequest): EnrichedWarpRequest {
   const request: WarpRequest = {
     ...DEFAULT_WARP_REQUEST,
     ...originalRequest,
-    jades: Number(originalRequest.jades) || 0,
+    jades: Math.max(0, Number(originalRequest.jades) || 0),
     passes: Number(originalRequest.passes) || 0,
     pityCharacter: Math.max(0, Number(originalRequest.pityCharacter) || 0),
     pityLightCone: Math.max(0, Number(originalRequest.pityLightCone) || 0),
@@ -192,9 +322,9 @@ export function enrichWarpRequest(originalRequest: WarpRequest): EnrichedWarpReq
 
   const totalJade = request.jades
   const totalPasses = request.passes + additionalPasses
-  const initialWarps = Math.floor(totalJade / 160) + totalPasses
+  const initialWarps = Math.floor(totalJade / JADE_PER_WARP) + totalPasses
 
-  const refundedWarps = Math.floor((StarlightMultiplier[request.starlight] ?? 0) * initialWarps)
+  const refundedWarps = starlightRefundWarps(initialWarps, request.starlight)
   const totalStarlight = refundedWarps * 20
   const totalWarps = initialWarps + refundedWarps
 
@@ -208,7 +338,16 @@ export function enrichWarpRequest(originalRequest: WarpRequest): EnrichedWarpReq
   }
 }
 
-function generateWarpMilestones(target: WarpTarget, startingState: StartingBannerState, strategy: WarpStrategy): LabeledWarpMilestone[] {
+function starlightRefundWarps(initialWarps: number, starlight: StarlightRefund): number {
+  return Math.floor((StarlightMultiplier[starlight] ?? 0) * initialWarps)
+}
+
+function warpBudget(jade: number, passes: number, starlight: StarlightRefund): number {
+  const initialWarps = Math.floor(jade / JADE_PER_WARP) + passes
+  return initialWarps + starlightRefundWarps(initialWarps, starlight)
+}
+
+function generateWarpMilestones(target: WarpTarget, startingState: StartingBannerState, strategy: WarpStrategy): WarpMilestone[] {
   const { targetEidolonLevel, targetSuperimpositionLevel, currentEidolonLevel, currentSuperimpositionLevel } = target
 
   if (targetEidolonLevel === EidolonLevel.NONE && targetSuperimpositionLevel === SuperimpositionLevel.NONE) {
@@ -227,7 +366,7 @@ function generateWarpMilestones(target: WarpTarget, startingState: StartingBanne
   let assignedCharacterStart = false
   let assignedLightConeStart = false
 
-  const milestones: LabeledWarpMilestone[] = []
+  const milestones: WarpMilestone[] = []
   let targetIndex = -1
 
   for (const warpType of path) {
@@ -320,17 +459,27 @@ function isTargetReached(
     && (targetSuperimpositionLevel === SuperimpositionLevel.NONE || superimposition >= targetSuperimpositionLevel)
 }
 
-function milestoneStats(cumulativePmf: number[], budget: number): WarpMilestoneResult {
+function milestoneStats(warpCostPmf: number[], budgets: WarpBudgetScenario[]): WarpMilestoneResult {
   // Expected warps = Σ k * P(total cost = k)
-  const warps = cumulativePmf.reduce((sum, p, k) => sum + k * p, 0)
+  const warps = warpCostPmf.reduce((sum, p, k) => sum + k * p, 0)
 
-  // Win probability = P(total cost <= budget)
   let wins = 0
-  for (let k = 0; k <= budget && k < cumulativePmf.length; k++) {
-    wins += cumulativePmf[k]
+
+  for (const budget of budgets) {
+    wins += budget.probability * cumulativeProbability(warpCostPmf, budget.warps)
   }
 
   return { warps, wins }
+}
+
+function cumulativeProbability(pmf: number[], max: number): number {
+  let total = 0
+
+  for (let k = 0; k <= max && k < pmf.length; k++) {
+    total += pmf[k]
+  }
+
+  return total
 }
 
 // PMF (probability mass function) for cost starting at pity position.

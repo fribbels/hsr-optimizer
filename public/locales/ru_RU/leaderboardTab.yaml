@@ -2,6 +2,7 @@ CharacterList:
   Columns:
     Character: Персонаж
 Filters:
+  ExOff: Off
   EidolonLabel: Эйдолон
 Banner:
   LightConeModule: Световой конус

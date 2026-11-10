@@ -2,6 +2,7 @@ CharacterList:
   Columns:
     Character: Personaggio
 Filters:
+  ExOff: Off
   EidolonLabel: Eidolon
 Banner:
   LightConeModule: Cono di Luce

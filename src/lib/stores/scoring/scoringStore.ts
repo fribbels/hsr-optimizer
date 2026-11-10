@@ -1,3 +1,4 @@
+import { normalizeScoringMetadata } from 'lib/scoring/normalizeScoringMetadata'
 import {
   CONFIG_FIELD_MAP,
   hasOverrideContent,
@@ -93,27 +94,22 @@ function omitPresets(result: ScoringMetadata): ScoringMetadata {
   return rest as ScoringMetadata
 }
 
-/**
- * Gets scoring metadata for a character, merged with overrides.
- */
-export function getScoringMetadata(id: CharacterId): ScoringMetadata {
+function resolveScoringMetadata(id: CharacterId, override?: ScoringMetadataOverride) {
   const characterMeta = getGameMetadata().characters[id]
-  if (!characterMeta?.scoringMetadata) return fallbackMetadata
-
-  const defaults = characterMeta.scoringMetadata
-  const override = useScoringStore.getState().scoringMetadataOverrides[id]
-
+  const defaults = characterMeta?.scoringMetadata ?? fallbackMetadata
   const result = mergeDeltaWithDefaults(override, defaults)
 
-  return omitPresets(result)
+  return normalizeScoringMetadata(omitPresets(result))
+}
+
+/** Gets scoring metadata merged with user overrides. */
+export function getScoringMetadata(id: CharacterId) {
+  return resolveScoringMetadata(id, useScoringStore.getState().scoringMetadataOverrides[id])
 }
 
 /**
  * Gets scoring metadata for a character without user overrides.
  */
-export function getDefaultScoringMetadata(id: CharacterId): ScoringMetadata {
-  const characterMeta = getGameMetadata().characters[id]
-  if (!characterMeta?.scoringMetadata) return fallbackMetadata
-
-  return omitPresets(characterMeta.scoringMetadata)
+export function getDefaultScoringMetadata(id: CharacterId) {
+  return resolveScoringMetadata(id)
 }

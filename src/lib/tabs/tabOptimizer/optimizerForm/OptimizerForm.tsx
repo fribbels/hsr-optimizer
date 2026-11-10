@@ -116,11 +116,13 @@ export function OptimizerForm() {
 const CharacterConditionalDisplayWrapper = memo(function CharacterConditionalDisplayWrapper() {
   const charId = useOptimizerRequestStore((s) => s.characterId)
   const eidolon = useOptimizerRequestStore((s) => s.characterEidolon)
+  const characterEx = useOptimizerRequestStore((s) => s.characterEx)
 
   return (
     <CharacterConditionalsDisplay
       id={charId}
       eidolon={eidolon}
+      characterEx={characterEx}
     />
   )
 })
@@ -137,6 +139,7 @@ const LightConeConditionalDisplayWrapper = memo(function LightConeConditionalDis
     const conditionalResolverMetadata = generateConditionalResolverMetadata({
       characterId: charId,
       characterEidolon: 0, // Assuming eidolon is not needed for light cone metadata
+      characterEx: 0,
       lightCone: lcId,
       lightConeSuperimposition: useOptimizerRequestStore.getState().lightConeSuperimposition,
     }, metadata)

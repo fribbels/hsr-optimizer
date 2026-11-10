@@ -1964,6 +1964,8 @@ Characters:
         content: Lorsque l'état Concerto est actif, la VIT de tous les alliés augmente de 16%.
   RobinSummeretto:
     Content:
+      techniqueDmgBuff:
+        text: Bonus de DGT de la technique
       e2ResPen:
         text: 'E2: PÉN de RÉS'
       e4MemoSpdBuff:

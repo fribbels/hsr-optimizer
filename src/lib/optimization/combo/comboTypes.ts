@@ -5,7 +5,10 @@ import type {
 } from 'lib/constants/constants'
 import { type defaultSetConditionals } from 'lib/optimization/defaultForm'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import type { CharacterId } from 'types/character'
+import type {
+  CharacterId,
+  ExFlags,
+} from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 
 export type ComboConditionals = {
@@ -48,6 +51,7 @@ export type ComboSubSelectConditional = {
 export type ComboCharacterMetadata = {
   characterId: CharacterId,
   characterEidolon: number,
+  characterEx: ExFlags,
   path: PathName,
   lightCone: LightConeId,
   lightConeSuperimposition: number,

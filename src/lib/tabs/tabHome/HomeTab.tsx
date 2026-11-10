@@ -10,6 +10,7 @@ import {
   IconLayoutKanban,
   IconSearch,
 } from '@tabler/icons-react'
+import { DISCORD_INVITE_URL } from 'lib/constants/constantsUi'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { BASE_PATH } from 'lib/tabs/navigation/constants'
@@ -278,7 +279,7 @@ function CommunitySection() {
             icon={<IconBrandDiscord size={28} />}
             title={t($ => $.Discord.Title)}
             description={t($ => $.Discord.Description)}
-            href='https://discord.gg/rDmB4Un7qg'
+            href={DISCORD_INVITE_URL}
             iconColor='#ffffff'
             iconBg='#5865F2'
           />

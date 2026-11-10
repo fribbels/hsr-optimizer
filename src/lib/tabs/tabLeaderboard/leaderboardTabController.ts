@@ -21,7 +21,10 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { AppPages } from 'lib/tabs/navigation/constants'
 import { parseHash } from 'lib/tabs/navigation/parseHash'
-import { clearHashParams, setHashParams } from 'lib/tabs/navigation/utils'
+import {
+  clearHashParams,
+  setHashParams,
+} from 'lib/tabs/navigation/utils'
 import { deriveVisibleEntries } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
 import {
   getCharacterLeaderboardConfigTypes,
@@ -36,6 +39,7 @@ import {
   loadLeaderboardData,
   loadLeaderboardTimeline,
 } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
+import { LeaderboardExFilter } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import type { CharacterId } from 'types/character'
@@ -49,6 +53,7 @@ const CLEARED_DETAIL_STATE = {
   activeConfigType: null,
   activeTeamId: LEADERBOARD_FILTER_ALL,
   filterCharacterEidolon: LEADERBOARD_FILTER_ALL as LeaderboardEidolonFilter,
+  filterCharacterEx: LeaderboardExFilter.All,
   selectedBuildId: null,
   selectedEntry: null,
   expandedCharacter: null,
@@ -79,7 +84,7 @@ function recomputeDerivedState() {
   if (selectedEntry) {
     const unconverted = expandCharacter(selectedEntry.minifiedCharacter)
     const converted = CharacterConverter.convert(unconverted)
-    expandedCharacter = converted
+    expandedCharacter = { ...converted, form: { ...converted.form, characterEx: selectedEntry.characterEx } }
     expandedPreviewRelics = converted.equipped as PreviewRelics
 
     leaderboardScoreData = {
@@ -105,6 +110,7 @@ function deriveAndUpdateEntries() {
     activeConfigType: state.activeConfigType,
     activeTeamId: state.activeTeamId,
     filterCharacterEidolon: state.filterCharacterEidolon,
+    filterCharacterEx: state.filterCharacterEx,
   })
 
   const currentBuildId = state.selectedBuildId
@@ -200,6 +206,7 @@ export function selectLeaderboardCharacter(
     activeConfigType,
     activeTeamId,
     filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+    filterCharacterEx: LeaderboardExFilter.All,
   })
 
   deriveAndUpdateEntries()
@@ -226,6 +233,7 @@ function resolveBoardTeamId(buildId: string, match: BuildIndexEntry): string {
     activeConfigType: match.configType,
     activeTeamId: LEADERBOARD_FILTER_ALL,
     filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+    filterCharacterEx: LeaderboardExFilter.All,
   })
 
   return visibleAllTeams.some((entry) => entry.buildId === buildId)
@@ -263,8 +271,12 @@ function isValidEidolonFilter(value: string): value is LeaderboardEidolonFilter 
   return value === LEADERBOARD_FILTER_ALL || (EIDOLON_GROUPS as string[]).includes(value)
 }
 
-export function setLeaderboardFilters(filters: { teamId?: string, characterEidolon?: string }) {
+export function setLeaderboardFilters(filters: { teamId?: string, characterEidolon?: string, characterEx?: LeaderboardExFilter }) {
   const state = useLeaderboardTabStore.getState()
+
+  if (filters.characterEx !== undefined && filters.characterEx !== state.filterCharacterEx) {
+    useLeaderboardTabStore.setState({ filterCharacterEx: filters.characterEx })
+  }
 
   if (filters.teamId !== undefined && filters.teamId !== state.activeTeamId) {
     useLeaderboardTabStore.setState({ activeTeamId: filters.teamId })

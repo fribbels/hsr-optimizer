@@ -1,6 +1,39 @@
+Title: 基準生成器
+LeftPanel:
+  Header: 基準
 MiddlePanel:
   CharacterHeader: 角色
+  LCHeader: 光錐
+  TeammatesHeader: 隊友
+RightPanel:
+  Settings:
+    Header: 設定
+    SPD: 基準基礎速度
+    ERR: 能量回復繩
+    SubDPS: 副C
+  SetsHeader: 基準套裝
+  ButtonText:
+    Generate: 生成基準
+    Clear: 清除
 ResultsGrid:
   Combo: 連招傷害
+  Delta: 增量
+  Sets: 套裝
+ResultsTabs:
+  WithSpeed:
+    100: 100%基準配裝（{{Speed}}速）
+    200: 200%基準配裝（{{Speed}}速）
+  WithoutSpeed:
+    100: 100%基準配裝
+    200: 200%基準配裝
 ResultsPanel:
+  BasicStats: 基础属性
   CombatStats: 戰鬥屬性
+  Rolls: 詞條升級次數
+  Combo: 臉照循環
+  Damage: 技能明細
+Messages:
+  Error:
+    MissingField: 缺失角色/光錐/隊友
+    UnsupportedCharacter: 此角色不支持DPS基準
+    SPDUnselected: 選擇目標基準礎速度

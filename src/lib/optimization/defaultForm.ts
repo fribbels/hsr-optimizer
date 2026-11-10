@@ -68,6 +68,7 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
     ornamentSets: [],
     characterLevel: 80,
     characterEidolon: 0,
+    characterEx: 0,
     lightConeLevel: 80,
     lightConeSuperimposition: 1,
     mainStatUpscaleLevel: 15,
@@ -118,6 +119,7 @@ export function defaultTeammate() {
   const teammate: Partial<Teammate> = {
     characterId: undefined,
     characterEidolon: 0,
+    characterEx: 0,
     lightCone: undefined,
     lightConeSuperimposition: 1,
     teamOrnamentSet: undefined,

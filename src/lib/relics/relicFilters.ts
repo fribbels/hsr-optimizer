@@ -170,7 +170,22 @@ export const RelicFilters = {
     const lockedRelicSetIdx: Partial<Record<Parts, number>> = {}
 
     for (const relic of allRelics) {
-      const part = relic.part as Parts
+      const part = relic.part
+
+      const isRelic = RELIC_PARTS.has(part)
+      const setIdx = isRelic
+        ? RelicSetToIndex[relic.set as SetsRelics]
+        : OrnamentSetToIndex[relic.set as SetsOrnaments]
+
+      if (request.keepCurrentRelics && relic.equippedBy === request.characterId) {
+        preCounts[part]++
+        counts[part]++
+        countsBySet[part][setIdx]++
+        lockedFound[part] = true
+        lockedRelicSetIdx[part] = setIdx
+        continue
+      }
+      if (lockedParts[part]) continue
 
       if (relic.grade && relic.grade < request.grade) continue
       if (relic.enhance < request.enhance) continue
@@ -181,22 +196,10 @@ export const RelicFilters = {
       const mainFilter = mainFilters[part]
       if (mainFilter?.length && !mainFilter.includes(relic.main.stat)) continue
 
-      const isRelic = RELIC_PARTS.has(part)
-      const setIdx = isRelic
-        ? RelicSetToIndex[relic.set as SetsRelics]
-        : OrnamentSetToIndex[relic.set as SetsOrnaments]
       if (isRelic && relicSetsAllowed && relicSetsAllowed[setIdx] !== 1) continue
       if (!isRelic && ornamentSetsAllowed && ornamentSetsAllowed[setIdx] !== 1) continue
 
       if (hasAchievableWeightedSubstat(weights, relic.main.stat) && computeWeightScore(relic, weights, request.mainStatUpscaleLevel) < rollThreshold) continue
-
-      if (lockedParts[part]) {
-        if (relic.id === lockedParts[part]) {
-          lockedFound[part] = true
-          lockedRelicSetIdx[part] = setIdx
-        }
-        continue
-      }
 
       counts[part]++
       countsBySet[part][setIdx]++
@@ -236,7 +239,12 @@ export const RelicFilters = {
 
     for (const part of Object.values(Constants.Parts)) {
       const partition: Relic[] = relics[part]
-      relics[part] = partition.filter((relic) => !hasAchievableWeightedSubstat(weights, relic.main.stat) || relic.weightScore >= minRolls)
+      relics[part] = partition.filter((relic) => {
+        if (request.keepCurrentRelics && (relic.equippedBy === request.characterId)) return true
+        if (!hasAchievableWeightedSubstat(weights, relic.main.stat)) return true
+        if (relic.weightScore >= minRolls) return true
+        return false
+      })
     }
 
     return relics
@@ -290,13 +298,17 @@ export const RelicFilters = {
     }
 
     return relics.filter((x) => {
+      if (request.keepCurrentRelics && (x.equippedBy === request.characterId)) return true
       const allowed = mainFilters[x.part]
       return !allowed || allowed.length === 0 || allowed.includes(x.main.stat)
     })
   },
 
   applyEnhanceFilter: (request: Form, relics: Relic[]) => {
-    return relics.filter((x) => x.enhance >= request.enhance)
+    return relics.filter((x) => {
+      if (request.keepCurrentRelics && (x.equippedBy === request.characterId)) return true
+      return x.enhance >= request.enhance
+    })
   },
 
   applyEquippedFilter: (request: Form, relics: Relic[]) => {
@@ -314,7 +326,11 @@ export const RelicFilters = {
   },
 
   applyGradeFilter: (request: Form, relics: Relic[]) => {
-    return relics.filter((x) => x.grade ? x.grade >= request.grade : true)
+    return relics.filter((x) => {
+      if (request.keepCurrentRelics && (x.equippedBy === request.characterId)) return true
+      if (x.grade >= request.grade) return true
+      return false
+    })
   },
 
   applySetFilter: (request: Form, relics: Relic[]) => {
@@ -352,6 +368,7 @@ export const RelicFilters = {
       }
 
       return relics.filter((relic) => {
+        if (request.keepCurrentRelics && (relic.equippedBy === request.characterId)) return true
         if (
           relic.part == Constants.Parts.Head
           || relic.part == Constants.Parts.Hands
@@ -377,6 +394,7 @@ export const RelicFilters = {
       }
 
       return relics.filter((relic: Relic) => {
+        if (request.keepCurrentRelics && (relic.equippedBy === request.characterId)) return true
         if (
           relic.part == Constants.Parts.PlanarSphere
           || relic.part == Constants.Parts.LinkRope
@@ -444,7 +462,7 @@ export const RelicFilters = {
     })
   },
 
-  applyMainStatsFilter: (request: Form, relics: Relic[]) => {
+  applyMainStatsUpgrade: (request: Form, relics: Relic[]) => {
     const mainStatUpscaleLevel = request.mainStatUpscaleLevel
     if (mainStatUpscaleLevel) {
       relics.forEach((x) => {

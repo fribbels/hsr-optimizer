@@ -3,6 +3,7 @@ Relic_other: relics
 RelicWithCount_one: '{{count}} relic'
 RelicWithCount_other: '{{count}} relics'
 ThousandsSuffix: K
+ExEidolon1: EX1 Eidolon
 Cancel: Cancel
 Confirm: Confirm
 Submit: Submit

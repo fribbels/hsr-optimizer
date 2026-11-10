@@ -1,13 +1,142 @@
+ValidationMessages:
+  Warning:
+    MissingTeammates: 選擇隊友以獲得更準確的最佳化結果。
+    PathMismatch: 角色命途與光錐命途不匹配。
+  Error:
+    TopPercent: 所有副詞條權重均已設為0。請為角色設定副詞條權重，或使用推薦預設。
+    MissingTarget: 缺少最佳化目標欄位
+    MissingCharacter: 缺少角色欄位
+    MissingLightCone: 缺少光錐欄位
+    GPUNotAvailable: '此瀏覽器不支援GPU加速 — 目前僅支援桌面版Chrome和Opera瀏覽器。如果你使用的是受支援的瀏覽器，請在Discord伺服器回報此問題。'
 CharacterSelector:
   Character: 角色
+  Lightcone: 光錐
+  Presets: 預設
+  Target: 最佳化目標
+  ResultsPlaceholder: 尋找最佳結果
+  TargetPlaceholder: 排序依據
+  EidolonPlaceholder: 魂
+  SuperimpositionPlaceholder: 疊
+LightconePassives: 光錐被動
+CharacterPassives: 角色被動
+NoConditionals: 無可用的條件觸發被動技能
+NoTeamConditionals: 無可用的條件觸發隊伍被動技能
+ResultLimitN: '尋找排名前{{limit}}的結果'
+MainStats: 主屬性
+Sets: 套裝
+UnreleasedDisclaimer: '{{nameList}}的計算尚未完成，最佳化器結果可能不準確。'
 SetFilters:
+  OrnamentPlaceholder: 飾品套裝篩選
+  RelicPlaceholder: 遺器套裝篩選
+  4pcLabel: 4件套
+  2pcLabel: 2件套
+  AnyTag: 任何
+  SelectedHeader: 已選套裝
+  RelicListHeader: 遺器套裝
+  OrnamentListHeader: 飾品套裝
+  SearchPlaceholder: 搜尋套裝...
+  RelicSelectedPlaceholder: 遺器
+  OrnamentSelectedPlaceholder: 位面飾品
+  Revert: 還原
   Done: 完成!
+  Clear: 全部清除
+SortOptions:
+  DMGLabel: 傷害計算
+  HealLabel: 治療量計算
+  ShieldLabel: 護盾值計算
+  OptimizationLabel: 優化
+  AbilityLabel: 技能
+  StatLabel: 屬性
+  COMBO: 按連招傷害排序
+  COMBO_BUFF: 按連招增益排序
+  COMBO_HEAL: 按連招治療量排序
+  COMBO_SHIELD: 按連招護盾量排序
+  BASIC: 按普攻傷害排序
+  SKILL: 按戰技傷害排序
+  ULT: 按終結技傷害排序
+  FUA: 按追加攻擊傷害排序
+  MEMO_SKILL: 按憶靈技傷害排序
+  MEMO_TALENT: 按憶靈天賦傷害排序
+  ELATION_SKILL: 按歡愉技傷害排序
+  UNIQUE: 按特殊傷害排序
+  DOT: 按持續傷害排序
+  BREAK: 按擊破傷害排序
+  HEAL: 按治療量排序
+  SHIELD: 按護盾值排序
+  BASIC_HEAL: 按普攻治療量排序
+  SKILL_HEAL: 按戰技治療量排序
+  ULT_HEAL: 按終結技治療量排序
+  FUA_HEAL: 按追加攻擊治療量排序
+  TALENT_HEAL: 按天賦治療量排序
+  BASIC_SHIELD: 按普攻護盾值排序
+  SKILL_SHIELD: 按戰技護盾值排序
+  ULT_SHIELD: 按終結技護盾值排序
+  FUA_SHIELD: 按追加攻擊護盾值排序
+  TALENT_SHIELD: 按天賦護盾值排序
+  HP: '按$t(common:ReadableStats.HP)排序'
+  ATK: '按$t(common:ReadableStats.ATK)排序'
+  DEF: '按$t(common:ReadableStats.DEF)排序'
+  SPD: '按$t(common:ReadableStats.SPD)排序'
+  CR: '按$t(common:ReadableStats.CRIT Rate)排序'
+  CD: '按$t(common:ReadableStats.CRIT DMG)排序'
+  EHR: '按$t(common:ReadableStats.Effect Hit Rate)排序'
+  RES: '按$t(common:ReadableStats.Effect RES)排序'
+  BE: '按$t(common:ReadableStats.Break Effect)排序'
+  OHB: '按$t(common:ReadableStats.Outgoing Healing Boost)排序'
+  ERR: '按$t(common:ReadableStats.Energy Regeneration Rate)排序'
+  DMG: 按元素傷害排序
+  EHP: 按有效生命值排序
 OptimizerOptions:
+  Header: 優化器選項
+  PriorityFilter: 角色優先級過濾器
   Priority:
     Header: 優先級
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.LongName)'
+    Name: '# {{rank}}'
+  AllowEquipped: 允許已裝備的遺器
+  KeepCurrent: 保持當前遺器
+  Exclude: 排除
+  MinEnhance:
+    Header: 最小強化等級
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
+  MinRarity:
+    Header: 最低稀有度
+    Label2: 2 ★ +
+    Label3: 3 ★ +
+    Label4: 4 ★ +
+    Label5: 5 ★
+  BoostMain:
+    Header: 提升主屬性
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
+  DPSMode:
+    Header: DPS模式
+    Main: 主C
+    Sub: 副C
+AdvancedOptions:
+  Header: 進階選項
+  EnemyConfigButtonText: 敵人配置
+  CombatBuffsButtonTextNone: 額外戰鬥增益
+  CombatBuffsButtonText: '額外戰鬥增益（{{activeCount}}）'
+  CustomTracesButtonText: 自訂屬性行跡
 Grid:
+  To: '-'
+  Of: /
+  Page: 頁
+  PageSelectorLabel: '頁面大小：'
+  Loading: 載入中
   Headers:
     Basic:
+      Set: 套裝
       ATK: 攻擊力
       DEF: 防禦力
       HP: 生命值
@@ -18,32 +147,378 @@ Grid:
       RES: 效果抵抗
       BE: 擊破特攻
       OHB: 治療量加成
-      ERR: 能量恢復效率
+      ERR: 能量恢復
+      DMG: 傷害
+      EHP: 有效生命
+      HEAL: 治療量
+      SHIELD: 護盾值
+      BASIC: |-
+        普攻
+        傷害
+      SKILL: |-
+        戰技
+        傷害
+      ULT: |-
+        終結技
+        傷害
+      FUA: |-
+        追加攻擊
+        傷害
+      MEMO_SKILL: |-
+        憶靈技
+        傷害
+      MEMO_TALENT: |-
+        憶靈天賦
+        傷害
+      ELATION_SKILL: |-
+        歡愉技
+      UNIQUE: |-
+        特殊
+        傷害
+      DOT: |-
+        持續
+        傷害
+      BREAK: |-
+        擊破
+        傷害
+      BASIC_HEAL: |-
+        普攻
+        治療量
+      SKILL_HEAL: |-
+        戰技
+        治療量
+      ULT_HEAL: |-
+        終結技
+        治療量
+      FUA_HEAL: |-
+        追加攻擊
+        治療量
+      TALENT_HEAL: |-
+        天賦
+        治療量
+      BASIC_SHIELD: |-
+        普攻
+        護盾值
+      SKILL_SHIELD: |-
+        戰技
+        護盾值
+      ULT_SHIELD: |-
+        終結技
+        護盾值
+      FUA_SHIELD: |-
+        追加攻擊
+        護盾值
+      TALENT_SHIELD: |-
+        天賦
+        護盾值
+      COMBO: |-
+        連招
+        傷害
+    Combat:
+      Set: 套裝
+      ATK: Σ 攻擊
+      DEF: Σ 防禦
+      HP: Σ 生命
+      SPD: Σ 速度
+      CR: Σ 暴擊
+      CD: Σ 爆傷
+      EHR: Σ 命中
+      RES: Σ 抵抗
+      BE: Σ 擊破
+      OHB: Σ 治療量
+      ERR: Σ 能量
+      DMG: Σ 傷害
+      EHP: 有效生命
+      HEAL: 治療量
+      SHIELD: 護盾值
+      BASIC: |-
+        普攻
+        傷害
+      SKILL: |-
+        戰技
+        傷害
+      ULT: |-
+        終結技
+        傷害
+      FUA: |-
+        追加攻擊
+        傷害
+      MEMO_SKILL: |-
+        憶靈技
+        傷害
+      MEMO_TALENT: |-
+        憶靈天賦
+        傷害
+      ELATION_SKILL: |-
+        歡愉技
+      UNIQUE: |-
+        特殊
+        傷害
+      DOT: |-
+        持續
+        傷害
+      BREAK: |-
+        擊破
+        傷害
+      BASIC_HEAL: |-
+        普攻
+        治療量
+      SKILL_HEAL: |-
+        戰技
+        治療量
+      ULT_HEAL: |-
+        終結技
+        治療量
+      FUA_HEAL: |-
+        追加攻擊
+        治療量
+      TALENT_HEAL: |-
+        天賦
+        治療量
+      BASIC_SHIELD: |-
+        普攻
+        護盾值
+      SKILL_SHIELD: |-
+        戰技
+        護盾值
+      ULT_SHIELD: |-
+        終結技
+        護盾值
+      FUA_SHIELD: |-
+        追加攻擊
+        護盾值
+      TALENT_SHIELD: |-
+        天賦
+        護盾值
+      COMBO: |-
+        連招
+        傷害
 Sidebar:
   GPUOptions:
+    Experimental: 啟用GPU加速（實驗性）
+    Stable: 啟用GPU加速（穩定）
+    CPU: 僅限CPU
     EngineSwitchSuccessMsg:
       CPU: 計算引擎已切換至CPU
       Stable: 計算引擎已切換至GPU (穩定)
       Experimental: 計算引擎已切換至GPU (實驗性)
+    Display:
+      GPU Experimental: 'GPU加速：已啟用'
+      GPU Stable: 'GPU加速：已啟用'
+      CPU: 'GPU加速：已禁用'
+  Pinning:
+    Messages:
+      NoneSelected: 未選擇行列
+      SimSelected: 自訂模擬行列無法置頂
+      AlreadyPinned: 此配裝已被置頂
+  Permutations: 排列
+  Perms: 排列
+  Searched: 已搜尋
+  Results: 結果
+  ComputeEngine: 計算引擎
+  ProgressText:
+    Progress: 進度
+    CalculatingETA: 進度（正在計算預計完成時間...）
+    TimeRemaining: '{{rate}}/秒 — 還剩{{timeRemaining}}'
+    Finished: '{{rate}}/秒 — 已完成'
+  ControlsGroup:
+    Header: 控制
+    Start: 啟動優化器
+    ResetConfirm:
+      Title: 重置所有篩選器？
+      Description: 所有篩選器將重置為預設值
+  StatViewGroup:
+    Header: 屬性與篩選視圖
+    CombatStats: 戰鬥屬性
+    BasicStats: 基本屬性
+    SummonerStats: 召喚者
+    MemospriteStats: 憶靈
+  ResultsGroup:
+    Header: 結果
+    Equip: 裝備
+    EquipSuccessMessage: 已裝備
+    Filter: 過濾
+    Pin: 置頂配裝
+    Clear: 清除篩選
   BuildsGroup:
     Header: 配裝
     Save: 保存
+    Load: 載入
+TeammateRow:
+  Header: '隊友'
+FormRowLabels:
+  Character options: 角色選項
+  Relic & stat filters: 遺器和屬性篩選
+  Teammates: 隊友
+  Character custom stats simulation: 角色自訂屬性模擬
+  Analysis: 優化結果分析
+TracesDrawer:
+  Title: 自訂屬性行跡
+  Header: 已啟用的屬性行跡（預設全部啟用）
+  ButtonText: 保存變更
 SetConditionals:
+  Title: 套裝條件觸發效果
+  DescriptionHeader: 套裝描述
+  EffectHeader: 已啟用效果
+  SetName: '$t(gameData:RelicSets.{{id}}.Name)'
+  RelicDescription: '$t(gameData:RelicSets.{{id}}.Description4pc)'
+  PlanarDescription: '$t(gameData:RelicSets.{{id}}.Description2pc)'
   SelectOptions:
+    Streetwise:
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（+{{buffValue}}%攻擊力）'
     Wastelander:
+      Off:
+        Display: '關閉'
+        Label: '關閉'
       Debuffed:
         Display: 暴擊率
+        Label: 被減益（+10%暴擊）
+      Imprisoned:
+        Display: 暴擊+爆傷
+        Label: 禁錮（+10%暴擊｜+20%爆傷）
+    Longevous:
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（+{{buffValue}}%暴擊）'
+    Ashblazing:
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（+{{buffValue}}%攻擊力）'
+    Prisoner:
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（+{{buffValue}}%防禦穿透）'
+    Diver:
+      Off:
+        Display: 0層
+        Label: 0減益（+4%基礎暴擊）
+      1Debuff:
+        Display: 1層
+        Label: 1減益（+12%傷害｜+4%基礎暴擊）
+      2Debuff:
+        Display: 2層
+        Label: 2減益（+12%傷害｜+4%基礎暴擊｜+8%爆傷）
+      3Debuff:
+        Display: 3層
+        Label: 3減益（+12%傷害｜+4%基礎暴擊｜+12%爆傷）
+      2+Debuff:
+        Display: 2層+
+        Label: 2減益，已增強（+12%傷害｜+4%基礎暴擊｜+4%戰鬥暴擊｜+16%爆傷）
+      3+Debuff:
+        Display: 3層+
+        Label: 3減益，已增強（+12%傷害｜+4%基礎暴擊｜+4%戰鬥暴擊｜+24%爆傷）
+    MagicalGirl:
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（+{{stackCount}}%防禦穿透）'
+    Sigonia:
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（+{{buffValue}}%CD）'
+    Duran:
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（+{{buffValue}}%追加攻擊傷害）'
+      Label5: 5層（+25%追加攻擊傷害｜+25%爆傷）
+    Sacerdos:
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（+{{buffValue}}%CD）'
+    Arcadia:
+      Display: '{{allyCount}}層'
+      Label: '{{allyCount}}個隊友（+{{buffValue}}%爆傷）'
     CityOfConvergingStars:
+      Off:
+        Display: '關閉'
+        Label: '關閉'
       AtkOnly:
         Display: 攻擊力
+        Label: 僅攻擊力（+24%攻擊力）
       CdOnly:
         Display: 暴擊傷害
+        Label: 僅暴擊傷害（+12%爆傷）
+      Both:
+        Display: 攻擊力+暴擊傷害
+        Label: 攻擊力+暴擊傷害（+24%攻擊力｜+12%爆傷）
     DreamlitActor:
+      Off:
+        Display: '關閉'
+        Label: '關閉'
+      Elation:
+        Display: 歡愉度
+        Label: 歡愉度+16%
       CD:
         Display: 暴擊傷害
+        Label: 歡愉度+16%｜暴擊傷害+12%
     DivineQueryingMasterSmith:
+      Off:
+        Display: '關閉'
+        Label: '關閉'
       CD:
         Display: 暴擊傷害
+        Label: '防禦力降低：暴擊傷害+28%'
+      CDAndDmg:
+        Display: 暴擊傷害+傷害加成
+        Label: '防禦力降低：暴擊傷害+28% + 焚心傷害+15%'
+  Conditionals:
+    DefaultMessage: 預設啟用 - 效果將套用於戰鬥計算。
+    Hunter: 啟用後，暴擊傷害增益將套用於戰鬥屬性計算。
+    Streetwise: 所選的攻擊力%增益將根據疊加層數套用於戰鬥屬性計算。
+    Firesmith: 技能傷害增益預設始終處於激活狀態。啟用後，火屬性傷害增益將套用於戰鬥屬性計算。
+    Genius: 10%防禦穿透增益預設始終處於激活狀態。啟用後，將敵人視為具有量子弱點，並穿透額外10%的防禦。
+    Thunder: 啟用後，攻擊力%增益將套用於戰鬥屬性計算。
+    Wastelander: 將所選增益套用於戰鬥屬性計算。
+    Longevous: 所選的暴擊率增益將根據疊加層數套用於戰鬥屬性計算。
+    Messenger: 啟用後，速度%增益將套用於戰鬥屬性計算。
+    Ashblazing: >-
+      所選的攻擊力%增益將套用於傷害計算，除了追加攻擊。追加攻擊的計算將從0%攻擊增益開始，並根據攻擊時造成的擊中次數疊加。擊中次數將根據敵人數量增加，並假設敵方目標位於中心以進行爆炸（3人）／範圍（全屏）攻擊。
+    Prisoner: 所選的防禦穿透%增益將根據疊加層數套用於傷害計算。
+    Diver: >-
+      選擇0層選項可以禁用二件套效果。對於四件套，根據所選選項套用不同的暴擊增益於戰鬥屬性計算。
+    Watchmaker: 啟用後，擊破特攻增益將套用於戰鬥屬性計算。
+    Valorous: 啟用後，終結技傷害的增傷%增益將套用於戰鬥屬性計算。
+    Sacerdos: 所選的增益將套用於傷害計算。能夠自我增益的角色可以觸發此效果。
+    Scholar: 啟用後，戰技傷害的增傷%增益將根據角色的連招順序增強。
+    Hero: 啟用後，速度%和暴擊傷害增益將套用於戰鬥屬性計算。
+    WarriorGoddess: 啟用後，4件套的速度與暴擊傷害加成將計入戰鬥屬性計算。
+    Wavestrider: 啟用後，攻擊力加成將計入戰鬥屬性計算。
+    Deliverer: 啟用後，生命值與傷害加成將計入戰鬥屬性計算。
+    Recluse: 啟用後，暴擊傷害加成將計入戰鬥屬性計算。
+    MagicalGirl: 所選增益將計入戰鬥屬性計算。
+    Diviner: 啟用後，歡愉度增益將計入戰鬥屬性計算。
+    Differentiator: 啟用後，暴擊率增益將套用於戰鬥屬性計算。
+    Penacony: 啟用後，傷害%增益將套用於佩戴者的憶靈。
+    Sigonia: 假設角色已擊敗該數量的敵人，所選的暴擊傷害增益將套用於戰鬥屬性計算。
+    Izumo: 啟用後，若隊伍中有相同命途的隊友，將在戰鬥屬性計算中套用12%暴擊率增益。
+    Duran: 所選的增益將根據疊加層數套用於傷害計算。
+    Kalpagni: 啟用後，將擊破特攻增益套用於戰鬥屬性計算。
+    Lushaka: 預設禁用 - 該套裝無法影響佩戴者。
+    Banana: 啟用後，額外的32%暴擊傷害將套用於戰鬥屬性計算。
+    Arcadia: 所選增益將套用於戰鬥屬性計算。隊伍選擇變化時會自動更新。
+    Amphoreus: 啟用後，若佩戴者擁有憶靈，速度加成將計入戰鬥屬性計算。
+    Tengoku: 啟用後，額外暴擊傷害加成將計入戰鬥屬性計算。
+    CityOfConvergingStars: 將所選增益計入戰鬥屬性計算。攻擊力加成來自施放追加攻擊，暴擊傷害加成來自擊敗敵人。
+Presets:
+  SpdValues:
+    SPD0: 無靈低速度
+    SPD111: 111.112速 - 在前四輪中行動5次
+    SPD114: 114.286速 - 在前三輪中行動4次
+    SPD120: 120.000速 - 在前二輪中行動3次
+    SPD133: 133.334速 - 在第一輪中行動2次，在前四輪中行動6次
+    SPD142: 142.858速 - 在前三輪中行動5次
+    SPD155: 155.556速 - 在前四輪中行動7次
+    SPD160: 160.000速 - 在前三輪中行動4次
+    SPD171: 171.429速 - 在前三輪中行動6次
+    SPD177: 177.778速 - 在前四輪中行動8次
+    SPD200: 200.000速 - 在第一輪中行動3次
+  SpdCategories:
+    MemoryOfChaos: 混沌回憶
+    AnomalyArbitration: 異相仲裁
+  AaSpdValues:
+    SPD120: 120.000速 - 在前二輪中行動6次
+    SPD133: 133.334速 - 在第一輪中行動4次
+    SPD140: 140.000速 - 在前二輪中行動7次
+    SPD160: 160.000速 - 在前二輪中行動8次
+    SPD166: 166.667速 - 在第一輪中行動5次
+    SPD180: 180.000速 - 在前二輪中行動9次
+    SPD200: 200.000速 - 在第一輪中行動6次，在前二輪中行動10次
+  StandardLabel: '標準$t(gameData:Characters.{{id}}.Name)'
+  RecommendedPresets: 推薦預設
+  PresetNotAvailable: 預設不可用，請選擇其他選項
 CombatBuffs:
   ATK: 攻擊力
   ATK_P: 攻擊力 %
@@ -51,9 +526,36 @@ CombatBuffs:
   HP_P: 生命值 %
   DEF: 防禦力
   DEF_P: 防禦力 %
+  CR: 暴擊率%
+  CD: 暴擊傷害%
   SPD: 速度
   SPD_P: 速度 %
+  BE: 擊破特攻%
+  BOOST: 傷害提升%
+  DEF_PEN: 防禦穿透%
+  RES_PEN: 傷害抗性穿透%
+  EFFECT_RES_PEN: 效果抵抗穿透%
+  VULNERABILITY: 易傷%
+  BREAK_EFFICIENCY: 擊破效率%
+  EHR: 效果命中 %
+  Title: 額外戰鬥增益
+  Clear: 清除
+Target_one: 目標
+Target_other: 目標
+EnemyConfiguration:
+  LevelOptionLabel: '{{level}}級 - {{defense}}防禦力'
+  CountOptionLabel: >-
+    {{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})
+  EffResOptionLabel: '{{resistance}}%效果抵抗'
+  DmgResOptionLabel: '{{resistance}}%傷害抗性'
+  ToughnessOptionLabel: '{{toughness}}最大韌性'
+  Title: 敵人配置
+  StatHeader: 敵人屬性選項
+  WeaknessLabel: 元素弱點
+  BrokenLabel: 弱點擊破
 WeightFilter:
+  WeightFilterHeader: 副詞條權重篩選器
+  RollFilterHeader: 每件遺器的加權副詞條升級次數
   HPFilterText: 生命值
   ATKFilterText: 攻擊力
   DEFFilterText: 防禦力
@@ -64,6 +566,8 @@ WeightFilter:
   RESFilterText: 效果抵抗
   BEFilterText: 擊破特攻
 MinMaxFilters:
+  StatHeader: 最小/最大屬性過濾器
+  RatingHeader: 最小/最大評分過濾器
   HPLabel: 生命值
   ATKLabel: 攻擊力
   DEFLabel: 防禦力
@@ -74,47 +578,390 @@ MinMaxFilters:
   RESLabel: 效果抵抗
   BELabel: 擊破特攻
   ERRLabel: 能量恢復效率
+  WEIGHTLabel: 權重
+  EHPLabel: 有效生命
   BASICLabel: 普攻
   SKILLLabel: 戰技
   ULTLabel: 終結技
   FUALabel: 追加攻擊
-  MEMOSKILLLabel: 憶靈戰技
+  MEMOSKILLLabel: 憶靈技
+  DOTLabel: 持續傷害
+  BREAKLabel: 擊破
+  HEALLabel: 治療量
+  SHIELDLabel: 護盾值
+  COMBOLabel: 連招
 ComboFilter:
+  Header: 連招傷害技能循環
+  AbilityLabel: 技能
+  ModeSelector:
+    Simple: 簡易
+    Advanced: 進階
+  RowControls:
+    ResetTooltip: 重置連招為預設狀態
+    AddTooltip: 添加技能
+    RemoveTooltip: 移除技能
+    PresetsTooltip: 啟用/禁用條件預設
+    ResetConfirm:
+      Description: 重置所有簡易/進階循環設定為預設值？
+  Presets:
+    Enabled: 已啟用條件預設
+    Disabled: 已禁用條件預設
   ComboOptions:
+    Placeholder: 技能
+    None: '無'
+    Basic: 普攻
+    Skill: 戰技
+    Ult: 終結技
+    Fua: 追加攻擊
+    Dot: 持續
     Break: 擊破
+    MemoSkill: 憶靈技
+    MemoTalent: 憶靈天賦
+    ElationSkill: 歡愉技
+    Unique: 特殊
+    BasicHeal: 普攻治療量
+    SkillHeal: 戰技治療量
+    UltHeal: 終結技治療量
+    FuaHeal: 追加攻擊治療量
+    TalentHeal: 天賦治療量
+    BasicShield: 普攻護盾值
+    SkillShield: 戰技護盾值
+    UltShield: 終結技護盾值
+    FuaShield: 追加攻擊護盾值
+    TalentShield: 天賦護盾值
+    Buff: 增益
+  RotationButton: 進階技能循環
+ComboDrawer:
+  NoConditionals: 無可用的條件觸發被動技能
+  Title: 進階技能循環用戶指南
+  Placeholders:
+    Sets: 隧洞遺器套裝條件觸發效果
+    Ornaments: 位面飾品套裝條件觸發效果
+  GroupHeaders:
+    Sets: 隧洞遺器/位面飾品套裝條件觸發效果
+    Teammate1: 隊友1的條件觸發效果
+    Teammate2: 隊友2的條件觸發效果
+    Teammate3: 隊友3的條件觸發效果
 TeammateCard:
+  EidolonN: >-
+    $t(common:EidolonNShort, {"eidolon": {{eidolon}}})
+  SuperimpositionN: >-
+    $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
+  EidolonPlaceholder: 星魂
+  SuperimpositionPlaceholder: 疊影
+  RelicsPlaceholder: 遺器
+  OrnamentsPlaceholder: 位面飾品
+  SyncFromRoster: 從角色列表同步
+  SelectCharacter: 選擇隊友角色
+  SelectLightcone: 選擇隊友光錐
   TeammateSyncSuccessMessage: 已同步隊友信息
+  TeammateSets:
+    DreamlitActor:
+      Desc: '4件套：$t(gameData:RelicSets.133.Name)（+16%歡愉度 ｜+12%暴傷 ）'
+      Text: 16% 歡愉度 + 12% 暴擊傷害
+    DivineQueryingMasterSmith:
+      Desc: '四件套：$t(gameData:RelicSets.132.Name)（+15%傷害加成）'
+      Text: 15%傷害加成
+    Messenger:
+      Desc: '四件套：$t(gameData:RelicSets.114.Name)（+12%速度）'
+      Text: 12%速度
+    Watchmaker:
+      Desc: '四件套：$t(gameData:RelicSets.118.Name)（+30%擊破特攻）'
+      Text: 30%擊破特攻
+    Sacerdos1Stack:
+      Desc: '四件套：$t(gameData:RelicSets.121.Name)（+18%暴傷）'
+      Text: 18%暴傷
+    Sacerdos2Stack:
+      Desc: '四件套：$t(gameData:RelicSets.121.Name)（+36%暴傷）'
+      Text: 36%暴傷
+    Warrior:
+      Desc: '四件套：$t(gameData:RelicSets.125.Name)（+15%暴傷）'
+      Text: 15%暴傷
+    WorldRemaking:
+      Desc: '四件套：$t(gameData:RelicSets.127.Name)（+15%傷害加成）'
+      Text: 15%傷害加成
+    SelfEnshrouded:
+      Desc: '四件套：$t(gameData:RelicSets.128.Name)（+15%暴傷）'
+      Text: 15%暴傷
+    Diviner:
+      Desc: '4件套：$t(gameData:RelicSets.130.Name)（+10%歡愉度）'
+      Text: 10%歡愉度
+    Keel:
+      Desc: '$t(gameData:RelicSets.310.Name)（+10%暴傷）'
+      Text: 10%暴傷
+    Ageless:
+      Desc: '$t(gameData:RelicSets.302.Name)（+8%攻擊力）'
+      Text: 8%攻擊力
+    Penacony:
+      Desc: '$t(gameData:RelicSets.312.Name)（+10%同屬性傷害加成）'
+      Text: 10%傷害加成
+    Lushaka:
+      Desc: '$t(gameData:RelicSets.317.Name)（+12%攻擊力）'
+      Text: 12%攻擊力
+    Amphoreus:
+      Desc: '$t(gameData:RelicSets.323.Name)（+8%速度）'
+      Text: 8%速度
+    CityOfConvergingStars:
+      Desc: '$t(gameData:RelicSets.326.Name)（+12%暴傷）'
+      Text: 12%暴傷
 StatSimulation:
+  DuplicateSimMessage: 相同屬性的模擬已存在
+  MissingMainstatsMessage: 模擬主屬性遺失
+  BuildAlreadyImported: 所選優化器配裝已是模擬配裝
+  NothingToImport: 請先執行優化器，再從優化結果中選擇一行進行匯入
+  NoStatSimulations: 未選擇自訂屬性模擬
+  SetSelection:
+    Header: 套裝
+    RelicPlaceholder: 隧洞遺器套裝
+    OrnamentPlaceholder: 位面飾品套裝
+  TotalRolls: 總升級次數
+  SubstatSelectorLabel: '$t(common:Stats.{{stat}})'
+  ModeSelector:
+    Off: '關閉'
+    RollCount: 模擬自訂副詞條升級次數
+    Totals: 模擬自訂副詞條屬性值總和
+  FooterLabels:
+    Simulate: 模擬配裝
+    Import: 匯入優化器配裝
+    Conditionals: 套裝條件觸發效果
+  DeletePopup:
+    Title: 清除屬性模擬
+    Description: 確定要清除該角色所有已儲存的模擬嗎？
+  SimulationNamePlaceholder: 模擬名稱（選填）
+  OptionsHeader: 選項
+  RollsHeader: 副詞條最大升級次數
+  TotalsHeader: 副詞條屬性值總和
   MainStatsSelection:
+    Header: 主屬性
     BodyPlaceholder: 軀幹
     FeetPlaceholder: 腳部
-    SpherePlaceholder: 次元球
+    SpherePlaceholder: 位面球
     RopePlaceholder: 連結繩
+    ShortStat: '$t(common:ShortReadableStats.{{stat}})'
+    LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
+  TeammateUpgrades:
+    ColumnHeaders:
+      Ornaments: 隊友套裝
+      COMBO_DMG: Δ連招傷害
+      COMBO_DMG_P: Δ%連招傷害
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: '+1次副詞條'
+      COMBO_DMG: Δ連招傷害
+      COMBO_DMG_P: Δ%連招傷害
+      EHP: Δ有效生命
+      EHP_P: Δ%有效生命
+      HEAL_VALUE: Δ治療量
+      HEAL_VALUE_P: Δ%治療量
+      SHIELD_VALUE: Δ護盾值
+      SHIELD_VALUE_P: Δ%護盾值
   DamageTags:
+    ALL: 全部
     BASIC: 普攻
     SKILL: 戰技
     ULT: 終結技
     FUA: 追加攻擊
+    DOT: 持續傷害
+    BREAK: 擊破
+    SUPER_BREAK: '超擊破'
+    MEMO: 憶靈
+    ADDITIONAL: 附加
+    ELATION: 歡愉傷害
+    ASSIST: 助戰技
+    UNIQUE: 特殊
   DamageSplits:
+    Title: 連招明細
+    PieTitle: 連招分佈
+    Mode:
+      Default: 預設
+      Rotation: 循環
     Legend:
+      Basic: 普攻
+      Skill: 戰技
+      Ult: 終結技
+      Fua: 追加攻擊
+      DoT: 持續傷害
       Break: 擊破
+      Super Break: 超擊破
+      Memo: 憶靈
+      Additional: 附加
+      Elation: 歡愉度
+      'True': '真實'
     YAxisLabel:
+      BASIC_DMG: 普攻
+      SKILL_DMG: 戰技
+      ULT_DMG: 終結技
+      FUA_DMG: 追加攻擊
+      DOT_DMG: 持續
       BREAK_DMG: 擊破
+      MEMO_SKILL_DMG: 憶靈技
+      MEMO_TALENT_DMG: 憶靈天賦
     TooltipText:
+      abilityDmg: 技能傷害
       breakDmg: 擊破傷害
+      superBreakDmg: 超擊破傷害
+      additionalDmg: 附加傷害
+      trueDmg: 真實傷害
+      jointDmg: 連攜傷害
       dotDmg: 持續傷害
+      memoDmg: 憶靈傷害
   BuffsAnalysisDisplay:
     Values:
       BoolFalse: '否'
       BoolTrue: '是'
+    Sources:
+      Basic: 普攻
+      Skill: 戰技
+      Ult: 終結技
+      Talent: 天賦
+      Technique: 秘技
+      Trace: 行跡
+      Memo: 憶靈
+      E1: 1魂
+      E2: 2魂
+      E4: 4魂
+      E6: 6魂
+      ElationSkill: 歡愉技
+      Unique: 特殊
+      LightCone: 光錐
+      Set: 套裝
+    DefaultAction: 預設
+    SummaryLabel: 增益總計
     DamageFunctions:
+      Crit: 暴擊
+      DoT: 持續傷害
       Break: 擊破
+      S.Break: 超擊破
+      Add: 附加
+      Elation: 歡愉度
     Stats:
       CompositeLabels:
+        Label: '{{prefix}}{{suffix}}'
         Prefix:
+          Basic: 普攻
+          Skill: 戰技
+          Ult: 終結技
+          Fua: 追加攻擊
+          Dot: 持續
           Break: 擊破
+          Memo Skill: 憶靈技
+          Memo Talent: 憶靈天賦
+          Elation Skill: 歡愉技
+        Suffix:
+          ATK scaling: 攻擊力加成
+          DEF scaling: 防禦力加成
+          HP scaling: 生命值加成
+          Special scaling: 特殊加成
+          'ATK % boost': 攻擊力%提升
+          Crit Rate boost: 暴擊率提升
+          Crit DMG boost: 暴擊傷害提升
+          DMG Boost: 傷害提升
+          Vulnerability: 易傷
+          RES PEN: 抗性穿透
+          DEF PEN: 防御穿透
+          Break DEF PEN: 擊破防禦穿透
+          Toughness DMG: 韌性傷害值
+          Fixed Toughness DMG: 固定韌性傷害
+          Super Break multiplier: 超擊破倍率
+          Break Efficiency boost: 擊破效率提升
+          True DMG multiplier: 真實傷害倍率
+          Final DMG multiplier: 最終傷害倍率
+          Break DMG multiplier: 擊破傷害倍率
+          Additional DMG scaling: 附加傷害倍率
+          Additional DMG: 附加傷害
+          DMG: 傷害
       Misc:
+        Base HP: 基礎生命值
+        Base ATK: 基礎攻擊力
+        Base DEF: 基礎防禦力
+        Base SPD: 基礎速度
+        Memosprite base HP scaling: 憶靈基礎生命值加成
+        Memosprite base DEF scaling: 憶靈基礎防禦力加成
+        Memosprite base ATK scaling: 憶靈基礎攻擊力加成
+        Memosprite base SPD scaling: 憶靈基礎速度加成
+        Memosprite base HP flat: 憶靈初始固定生命值
+        Memosprite base DEF flat: 憶靈初始固定防禦力
+        Memosprite base ATK flat: 憶靈初始固定攻擊力
+        Memosprite base SPD flat: 憶靈初始固定速度
+        Elemental DMG: 元素傷害
+        DMG reduction: 減傷
+        Effective HP: 有效生命值
+        Summons: 召喚物
+        Memosprite: 憶靈
+        Enemy weakness broken: 敵方被弱點擊破
+        Prioritize memosprite buffs: 提高憶靈增益優先級
+        Deprioritize buffs: 降低增益優先級
         Combo DMG: 連招傷害
+        Dot base chance: 持續傷害基礎機率
+        Effect RES PEN: 效果抵抗穿透
+        Dot DMG split: 持續傷害分攤
+        Dot stacks: 持續傷害層數
+        Heal ability type: 治療技能類型
+        Heal flat: 基礎治療量
+        Heal scaling: 治療加成
+        Heal value: 治療量
+        Shield flat: 基礎護盾值
+        Shield scaling: 護盾加成
+        Shield value: 護盾值
+        Shield boost: 護盾提升
+        Skill Outgoing Healing Boost: 戰技治療量加成
+        Ult Outgoing Healing Boost: 終結技治療量加成
+        Super Break DEF PEN: 超擊破防禦穿透
+        Super Break DMG Boost: 超擊破傷害提升
+        Super Break Vulnerability: 超擊破易傷
+        Additional DMG boost: 附加傷害提升
+        Ult Additional DMG CR override: 終結技附加傷害暴擊率覆蓋
+        Ult Additional DMG CD override: 終結技附加傷害暴傷覆蓋
+        Merrymaking: 增笑
+        Elation: 歡愉度
+      DmgTypes:
+        Basic: 普攻傷害類型
+        Skill: 戰技傷害類型
+        Ult: 終結技傷害類型
+        Fua: 追加攻擊傷害類型
+        Dot: 持續傷害類型
+        Break: 擊破傷害類型
+        MemoSkill: 憶靈技傷害類型
+        MemoTalent: 憶靈天賦傷害類型
+        ElationSkill: 歡愉技傷害類型
+        Additional: 附加傷害類型
+        SuperBreak: 超擊破傷害類型
+      Unconvertible: '不可轉化的$t(common:Stats, {{stat}})'
+      ElementalDmgBoost: '$t(gameData:Elements.{{element}})$t(optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Suffix.DMG Boost)'
+    HitDefinition:
+      AtkScaling: 攻擊力加成
+      HpScaling: 生命值加成
+      DefScaling: 防禦力加成
+      Crit:
+        BeScaling: 擊破特攻加成
+        BeCap: 擊破特攻上限
+        ElationAtkScaling: 歡愉攻擊力加成
+      Dot:
+        Chance: 持續傷害機率
+        Split: 持續傷害分攤
+        Stacks: 持續傷害層數
+      Break:
+        SpecialScaling: 特殊加成
+      SuperBreak:
+        ExtraModifier: 額外倍率
+      Additional:
+        CrOverride: 暴擊率覆蓋
+        CdOverride: 暴擊傷害覆蓋
+      Elation:
+        Scaling: 歡愉度加成
+        Punchline: 笑點層數
+        Banger: 好活當賞層數
+      TrueDmg: 真實傷害倍率
+      Toughness: 韌性傷害值
+      FixedToughness: 固定韌性值
     EnemyConfiguration:
+      Header: 敵方配置
+      Level: 敵方等級
+      Res: 傷害抗性
       Efres: 效果抵抗
+      Toughness: 韌性值
+      Targets: 目標數量
+      Weakness: 元素弱點
+      Broken: 弱點擊破
+      Enemy: 敵人

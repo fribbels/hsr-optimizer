@@ -1,5 +1,41 @@
 Messages:
+  ThrottleWarning: '請等待{{seconds}}秒後重試'
+  InvalidIdWarning: ID無效
+  IdLoadError: 載入ID時出錯
   SuccessMsg: 成功載入個人資料
+  LookupError: 查找時出錯，請稍後再試
   NoCharacterSelected: 未選擇角色
+  NoSelectedLightCone: 無選定光錐
+  CharacterAlreadyExists: 所選角色已經存在
+  UnknownButtonClicked: 點擊了未知按鈕
+Header:
+  DowntimeWarning: '展示功能將在 {{game_version}} 版本更新後進入維護，恢復時間待定。'
+  WithVersion: '請輸入你的帳戶 UID，以對角色展示中的角色進行評分（預設角色為 80 級和滿行跡）。返回遊戲登入畫面可以立刻刷新你的角色展示。（目前版本為 {{beta_version}}）'
+  WithoutVersion: 請輸入你的帳戶 UID，以對角色展示中的角色進行評分（預設角色為 80 級和滿行跡）。返回遊戲登入畫面可以立刻刷新你的角色展示。
 SubmissionBar:
+  Placeholder: 帳號 UID
   AlgorithmButton: 評分算法
+CopyScreenshot: 複製截圖
+ImportLabels:
+  Relics: 將遺器匯入優化器
+  SingleCharacter: 將選中的角色及全部遺器匯入優化器
+  AllCharacters: 將全部角色及全部遺器匯入優化器
+SimulateRelics: 在其他角色上模擬該遺器
+OptimizeOnCharacter: 優化角色屬性
+Loading:
+  FetchingShowcase: '正在取得 {{scorerId}} 的展示資料'
+Buttons:
+  Import: 匯入
+DPSScoreDisclaimer:
+  Title: 請勿使用連招傷害或 DPS 評分來比較不同隊伍、光錐或命座！
+  Body:
+    l1: 連招傷害和 DPS 評分用於衡量在固定技能循環下，目前隊伍配置中配裝的輸出能力。
+    l2: 不同隊伍、光錐、命座或版本會影響行動提前、能量及其他未被固定循環涵蓋的機制，因此不同配置之間的評分不具可比性。每個角色都有其獨特的循環方式和輸出週期。
+    l3: 在目前隊伍中，可使用連招傷害比較不同遺器、主屬性和套裝效果對循環傷害的影響。DPS 評分則將連招傷害與相同速度下、副詞條最優分配的模擬基準進行比較，用於衡量目前遺器與最佳配裝的差距。
+    l4: DPS 評分基準會根據角色戰鬥時的速度產生。不同速度下的配裝對應不同基準，無法直接比較。這也解釋了為何較低速度的配裝可能擁有更高的連招傷害，但更低的 DPS 評分。請在側邊欄設定速度基準，以在相同速度目標下比較 DPS 評分。
+  ButtonText: 了解並隱藏提示
+  Confirmation:
+    Title: 確認並隱藏提示
+    Body: 我不會使用連招傷害或 DPS 評分來比較不同隊伍、光錐、命座或版本。
+Disclaimer: '注意：連招傷害旨在比較不同遺物相對於所選隊伍的表現，<1>不應</1>用於比較不同隊伍／光錐／命座！'
+DisclaimerDescription: '連招傷害是一種用於衡量特定隊伍配置下，單次技能循環造成傷害的工具。更換隊伍／命座／光錐都會改變循環時長、能量獲取量、增益持續時間等因素。這意味著連招傷害不能用於判斷哪個隊伍更強、哪個光錐更好，或衡量命座間的傷害提升。連招傷害的唯一用途是在固定的隊伍與速度目標下，對比不同遺器的表現。'

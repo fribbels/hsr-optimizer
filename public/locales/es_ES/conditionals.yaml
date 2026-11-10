@@ -2032,6 +2032,8 @@ Characters:
         content: Cuando está en el estado de Concierto, la VEL de todos los aliados aumenta en un 16%.
   RobinSummeretto:
     Content:
+      techniqueDmgBuff:
+        text: Mejora daño de Técnica
       e2ResPen:
         text: E2 PEN RES
       e4MemoSpdBuff:

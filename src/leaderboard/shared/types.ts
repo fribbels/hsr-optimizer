@@ -7,7 +7,11 @@ import type {
   ComputeOptimalSimulationWorkerInput,
   ComputeOptimalSimulationWorkerOutput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
-import type { CharacterId } from 'types/character'
+import type {
+  CharacterId,
+  ExFlags,
+} from 'types/character'
+import type { Teammate } from 'types/form'
 import type {
   ScoringConfigType,
   SimulationMetadata,
@@ -21,6 +25,7 @@ export type LeaderboardEntryTeammate = {
   characterId: string,
   lightCone: string,
   characterEidolon: number,
+  characterEx: ExFlags,
   lightConeSuperimposition: number,
 }
 
@@ -246,11 +251,15 @@ export type LeaderboardScoringCandidate = {
   characterId: string,
 }
 
+export interface LeaderboardSimulationMetadata extends SimulationMetadata {
+  teammates: Teammate[]
+}
+
 export type LeaderboardScoreCandidateConfigInput = {
   candidate: LeaderboardScoringCandidate,
   configType: ScoringConfigType,
   teamId: string,
-  simulationMetadata: SimulationMetadata,
+  simulationMetadata: LeaderboardSimulationMetadata,
   teamEidolon?: number,
   teamTier: LeaderboardEidolonGroup,
   strippedRelicHash?: string,

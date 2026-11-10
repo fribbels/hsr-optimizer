@@ -7,6 +7,7 @@ import {
   IconX,
 } from '@tabler/icons-react'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { DISCORD_INVITE_URL } from 'lib/constants/constantsUi'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -65,7 +66,7 @@ export function LayoutHeader() {
           </a>
         </Flex>
         <Flex align='center' gap={6}>
-          <a href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noreferrer'>
+          <a href={DISCORD_INVITE_URL} target='_blank' rel='noreferrer'>
             <img src={Assets.getDiscord()} style={{ height: 32, borderRadius: 5, display: 'block' }} />
           </a>
           <LanguageSelector />

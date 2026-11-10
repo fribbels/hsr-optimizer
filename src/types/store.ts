@@ -11,6 +11,7 @@ import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import type {
   Character,
   CharacterId,
+  ExFlags,
 } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import type {
@@ -61,6 +62,7 @@ export type SavedTeamId = string
 export type TeamShowcaseBenchmarkMember = {
   characterId: CharacterId,
   characterEidolon: number,
+  characterEx: ExFlags,
   lightCone: LightConeId,
   lightConeSuperimposition: number,
   teamRelicSet?: string,

@@ -9,6 +9,7 @@ import type {
 import type {
   CharacterId,
   Eidolon,
+  ExFlags,
 } from 'types/character'
 
 import type {
@@ -34,6 +35,7 @@ import type {
 export type Teammate = {
   characterId: CharacterId,
   characterEidolon: number,
+  characterEx: ExFlags,
   lightCone: LightConeId,
   lightConeSuperimposition: number,
   teamOrnamentSet?: string,
@@ -44,10 +46,13 @@ export type Teammate = {
 
 export type OptimizerForm = Form
 
+export type ImportedCharacterForm = Partial<Form> & Pick<Form, 'characterId'>
+
 export type Form =
   & {
     // Core
     characterEidolon: Eidolon,
+    characterEx: ExFlags,
     characterId: CharacterId,
     characterLevel: number,
 

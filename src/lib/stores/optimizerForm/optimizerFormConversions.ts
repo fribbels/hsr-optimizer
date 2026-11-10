@@ -82,6 +82,7 @@ export function displayToInternal(state: OptimizerRequestState): Form {
   return {
     // Character identity
     characterEidolon: state.characterEidolon,
+    characterEx: state.characterEx,
     characterId: state.characterId!,
     characterLevel: state.characterLevel,
 
@@ -170,6 +171,7 @@ function teammateStateToTeammate(ts: TeammateState): Teammate {
   return {
     characterId: ts.characterId!,
     characterEidolon: ts.characterEidolon,
+    characterEx: ts.characterEx,
     lightCone: ts.lightCone!,
     lightConeSuperimposition: ts.lightConeSuperimposition,
     teamRelicSet: ts.teamRelicSet,
@@ -234,6 +236,7 @@ export function internalFormToState(form: Form): Partial<OptimizerRequestState> 
   return {
     characterId: form.characterId,
     characterEidolon: form.characterEidolon,
+    characterEx: form.characterEx,
     characterLevel: form.characterLevel ?? 80,
     lightCone: form.lightCone,
     lightConeLevel: form.lightConeLevel ?? 80,
@@ -396,6 +399,7 @@ function teammateToTeammateState(teammate: Teammate | undefined): TeammateState 
   return {
     characterId: teammate.characterId,
     characterEidolon: teammate.characterEidolon,
+    characterEx: teammate.characterEx,
     lightCone: teammate.lightCone,
     lightConeSuperimposition: teammate.lightConeSuperimposition,
     teamRelicSet: teammate.teamRelicSet,

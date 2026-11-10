@@ -2037,6 +2037,8 @@ Characters:
         content: '[협주] 상태일 시 모든 아군의 속도가 16% 증가한다. 특성의 에너지 회복 효과가 추가로 1pt 증가한다.'
   RobinSummeretto:
     Content:
+      techniqueDmgBuff:
+        text: 비술 데미지 버프
       e2ResPen:
         text: 2돌 속성 저항 감소
       e4MemoSpdBuff:

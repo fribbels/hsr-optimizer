@@ -9,6 +9,7 @@ import {
   computeBrowserCandidateId,
   hashLeaderboardUid,
 } from 'lib/tabs/tabLeaderboard/leaderboardBrowserHash'
+import { LeaderboardExFilter } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import type { CharacterId } from 'types/character'
 
 export type LoadedLeaderboardCharacter = {
@@ -57,6 +58,7 @@ export async function lookupUserLeaderboardRanks(
         activeConfigType: configType,
         activeTeamId: LEADERBOARD_FILTER_ALL,
         filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+        filterCharacterEx: LeaderboardExFilter.All,
       }).find((candidate) => candidate.candidateId === candidateId)
 
       if (!entry) {
@@ -66,6 +68,7 @@ export async function lookupUserLeaderboardRanks(
             activeConfigType: configType,
             activeTeamId: candidateTeamId,
             filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+            filterCharacterEx: LeaderboardExFilter.All,
           }).find((candidate) => candidate.candidateId === candidateId)
           if (!candidateEntry) continue
 

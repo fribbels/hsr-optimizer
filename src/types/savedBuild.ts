@@ -2,7 +2,10 @@ import type { Parts } from 'lib/constants/constants'
 import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import type { ComboType } from 'lib/optimization/rotation/comboType'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import type { CharacterId } from 'types/character'
+import type {
+  CharacterId,
+  ExFlags,
+} from 'types/character'
 import type { ConditionalValueMap } from 'types/conditionals'
 import type { LightConeId } from 'types/lightCone'
 import type { ScoringConfigType } from 'types/metadata'
@@ -19,6 +22,7 @@ export enum BuildSource {
 export type SavedTeammate = {
   characterId: CharacterId,
   characterEidolon: number,
+  characterEx: ExFlags,
   lightCone: LightConeId,
   lightConeSuperimposition: number,
   teamRelicSet: string | undefined,
@@ -37,6 +41,7 @@ type SavedBuildBase = {
   characterId: CharacterId,
   equipped: Build,
   characterEidolon: number,
+  characterEx: ExFlags,
   lightCone: LightConeId,
   lightConeSuperimposition: number,
   scoringConfigType?: ScoringConfigType,

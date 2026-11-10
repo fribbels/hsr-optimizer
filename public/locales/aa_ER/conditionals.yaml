@@ -2386,6 +2386,9 @@ Characters:
       deviatedChordCdBuff:
         text: 'crwdns48011:0crwdne48011:0'
         content: crwdns48013:0crwdne48013:0
+      techniqueDmgBuff:
+        text: crwdns48099:0crwdne48099:0
+        content: "crwdns48101:0crwdne48101:0"
       e2ResPen:
         text: crwdns48015:0crwdne48015:0
         content: crwdns48017:0crwdne48017:0

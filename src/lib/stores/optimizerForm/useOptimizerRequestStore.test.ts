@@ -1,11 +1,16 @@
 // @vitest-environment jsdom
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
-import { Sets } from 'lib/constants/constants'
+import { JingYuan } from 'lib/conditionals/character/1200/JingYuan'
+import {
+  ConditionalDataType,
+  Sets,
+} from 'lib/constants/constants'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import { type SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { ExEidolon } from 'types/character'
 import { type LightConeId } from 'types/lightCone'
 import {
   beforeEach,
@@ -33,6 +38,68 @@ beforeEach(() => {
 // ---- Tests ----
 
 describe('useOptimizerRequestStore', () => {
+  it('EX preserves manual conditionals and clamps Jing Yuan hit defaults and serialized values on disable', () => {
+    state().setCharacterId(JingYuan.id)
+    state().setCharacterConditionals({ talentHitsPerAction: 10, talentAttacks: 7, skillCritBuff: false })
+    state().setEx(ExEidolon.EX1)
+    expect(state().characterConditionals).toEqual({ talentHitsPerAction: 10, talentAttacks: 7, skillCritBuff: false })
+    state().setCharacterConditionals({ talentHitsPerAction: 30, talentAttacks: 25, skillCritBuff: false })
+    const combo = {
+      comboCharacter: {
+        characterConditionals: {
+          talentAttacks: { type: ConditionalDataType.NUMBER, partitions: [{ value: 25 }, { value: 5 }] },
+        },
+      },
+    }
+    state().setComboStateJson(JSON.stringify(combo))
+    state().setEx(0)
+    expect(state().characterConditionals).toEqual({ talentHitsPerAction: 10, talentAttacks: 10, skillCritBuff: false })
+    combo.comboCharacter.characterConditionals.talentAttacks.partitions[0].value = 10
+    expect(state().comboStateJson).toBe(JSON.stringify(combo))
+    expect(displayToInternal(state()).characterConditionals).toEqual(state().characterConditionals)
+  })
+
+  it('form loading owns EX selection and teammate toggles preserve other controls', () => {
+    state().setCharacterId(JingYuan.id)
+    state().setEx(ExEidolon.EX1)
+    state().setCharacterId(Kafka.id)
+    expect(state().characterEx).toBe(ExEidolon.EX1)
+    state().loadForm(displayToInternal({ ...state(), characterEx: 0 }))
+    expect(state().characterEx).toBe(0)
+    state().setEx(ExEidolon.EX1)
+    expect(state().characterEx).toBe(0)
+    state().setTeammate(0, {
+      characterId: JingYuan.id,
+      characterEx: ExEidolon.EX1,
+      characterConditionals: { talentHitsPerAction: 25, talentAttacks: 18, skillCritBuff: false },
+    })
+    state().setTeammateField(0, 'characterEx', 0)
+    expect(state().teammates[0].characterConditionals).toEqual({ talentHitsPerAction: 10, talentAttacks: 10, skillCritBuff: false })
+  })
+
+  it('loading saved EX-off values clamps conventional controls and serialized defaults while retaining custom turn values', () => {
+    state().setCharacterId(JingYuan.id)
+    state().setCharacterConditionals({ talentHitsPerAction: 30, talentAttacks: 27, skillCritBuff: false })
+    state().setTeammate(0, {
+      characterId: JingYuan.id,
+      characterEx: ExEidolon.EX1,
+      characterConditionals: { talentHitsPerAction: 25, talentAttacks: 21 },
+    })
+    const form = displayToInternal(state())
+    if (form.teammate0) form.teammate0.characterEx = 0
+    const combo = {
+      comboCharacter: { characterConditionals: { talentAttacks: { type: ConditionalDataType.NUMBER, partitions: [{ value: 27 }, { value: 23 }] } } },
+      comboTeammate0: { characterConditionals: { talentAttacks: { type: ConditionalDataType.NUMBER, partitions: [{ value: 21 }, { value: 17 }] } } },
+    }
+    form.comboStateJson = JSON.stringify(combo)
+    state().loadForm(form)
+    expect(state().characterConditionals.talentAttacks).toBe(10)
+    expect(state().characterConditionals.skillCritBuff).toBe(false)
+    expect(state().teammates[0].characterConditionals.talentAttacks).toBe(10)
+    combo.comboCharacter.characterConditionals.talentAttacks.partitions[0].value = 10
+    combo.comboTeammate0.characterConditionals.talentAttacks.partitions[0].value = 10
+    expect(state().comboStateJson).toBe(JSON.stringify(combo))
+  })
   describe('initial state', () => {
     it('store initializes with undefined characterId, three default teammates, and correct filter defaults', () => {
       expect(state().characterId).toBeUndefined()

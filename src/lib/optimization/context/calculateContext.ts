@@ -71,6 +71,7 @@ function generateCharacterMetadataContext(request: Form, context: Partial<Optimi
 
   context.characterId = request.characterId
   context.characterEidolon = request.characterEidolon
+  context.characterEx = request.characterEx
   context.lightCone = request.lightCone
   context.lightConeSuperimposition = request.lightConeSuperimposition
   context.lightConePath = dbMetadata.lightCones[request.lightCone]?.path

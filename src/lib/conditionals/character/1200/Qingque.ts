@@ -36,11 +36,11 @@ import {
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
-import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { TodayIsAnotherPeacefulDay } from 'lib/conditionals/lightcone/4star/TodayIsAnotherPeacefulDay'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   AbilityKind,
@@ -278,8 +278,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Cipher.id,
-      lightCone: LiesAflutterInTheWind.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RiseAndSing.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

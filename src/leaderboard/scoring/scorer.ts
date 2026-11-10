@@ -59,6 +59,7 @@ export async function scoreLeaderboardCandidateConfig(input: {
     characterId: String(t.characterId),
     lightCone: String(t.lightCone),
     characterEidolon: t.characterEidolon,
+    characterEx: t.characterEx,
     lightConeSuperimposition: t.lightConeSuperimposition,
   }))
 
@@ -85,6 +86,7 @@ export async function scoreLeaderboardCandidateConfig(input: {
     configType,
     simulationMetadata,
     characterEidolon: converted.form.characterEidolon,
+    characterEx: converted.form.characterEx,
     lightConeSuperimposition: converted.form.lightConeSuperimposition,
     strippedRelicHash: candidateConfig.strippedRelicHash,
     singleRelicByPart: candidateConfig.strippedRelicHash ? undefined : converted.equipped,
@@ -231,6 +233,7 @@ export async function scoreProfile(input: {
               characterId: String(t.characterId),
               lightCone: String(t.lightCone),
               characterEidolon: t.characterEidolon,
+              characterEx: t.characterEx,
               lightConeSuperimposition: t.lightConeSuperimposition,
             }))
             const dependencyVersions = getDependencyVersions({

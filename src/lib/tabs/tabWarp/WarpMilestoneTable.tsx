@@ -7,16 +7,21 @@ import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import classes from 'lib/tabs/tabWarp/WarpCalculatorTab.module.css'
-import type {
-  EnrichedWarpRequest,
-  WarpMilestoneResult,
+import {
+  type EnrichedWarpRequest,
+  type SkinDrawResult,
+  type WarpMilestoneResult,
 } from 'lib/tabs/tabWarp/warpCalculatorTypes'
+import { skinChancePercent } from 'lib/tabs/tabWarp/warpSkinBanners'
 import {
   localeNumber_0,
   localeNumberComma,
 } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
-import type { CSSProperties } from 'react'
+import type {
+  CSSProperties,
+  ReactNode,
+} from 'react'
 import {
   Trans,
   useTranslation,
@@ -27,15 +32,10 @@ const chanceThreshold = 0.0005
 
 function translateLabel(label: string) {
   const t = i18next.getFixedT(null, ['warpCalculatorTab', 'common'])
+
   if (/^S\d$/.test(label)) return t('common:SuperimpositionNShort', { superimposition: label.charAt(1) })
   if (/^E\d$/.test(label)) return t('common:EidolonNShort', { eidolon: label.charAt(1) })
   return t('warpCalculatorTab:TargetLabel', { superimposition: label.charAt(3), eidolon: label.charAt(1) })
-}
-
-export type WarpMilestoneRowData = { label: string, warps: number, wins: number }
-
-export function toMilestoneRows(milestoneResults: Record<string, WarpMilestoneResult> | undefined): WarpMilestoneRowData[] {
-  return Object.entries(milestoneResults ?? {}).map(([label, result]) => ({ label, warps: result.warps, wins: result.wins }))
 }
 
 export function PassIcon({ size = 16 }: { size?: number }) {
@@ -68,43 +68,77 @@ export function WarpTableHeader({ request, goalColStyle }: { request: EnrichedWa
   )
 }
 
-export function WarpMilestoneRows({ milestones, rowKeyPrefix }: { milestones: WarpMilestoneRowData[], rowKeyPrefix?: string }) {
+export function WarpMilestoneRows({ milestones, rowKeyPrefix }: {
+  milestones: Record<string, WarpMilestoneResult>,
+  rowKeyPrefix: string,
+}) {
   return (
     <>
-      {milestones.map((milestone) => (
-        <Table.Tr
-          key={rowKeyPrefix ? `${rowKeyPrefix}-${milestone.label}` : milestone.label}
-          className={milestone.wins < chanceThreshold ? classes.warpRowDisabled : classes.warpRow}
-        >
-          <Table.Td className={classes.goalCell}>
-            <Flex className={classes.goalBarOverlay} align='center'>
-              {milestone.wins >= chanceThreshold && (
-                <div
-                  className={classes.goalBar}
-                  style={{
-                    width: `${milestone.wins * 100}%`,
-                    backgroundColor: warpChanceColorScale(milestone.wins).hex(),
-                  }}
-                />
-              )}
-              <Flex className={classes.goalContent} justify='center' align='center'>
-                <Badge color='#000000aa' className={classes.goalBadge} style={{ fontWeight: 'normal', fontSize: 12 }}>
-                  {translateLabel(milestone.label)}
-                </Badge>
-              </Flex>
-            </Flex>
-          </Table.Td>
-          <Table.Td style={{ textAlign: 'center' }}>
-            {`${localeNumber_0(precisionRound(milestone.wins * 100, 1))}%`}
-          </Table.Td>
-          <Table.Td style={{ textAlign: 'center' }}>
-            <Flex align='center' justify='center' gap={4}>
-              {Math.ceil(milestone.warps)}
-              <PassIcon size={14} />
-            </Flex>
-          </Table.Td>
-        </Table.Tr>
+      {Object.entries(milestones).map(([label, milestone]) => (
+        <MilestoneRow
+          key={`${rowKeyPrefix}-${label}`}
+          label={translateLabel(label)}
+          wins={milestone.wins}
+          chance={precisionRound(milestone.wins * 100, 1)}
+          disabled={milestone.wins < chanceThreshold}
+          cost={Math.ceil(milestone.warps)}
+          icon={<PassIcon size={14} />}
+        />
       ))}
     </>
+  )
+}
+
+export function SkinDrawRows({ draws, rowKeyPrefix }: {
+  draws: Record<string, SkinDrawResult>,
+  rowKeyPrefix: string,
+}) {
+  return (
+    <>
+      {Object.values(draws).map((draw) => (
+        <MilestoneRow
+          key={`${rowKeyPrefix}-${draw.draw}`}
+          label={`Draw ${draw.draw}`}
+          wins={draw.wins}
+          chance={skinChancePercent(draw.wins)}
+          disabled={draw.unaffordable}
+          cost={localeNumberComma(draw.jades)}
+          icon={<img style={{ height: 14 }} src={Assets.getJade()} />}
+        />
+      ))}
+    </>
+  )
+}
+
+function MilestoneRow({ label, wins, chance, disabled, cost, icon }: {
+  label: string,
+  wins: number,
+  chance: number,
+  disabled: boolean,
+  cost: ReactNode,
+  icon: ReactNode,
+}) {
+  return (
+    <Table.Tr className={disabled ? classes.warpRowDisabled : classes.warpRow}>
+      <Table.Td className={classes.goalCell}>
+        <Flex className={classes.goalBarOverlay} align='center'>
+          {!disabled && (
+            <div
+              className={classes.goalBar}
+              style={{ width: `${wins * 100}%`, backgroundColor: warpChanceColorScale(wins).hex() }}
+            />
+          )}
+          <Flex className={classes.goalContent} justify='center' align='center'>
+            <Badge color='#000000aa' className={classes.goalBadge} style={{ fontWeight: 'normal', fontSize: 12 }}>
+              {label}
+            </Badge>
+          </Flex>
+        </Flex>
+      </Table.Td>
+      <Table.Td style={{ textAlign: 'center' }}>{localeNumber_0(chance)}%</Table.Td>
+      <Table.Td style={{ textAlign: 'center' }}>
+        <Flex align='center' justify='center' gap={4}>{cost}{icon}</Flex>
+      </Table.Td>
+    </Table.Tr>
   )
 }

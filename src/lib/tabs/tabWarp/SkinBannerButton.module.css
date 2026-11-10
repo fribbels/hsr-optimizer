@@ -1,0 +1,29 @@
+.root {
+  width: 300px;
+  height: 64px;
+  max-width: 100%;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid var(--mantine-color-dark-3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.root:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.inner {
+  justify-content: flex-end;
+}
+
+.label {
+  max-width: 100%;
+}
+
+.badge {
+  font-weight: normal;
+  font-size: 12px;
+  pointer-events: none;
+}

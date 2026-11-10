@@ -138,6 +138,7 @@ function ResourceNumberField(props: {
       <NumberInput
         placeholder='0'
         min={0}
+        allowNegative={false}
         style={{ width: '100%' }}
         hideControls
         leftSection={resourceIcon(icon)}

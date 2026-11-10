@@ -221,8 +221,6 @@ export const Optimizer = {
       lSize: relics.LinkRope.length,
     }
 
-    console.log(sizes)
-
     const permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize
     OptimizerTabController.setMetadata(sizes, relics)
 
@@ -283,7 +281,6 @@ export const Optimizer = {
     const computeEngine = useGlobalStore.getState().savedSession[SavedSessionKeys.computeEngine]
 
     if (computeEngine != COMPUTE_ENGINE_CPU && !shouldForceCpu(permutations)) {
-      console.log('GPU')
       void getWebgpuDevice(true).then((device) => {
         if (!ownsRun()) return
         if (device == null) {
@@ -315,7 +312,6 @@ export const Optimizer = {
     }
 
     if (computeEngine == COMPUTE_ENGINE_CPU || shouldForceCpu(permutations)) {
-      console.log('CPU')
       // Generate runs
       const runs: { skip: number, runSize: number }[] = []
       for (let currentSkip = 0; currentSkip < permutations; currentSkip += runSize) {

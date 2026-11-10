@@ -308,6 +308,7 @@ const simulation = (): SimulationMetadata => ({
     NULL_TURN_ABILITY_NAME,
     START_ULT,
     END_BASIC,
+    DEFAULT_FUA,
     WHOLE_BASIC,
     WHOLE_BASIC,
     DEFAULT_FUA,

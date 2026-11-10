@@ -4,9 +4,12 @@ import type { UseFormReturnType } from '@mantine/form'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
+import { SkinBannerButton } from 'lib/tabs/tabWarp/SkinBannerButton'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { calculateWarps } from 'lib/tabs/tabWarp/warpCalculatorController'
-import { DEFAULT_WARP_TARGET, EidolonLevel, type EnrichedWarpRequest, PlannerMode, SuperimpositionLevel, type WarpRequest, WarpStrategy, type WarpTargetResult } from 'lib/tabs/tabWarp/warpCalculatorTypes'
+import { calculateWarps, createSimpleWarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { type EnrichedWarpRequest, PlannerMode, type WarpRequest, WarpStrategy, WarpTargetKind, type WarpTargetResult } from 'lib/tabs/tabWarp/warpCalculatorTypes'
+import { clampSkinGoal, getSkinBanner, SKIN_BANNERS } from 'lib/tabs/tabWarp/warpSkinBanners'
+import { SkinHeaderRow } from 'lib/tabs/tabWarp/WarpTargetHeaderCard'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { useEffect } from 'react'
@@ -17,7 +20,7 @@ import { markFeatureSeen, useIsNewFeature } from 'lib/stores/newFeatureStore'
 import { useWarpScannerSync } from 'lib/tabs/tabWarp/useWarpScannerSync'
 import { WarpSettingsPanel } from 'lib/tabs/tabWarp/WarpSettingsPanel'
 import { WarpUnifiedTable } from 'lib/tabs/tabWarp/WarpUnifiedTable'
-import { PassIcon, toMilestoneRows, WarpMilestoneRows, WarpTableHeader } from 'lib/tabs/tabWarp/WarpMilestoneTable'
+import { PassIcon, SkinDrawRows, WarpMilestoneRows, WarpTableHeader } from 'lib/tabs/tabWarp/WarpMilestoneTable'
 
 export function WarpCalculatorTab() {
   const { t } = useTranslation('warpCalculatorTab')
@@ -60,17 +63,7 @@ function WarpPlanner() {
 
   const warpResult = calculateWarps(
     plannerMode === PlannerMode.SIMPLE
-      ? {
-        ...form.getValues(),
-        targets: [{
-          ...DEFAULT_WARP_TARGET,
-          id: 'quick-combined',
-          targetEidolonLevel: EidolonLevel.E6,
-          targetSuperimpositionLevel: SuperimpositionLevel.S5,
-          currentEidolonLevel: EidolonLevel.NONE,
-          currentSuperimpositionLevel: SuperimpositionLevel.NONE,
-        }],
-      }
+      ? createSimpleWarpRequest(form.getValues())
       : form.getValues(),
   )
 
@@ -124,7 +117,10 @@ function WarpPlanner() {
         <WarpSummary enriched={warpResult.request}/>
 
         {plannerMode === PlannerMode.SIMPLE && (
-          <QuickResultsTable targetResults={warpResult.targetResults} request={warpResult.request}/>
+          <>
+            <SimpleSkinButton form={form}/>
+            <QuickResultsTable form={form} targetResults={warpResult.targetResults} request={warpResult.request}/>
+          </>
         )}
         {plannerMode === PlannerMode.MULTI && (
           <WarpUnifiedTable form={form} targetResults={warpResult.targetResults} request={warpResult.request}/>
@@ -134,13 +130,57 @@ function WarpPlanner() {
   );
 }
 
-function QuickResultsTable(props: { targetResults: WarpTargetResult[]; request: EnrichedWarpRequest }) {
-  const { targetResults, request } = props
+function SimpleSkinButton({ form }: { form: UseFormReturnType<WarpRequest> }) {
+  const selectedBanner = getSkinBanner(form.getValues().simpleSkinGoal?.bannerId)
+  const banner = SKIN_BANNERS.find((banner) => banner.enabled)
 
-  const allMilestones = targetResults.flatMap((tr) => toMilestoneRows(tr.milestoneResults))
+  if (selectedBanner?.enabled || !banner) return null
 
   return (
-    <Table className={classes.warpTable} style={{ tableLayout: 'fixed', borderCollapse: 'separate', borderSpacing: 0, marginTop: 16 }}>
+    <Flex justify='center'>
+      <SkinBannerButton
+        banner={banner}
+        onClick={() => form.setFieldValue('simpleSkinGoal', clampSkinGoal(banner, 0, banner.draws.length))}
+      />
+    </Flex>
+  )
+}
+
+function SimpleTargetResultRows({ form, targetResult }: {
+  form: UseFormReturnType<WarpRequest>,
+  targetResult: WarpTargetResult,
+}) {
+  if (targetResult.kind === WarpTargetKind.WARP) {
+    return <WarpMilestoneRows milestones={targetResult.milestoneResults} rowKeyPrefix={targetResult.target.id}/>
+  }
+
+  const { skin } = targetResult.target
+  const banner = getSkinBanner(skin.bannerId)
+
+  if (!banner) return null
+
+  return (
+    <>
+      <SkinHeaderRow
+        skin={skin}
+        banner={banner}
+        onChange={(goal) => form.setFieldValue('simpleSkinGoal', goal)}
+        onRemove={() => form.setFieldValue('simpleSkinGoal', null)}
+      />
+      <SkinDrawRows draws={targetResult.milestoneResults} rowKeyPrefix={targetResult.target.id}/>
+    </>
+  )
+}
+
+function QuickResultsTable(props: {
+  form: UseFormReturnType<WarpRequest>,
+  targetResults: WarpTargetResult[],
+  request: EnrichedWarpRequest,
+}) {
+  const { form, targetResults, request } = props
+
+  return (
+    <Table className={classes.warpTable} style={{ tableLayout: 'fixed', borderCollapse: 'separate', borderSpacing: 0, marginTop: 12 }}>
       <colgroup>
         <col style={{ width: '25%' }}/>
         <col/>
@@ -148,7 +188,9 @@ function QuickResultsTable(props: { targetResults: WarpTargetResult[]; request: 
       </colgroup>
       <WarpTableHeader request={request}/>
       <Table.Tbody>
-        <WarpMilestoneRows milestones={allMilestones}/>
+        {targetResults.map((targetResult) => (
+          <SimpleTargetResultRows key={targetResult.target.id} form={form} targetResult={targetResult}/>
+        ))}
       </Table.Tbody>
     </Table>
   )

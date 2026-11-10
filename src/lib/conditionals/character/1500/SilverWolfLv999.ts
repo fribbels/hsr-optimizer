@@ -1,6 +1,5 @@
-import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
+import { AeonAha } from 'lib/conditionals/character/1500/AeonAha'
 import { Pearl } from 'lib/conditionals/character/1500/Pearl'
-import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 
 import {
   getYaoguangAhaPunchlineValue,
@@ -23,8 +22,7 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
-import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { UponTheFirstEchoOfAha } from 'lib/conditionals/lightcone/5star/UponTheFirstEchoOfAha'
 import { WelcomeToTheCosmicCity } from 'lib/conditionals/lightcone/5star/WelcomeToTheCosmicCity'
 import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
@@ -570,8 +568,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Sparxie.id,
-      lightCone: DazzledByAFloweryWorld.id,
+      characterId: AeonAha.id,
+      lightCone: UponTheFirstEchoOfAha.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -591,16 +589,16 @@ const simulation = (): SimulationMetadata => ({
   leaderboardTeams: [
     {
       teammates: [
-        { characterId: Sparxie.id, lightCones: [DazzledByAFloweryWorld.id] },
+        { characterId: AeonAha.id, lightCones: [UponTheFirstEchoOfAha.id] },
         { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
-        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+        { characterId: Pearl.id, lightCones: [Pearl.defaultLightCone] },
       ],
     },
     {
       teammates: [
         { characterId: TrailblazerElationStelle.id, lightCones: [TrailblazerElationStelle.defaultLightCone] },
         { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
-        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+        { characterId: Pearl.id, lightCones: [Pearl.defaultLightCone] },
       ],
     },
   ],

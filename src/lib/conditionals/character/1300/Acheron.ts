@@ -4,11 +4,11 @@ import {
   bounce,
   single,
 } from 'lib/conditionals/ashblazingCompute'
-import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
-import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -73,6 +73,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+
 export const AcheronEntities = createEnum('Acheron')
 export const AcheronAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -384,8 +385,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: WeltB1.id,
-      lightCone: WeltB1.defaultLightCone,
+      characterId: Cipher.id,
+      lightCone: Cipher.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -413,7 +414,14 @@ const simulation = (): SimulationMetadata => ({
     {
       teammates: [
         { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
-        { characterId: Tribbie.id, lightCones: [Tribbie.defaultLightCone] },
+        { characterId: RobinSummeretto.id, lightCones: [RobinSummeretto.defaultLightCone] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
+        { characterId: Ashveil.id, lightCones: [Ashveil.defaultLightCone] },
         { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
       ],
     },

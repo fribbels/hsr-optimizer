@@ -4,13 +4,11 @@ import {
   ashblazingMulti,
   single,
 } from 'lib/conditionals/ashblazingCompute'
-import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Pearl } from 'lib/conditionals/character/1500/Pearl'
 import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
 } from 'lib/conditionals/character/1500/Yaoguang'
-import { TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -31,8 +29,6 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
-import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { UntilTheFlowersBloomAgain } from 'lib/conditionals/lightcone/5star/UntilTheFlowersBloomAgain'
 import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
@@ -72,6 +68,8 @@ import {
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 
+import { AeonAha } from 'lib/conditionals/character/1500/AeonAha'
+import { UponTheFirstEchoOfAha } from 'lib/conditionals/lightcone/5star/UponTheFirstEchoOfAha'
 import type { Eidolon } from 'types/character'
 import type { CharacterConfig } from 'types/characterConfig'
 import type { CharacterConditionalsController } from 'types/conditionals'
@@ -505,10 +503,10 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 5,
     },
     {
-      characterId: TrailblazerElationStelle.id,
-      lightCone: ElationBrimmingWithBlessings.id,
-      characterEidolon: 6,
-      lightConeSuperimposition: 5,
+      characterId: AeonAha.id,
+      lightCone: UponTheFirstEchoOfAha.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
     },
     {
       characterId: Pearl.id,
@@ -521,8 +519,8 @@ const simulation = (): SimulationMetadata => ({
     {
       teammates: [
         { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
-        { characterId: TrailblazerElationStelle.id, lightCones: [ElationBrimmingWithBlessings.id] },
-        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+        { characterId: AeonAha.id, lightCones: [UponTheFirstEchoOfAha.id] },
+        { characterId: Pearl.id, lightCones: [Pearl.defaultLightCone] },
       ],
     },
   ],

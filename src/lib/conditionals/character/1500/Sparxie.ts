@@ -2,10 +2,8 @@ import {
   aoe,
   ashblazingMulti,
 } from 'lib/conditionals/ashblazingCompute'
-import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
-import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { AeonAha } from 'lib/conditionals/character/1500/AeonAha'
 import { Pearl } from 'lib/conditionals/character/1500/Pearl'
-import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
 import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
@@ -29,11 +27,9 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
-import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { UponTheFirstEchoOfAha } from 'lib/conditionals/lightcone/5star/UponTheFirstEchoOfAha'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -338,7 +334,10 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       const elationSkillHit = HitDefinitionBuilder.elation()
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Fire)
-        .elationScaling((elationSkillAoeScaling + totalBounces * elationSkillBounceScaling / context.enemyCount) * ascensionElationSkillMultiplierByTier[getAhaAscension(action)])
+        .elationScaling(
+          (elationSkillAoeScaling + totalBounces * elationSkillBounceScaling / context.enemyCount)
+            * ascensionElationSkillMultiplierByTier[getAhaAscension(action)],
+        )
         .punchlineStacks(punchlineStacks)
         .toughnessDmg(6.67 + 1.67 * totalBounces / context.enemyCount)
         .build()
@@ -493,8 +492,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: SilverWolfLv999.id,
-      lightCone: SilverWolfLv999.defaultLightCone,
+      characterId: AeonAha.id,
+      lightCone: UponTheFirstEchoOfAha.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -514,9 +513,9 @@ const simulation = (): SimulationMetadata => ({
   leaderboardTeams: [
     {
       teammates: [
-        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
+        { characterId: AeonAha.id, lightCones: [UponTheFirstEchoOfAha.id] },
         { characterId: Yaoguang.id, lightCones: [Yaoguang.defaultLightCone, MushyShroomysAdventures.id] },
-        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+        { characterId: Pearl.id, lightCones: [Pearl.defaultLightCone] },
       ],
     },
   ],

@@ -1,6 +1,6 @@
 import { Castorice } from 'lib/conditionals/character/1400/Castorice'
-import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { Evernight } from 'lib/conditionals/character/1400/Evernight'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   BuffPriority,
   SKILL_DMG_TYPE,
@@ -15,7 +15,7 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
-import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
   ConditionalActivation,
@@ -588,8 +588,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Cyrene.id,
-      lightCone: ThisLoveForever.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RiseAndSing.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -600,7 +600,7 @@ const simulation = (): SimulationMetadata => ({
       teammates: [
         { characterId: Castorice.id, lightCones: [MakeFarewellsMoreBeautiful.id] },
         { characterId: Evernight.id, lightCones: [ToEvernightsStars.id] },
-        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+        { characterId: RobinSummeretto.id, lightCones: [RiseAndSing.id] },
       ],
     },
   ],
@@ -650,8 +650,8 @@ const healSimulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Cyrene.id,
-      lightCone: ThisLoveForever.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RiseAndSing.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -662,7 +662,7 @@ const healSimulation = (): SimulationMetadata => ({
       teammates: [
         { characterId: Castorice.id, lightCones: [MakeFarewellsMoreBeautiful.id] },
         { characterId: Evernight.id, lightCones: [ToEvernightsStars.id] },
-        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+        { characterId: RobinSummeretto.id, lightCones: [RiseAndSing.id] },
       ],
     },
   ],

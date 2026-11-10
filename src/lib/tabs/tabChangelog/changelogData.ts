@@ -43,6 +43,7 @@ export function getChangelogContent() {
         `Balance: Clara, Dan Heng • Imbibitor Lunae, Evernight, Himeko Nova, Jade, Phainon, Seele, Sparxie, The Herta, and Yunli default SPD scoring weight changed to 0`,
         `Balance: Acheron default SPD scoring weight changed to 0 and ATK weight changed to 1`,
         `Balance: Updated default Benchmark and Leaderboard teams for various characters`,
+        `Balance: Elation teams now use Aeon Aha`,
       ],
     },
     {

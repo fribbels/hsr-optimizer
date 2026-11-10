@@ -27,11 +27,13 @@ import {
   useHiddenSelectTrigger,
 } from 'lib/tabs/tabWarp/HiddenSelectTrigger'
 import { SkinBannerButton } from 'lib/tabs/tabWarp/SkinBannerButton'
+import { SkinJadeWarning } from 'lib/tabs/tabWarp/SkinJadeWarning'
 import classes from 'lib/tabs/tabWarp/WarpCalculatorTab.module.css'
 import {
   type EnrichedWarpRequest,
   isPremiumCharacter,
   isPremiumLightCone,
+  PlannerMode,
   type PlannerTarget,
   type WarpRequest,
   WarpTargetKind,
@@ -140,6 +142,7 @@ export function WarpUnifiedTable(props: {
               />
             </Flex>
           )}
+          <SkinJadeWarning targetResults={targetResults} request={request} plannerMode={PlannerMode.MULTI} />
           {targetResults.map((targetResult, resultIndex) => (
             <SortableTargetGroup
               key={targetResult.target.id}

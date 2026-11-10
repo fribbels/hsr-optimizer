@@ -5,6 +5,7 @@ import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
 import { SkinBannerButton } from 'lib/tabs/tabWarp/SkinBannerButton'
+import { SkinJadeWarning } from 'lib/tabs/tabWarp/SkinJadeWarning'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { calculateWarps, createSimpleWarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { type EnrichedWarpRequest, PlannerMode, type WarpRequest, WarpStrategy, WarpTargetKind, type WarpTargetResult } from 'lib/tabs/tabWarp/warpCalculatorTypes'
@@ -119,6 +120,7 @@ function WarpPlanner() {
         {plannerMode === PlannerMode.SIMPLE && (
           <>
             <SimpleSkinButton form={form}/>
+            <SkinJadeWarning targetResults={warpResult.targetResults} request={warpResult.request} plannerMode={PlannerMode.SIMPLE} mt={12}/>
             <QuickResultsTable form={form} targetResults={warpResult.targetResults} request={warpResult.request}/>
           </>
         )}

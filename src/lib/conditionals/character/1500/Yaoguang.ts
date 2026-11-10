@@ -1,7 +1,7 @@
+import { AeonAha } from 'lib/conditionals/character/1500/AeonAha'
 import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
 import { Pearl } from 'lib/conditionals/character/1500/Pearl'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
-import { AeonAha } from './AeonAha'
 import {
   AbilityEidolon,
   type Conditionals,

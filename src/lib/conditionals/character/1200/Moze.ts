@@ -46,10 +46,10 @@ import {
 
 import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { Ashveil } from '../1500/Ashveil'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { ShadowedByNight } from 'lib/conditionals/lightcone/4star/ShadowedByNight'
-import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
+import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   AbilityKind,

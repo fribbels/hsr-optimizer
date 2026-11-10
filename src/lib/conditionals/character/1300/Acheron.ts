@@ -4,12 +4,11 @@ import {
   bounce,
   single,
 } from 'lib/conditionals/ashblazingCompute'
-import { RobinSummeretto } from '../1500/RobinSummeretto'
-import { Ashveil } from '../1500/Ashveil'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
-import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,

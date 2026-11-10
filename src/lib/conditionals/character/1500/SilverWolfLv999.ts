@@ -1,6 +1,5 @@
-import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
+import { AeonAha } from 'lib/conditionals/character/1500/AeonAha'
 import { Pearl } from 'lib/conditionals/character/1500/Pearl'
-import { AeonAha } from './AeonAha'
 
 import {
   getYaoguangAhaPunchlineValue,
@@ -23,7 +22,6 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { UponTheFirstEchoOfAha } from 'lib/conditionals/lightcone/5star/UponTheFirstEchoOfAha'
 import { WelcomeToTheCosmicCity } from 'lib/conditionals/lightcone/5star/WelcomeToTheCosmicCity'
 import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'

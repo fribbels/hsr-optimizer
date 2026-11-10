@@ -3,8 +3,8 @@ import {
   single,
 } from 'lib/conditionals/ashblazingCompute'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
-import { RobinSummeretto } from '../1500/RobinSummeretto'
-import { MortenaxBlade } from '../1500/MortenaxBlade'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -17,9 +17,9 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { OnlySilenceRemains } from 'lib/conditionals/lightcone/4star/OnlySilenceRemains'
-import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
+import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
 import {
   Parts,
   Sets,

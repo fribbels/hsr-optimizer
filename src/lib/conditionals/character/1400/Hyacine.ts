@@ -1,6 +1,6 @@
 import { Castorice } from 'lib/conditionals/character/1400/Castorice'
 import { Evernight } from 'lib/conditionals/character/1400/Evernight'
-import { RobinSummeretto } from '../1500/RobinSummeretto'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   BuffPriority,
   SKILL_DMG_TYPE,
@@ -15,8 +15,8 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
-import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
+import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
   ConditionalActivation,
   ConditionalType,

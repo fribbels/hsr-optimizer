@@ -36,8 +36,8 @@ import {
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
-import { RobinSummeretto } from '../1500/RobinSummeretto'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { TodayIsAnotherPeacefulDay } from 'lib/conditionals/lightcone/4star/TodayIsAnotherPeacefulDay'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'

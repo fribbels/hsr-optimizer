@@ -3,8 +3,8 @@ import {
   ashblazingMulti,
 } from 'lib/conditionals/ashblazingCompute'
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
-import { BlackSwanB1 } from '../1300/BlackSwanB1'
-import { HuohuoB1 } from '../1200/HuohuoB1'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
+import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -17,8 +17,8 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { EyesOfThePrey } from 'lib/conditionals/lightcone/4star/EyesOfThePrey'
-import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
 import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
 import {
   Parts,

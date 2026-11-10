@@ -50,12 +50,10 @@ import {
   type SimulationMetadata,
 } from 'types/metadata'
 
-import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
-import { HuohuoB1 } from './HuohuoB1'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { BeforeDawn } from 'lib/conditionals/lightcone/5star/BeforeDawn'
-import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   AbilityKind,

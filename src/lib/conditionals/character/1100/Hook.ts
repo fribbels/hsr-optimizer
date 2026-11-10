@@ -2,9 +2,9 @@ import {
   ashblazingMulti,
   single,
 } from 'lib/conditionals/ashblazingCompute'
-import { MortenaxBlade } from '../1500/MortenaxBlade'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { RobinSummeretto } from '../1500/RobinSummeretto'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,

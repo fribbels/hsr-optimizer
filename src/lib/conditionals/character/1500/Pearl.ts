@@ -1,4 +1,4 @@
-import { AeonAha } from './AeonAha'
+import { AeonAha } from 'lib/conditionals/character/1500/AeonAha'
 import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
 import {
   getYaoguangAhaPunchlineValue,
@@ -20,8 +20,8 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { UponTheFirstEchoOfAha } from 'lib/conditionals/lightcone/5star/UponTheFirstEchoOfAha'
 import { ColorsForTomorrow } from 'lib/conditionals/lightcone/5star/ColorsForTomorrow'
+import { UponTheFirstEchoOfAha } from 'lib/conditionals/lightcone/5star/UponTheFirstEchoOfAha'
 import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
   ConditionalActivation,

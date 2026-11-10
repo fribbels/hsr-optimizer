@@ -1,4 +1,5 @@
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { AeonAha } from 'lib/conditionals/character/1500/AeonAha'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import {
@@ -24,6 +25,7 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { SummerRidesTheSurf } from 'lib/conditionals/lightcone/5star/SummerRidesTheSurf'
 import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
+import { UponTheFirstEchoOfAha } from 'lib/conditionals/lightcone/5star/UponTheFirstEchoOfAha'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -54,12 +56,12 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { wrappedFixedT } from 'lib/utils/i18nUtils'
-import { precisionRound } from 'lib/utils/mathUtils'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -72,8 +74,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { AeonAha } from './AeonAha'
-import { UponTheFirstEchoOfAha } from 'lib/conditionals/lightcone/5star/UponTheFirstEchoOfAha'
 
 export const AventurineWaveflairEntities = createEnum('AventurineWaveflair')
 export const AventurineWaveflairAbilities: AbilityKind[] = [
@@ -533,13 +533,12 @@ const simulation = (): SimulationMetadata => ({
     },
   ],
   leaderboardTeams: [{
-        teammates: [
-          { characterId: Ashveil.id, lightCones: [Ashveil.defaultLightCone] },
-          { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
-          { characterId: Hyacine.id, lightCones: [Hyacine.defaultLightCone] },
-        ],
-      },
+    teammates: [
+      { characterId: Ashveil.id, lightCones: [Ashveil.defaultLightCone] },
+      { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
+      { characterId: Hyacine.id, lightCones: [Hyacine.defaultLightCone] },
     ],
+  }],
 })
 
 const scoring = (): ScoringMetadata => ({

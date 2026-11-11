@@ -1,3 +1,8 @@
+import {
+  type MainStats,
+  type Parts,
+  type Sets,
+} from 'lib/constants/constants'
 import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
 import {
   getActivatedBuffs,
@@ -8,6 +13,7 @@ import {
   type V4ParserLightCone,
   type V4ParserMaterial,
   type V4ParserRelic,
+  type V4ParserSubstat,
 } from 'lib/importer/kelzFormatParser'
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
@@ -410,6 +416,26 @@ type PityUpdate =
     }
   )
 
+type RelicBoxEvent = {
+  kind: 'Confirmed',
+} | {
+  kind: 'Add',
+  relic_id: number,
+} | {
+  kind: 'Open',
+  relic: BoxRelic,
+}
+
+type BoxRelic = {
+  set_id: string,
+  name: Sets,
+  slot: Parts,
+  rarity: number,
+  level: number,
+  mainstat: MainStats,
+  substats: Array<V4ParserSubstat>,
+}
+
 export type ScannerEvent =
   | { event: 'InitialScan', data: ScannerParserJson }
   | { event: 'GachaResult', data: GachaResult }
@@ -420,6 +446,7 @@ export type ScannerEvent =
   | { event: 'UpdateCharacters', data: V4ParserCharacter[] }
   | { event: 'DeleteRelics', data: string[] } // data: unique ids
   | { event: 'DeleteLightCones', data: string[] } // data: unique ids
+  | { event: 'RelicBox', data: RelicBoxEvent }
 
 type IngestFullScanOptions = {
   updateCharacters: boolean,

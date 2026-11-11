@@ -1,4 +1,5 @@
 import { type V4ParserRelic } from 'lib/importer/kelzFormatParser'
+import { RelicReconModal } from 'lib/overlays/modals/RelicReconModal'
 import { RelicRerollModal } from 'lib/overlays/modals/RelicRerollModal'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
@@ -44,6 +45,8 @@ export function ScannerWebsocket() {
     relic: null,
   })
 
+  const [reconModal, setReconModal] = useState<{ isOpen: boolean, relic: BoxRelic | null }>({ isOpen: false, relic: null })
+
   // Function to handle displaying the reroll modal
   const showRerollModal = (relic: V4ParserRelic) => {
     setRerollModal({
@@ -60,9 +63,12 @@ export function ScannerWebsocket() {
     })
   }
 
-  const showReconModal = (relic: BoxRelic) => { }
-  //TODO:
-  const closeReconModal = () => { }
+  const showReconModal = (relic: BoxRelic) => {
+    setReconModal({ isOpen: true, relic })
+  }
+  const closeReconModal = () => {
+    setReconModal({ isOpen: false, relic: null })
+  }
 
   const websocketUrl = usePrivateScannerState((s) => s.websocketUrl)
 
@@ -88,6 +94,8 @@ export function ScannerWebsocket() {
         console.error('Failed to parse scanner message', e)
         return
       }
+
+      console.info(event)
 
       const state = usePrivateScannerState.getState()
 
@@ -143,6 +151,7 @@ export function ScannerWebsocket() {
             })
             break
           case 'RelicBox':
+            console.log('relic box detected')
             switch (event.data.kind) {
               case 'Confirmed':
                 closeReconModal()
@@ -198,11 +207,8 @@ export function ScannerWebsocket() {
   return (
     <>
       {/* Render the reroll modal */}
-      <RelicRerollModal
-        open={rerollModal.isOpen}
-        onClose={closeRerollModal}
-        relic={rerollModal.relic}
-      />
+      <RelicRerollModal open={rerollModal.isOpen} relic={rerollModal.relic} onClose={closeRerollModal} />
+      <RelicReconModal open={reconModal.isOpen} relic={reconModal.relic} close={closeReconModal} />
     </>
   )
 }

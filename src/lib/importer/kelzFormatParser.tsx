@@ -50,6 +50,7 @@ export type V4ParserCharacter = {
   level: number,
   ascension: number,
   eidolon: number,
+  affinity_eidolons?: Array<number>,
   ability_version?: number,
 }
 
@@ -279,6 +280,17 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
 
   const lightCone = lightCones?.find((x) => x.location === character.id)
 
+  let characterEx = 0b0
+
+  if (character.affinity_eidolons) {
+    const numericId = Number(character.id) * 100
+    character.affinity_eidolons.forEach((e) => {
+      const flagDecimal = e - numericId
+      const flagBinary = 1 << (flagDecimal - 1)
+      characterEx |= flagBinary
+    })
+  }
+
   return {
     characterId: character.id,
     characterLevel: character.level || 80,
@@ -286,6 +298,7 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
     lightCone: lightCone?.id ?? null,
     lightConeLevel: lightCone?.level ?? 80,
     lightConeSuperimposition: lightCone?.superimposition ?? 1,
+    characterEx
   }
 }
 

@@ -150,44 +150,8 @@ export function ScannerWebsocket() {
             event.data.forEach((lightConeId) => {
               handleDeleteLightCone(state, lightConeId)
             })
-            console.info('delete lightcone')
-            showReconModal({
-              set_id: '101',
-              "name": "Passerby of Wandering Cloud",
-              slot: Parts.Hands,
-              rarity: 5,
-              level: 15,
-              mainstat: 'ATK',
-              substats: [
-                {
-                  key: 'DEF_',
-                  value: 0.043,
-                  step: 2,
-                  count: 1
-                },
-                {
-                  key: 'SPD',
-                  value: 15.6,
-                  step: 12,
-                  count: 6
-                },
-                {
-                  key: 'CRIT Rate_',
-                  value: 3.24,
-                  step: 2,
-                  count: 1
-                },
-                {
-                  key: 'CRIT DMG_',
-                  value: 6.48,
-                  step: 2,
-                  count: 1
-                }
-              ]
-            })
             break
           case 'RelicBox':
-            console.log('relic box detected')
             switch (event.data.kind) {
               case 'Confirmed':
                 closeReconModal()

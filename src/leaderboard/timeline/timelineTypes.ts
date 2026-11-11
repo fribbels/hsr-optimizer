@@ -3,6 +3,10 @@ import type { CharacterId } from 'types/character'
 
 export const TIMELINE_SCHEMA_VERSION = 2
 export const TIMELINE_MIN_SCORE = 1.5
+// Events older than this (by event date, relative to the run) are dropped from the timeline.
+export const TIMELINE_RETENTION_DAYS = 7
+// Safety cap on the public timeline size for unusually busy windows like patch days.
+export const TIMELINE_MAX_EVENTS = 1000
 
 export enum TimelineEventType {
   NEW_BEST = 'new_best',

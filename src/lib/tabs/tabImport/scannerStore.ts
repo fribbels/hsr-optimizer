@@ -478,6 +478,7 @@ function ingestFullScan(data: ScannerParserJson, options: IngestFullScanOptions)
     persistenceService.mergeRelics(
       newScan.relics,
       options.updateCharacters ? newScan.characters : [],
+      newScan.recon_relics,
     )
     console.info('Ingested initial scan')
 

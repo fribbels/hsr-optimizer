@@ -118,6 +118,7 @@ export type ScannerParserJson = {
   characters: V4ParserCharacter[],
   light_cones: V4ParserLightCone[],
   relics: V4ParserRelic[],
+  recon_relics?: V4ParserRelic['_uid'][]
 }
 
 export class KelzFormatParser { // TODO abstract class
@@ -139,6 +140,7 @@ export class KelzFormatParser { // TODO abstract class
       },
       characters: [] as Character['form'][],
       relics: [] as Relic[],
+      recon_relics: [] as Relic['id'][]
     }
 
     if (json.source != this.config.sourceString) {
@@ -202,6 +204,8 @@ export class KelzFormatParser { // TODO abstract class
         .map((c) => this.parseCharacter(c, activatedBuffs, json.light_cones))
         .filter(filterNullWithWarn('character'))
     }
+
+    json.recon_relics?.forEach(id => parsed.recon_relics.push(id))
 
     return parsed
   }

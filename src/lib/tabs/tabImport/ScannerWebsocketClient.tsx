@@ -157,7 +157,7 @@ export function ScannerWebsocket() {
                 closeReconModal()
                 break
               case 'Add':
-                useRelicStore().registerReconRelic(event.data.relic_id)
+                useRelicStore.getState().registerReconRelic(event.data.relic_id)
                 break
               case 'Open':
                 showReconModal(event.data.relic)

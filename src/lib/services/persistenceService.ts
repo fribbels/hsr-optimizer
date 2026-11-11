@@ -242,7 +242,7 @@ export function resetAll(): void {
 
 // These relics may be missing speed decimals depending on the importer.
 // We overwrite any existing relics with imported ones.
-export function mergeRelics(newRelics: Relic[], newCharacters: ImportedCharacterForm[]): void {
+export function mergeRelics(newRelics: Relic[], newCharacters: ImportedCharacterForm[], reconRelics?: Relic['id'][]): void {
   const oldRelics = getRelics()
 
   // Existing characters keep their manual ordering, only the new block gets sorted
@@ -361,6 +361,12 @@ export function mergeRelics(newRelics: Relic[], newCharacters: ImportedCharacter
   }
 
   useRelicStore.getState().setRelics(replacementRelics)
+  const reconRelicIdByPart = reconRelics?.reduce((map, id) => {
+    const part = useRelicStore.getState().relicsById[id]?.part
+    if (part) map[part] = id
+    return map
+  }, {} as Partial<Record<Parts, Relic['id']>>)
+  useRelicStore.setState({ reconRelicIdByPart })
 
   // Clean up any deleted relic ids that are still equipped
   characters.forEach((char, idx, arr) => {

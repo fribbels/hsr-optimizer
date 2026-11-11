@@ -420,13 +420,13 @@ type RelicBoxEvent = {
   kind: 'Confirmed',
 } | {
   kind: 'Add',
-  relic_id: number,
+  relic_id: string,
 } | {
   kind: 'Open',
   relic: BoxRelic,
 }
 
-type BoxRelic = {
+export type BoxRelic = {
   set_id: string,
   name: Sets,
   slot: Parts,

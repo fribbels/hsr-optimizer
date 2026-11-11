@@ -3,8 +3,10 @@ import { RelicRerollModal } from 'lib/overlays/modals/RelicRerollModal'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { gridStore } from 'lib/stores/gridStore'
+import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { AppPages } from 'lib/tabs/navigation/constants'
 import {
+  type BoxRelic,
   handleDeleteLightCone,
   handleDeleteRelic,
   handleUpdateCharacter,
@@ -57,6 +59,10 @@ export function ScannerWebsocket() {
       relic: null,
     })
   }
+
+  const showReconModal = (relic: BoxRelic) => { }
+  //TODO:
+  const closeReconModal = () => { }
 
   const websocketUrl = usePrivateScannerState((s) => s.websocketUrl)
 
@@ -135,6 +141,18 @@ export function ScannerWebsocket() {
             event.data.forEach((lightConeId) => {
               handleDeleteLightCone(state, lightConeId)
             })
+            break
+          case 'RelicBox':
+            switch (event.data.kind) {
+              case 'Confirmed':
+                closeReconModal()
+                break
+              case 'Add':
+                useRelicStore().registerReconRelic(event.data.relic_id)
+                break
+              case 'Open':
+                showReconModal(event.data.relic)
+            }
             break
           default:
             console.error(`Unknown event: ${JSON.stringify(event)}`)

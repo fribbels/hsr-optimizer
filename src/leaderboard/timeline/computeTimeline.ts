@@ -17,11 +17,15 @@ import type {
   TimelineEvent,
 } from 'leaderboard/timeline/timelineTypes'
 import {
+  TIMELINE_MAX_EVENTS,
   TIMELINE_MIN_SCORE,
+  TIMELINE_RETENTION_DAYS,
   TIMELINE_SCHEMA_VERSION,
   TimelineEventType,
 } from 'leaderboard/timeline/timelineTypes'
 import type { CharacterId } from 'types/character'
+
+const MS_PER_DAY = 24 * 60 * 60 * 1000
 
 export function displayScore(score: number): number {
   return Math.trunc(score * 1000)
@@ -105,6 +109,11 @@ export function deduplicateAndMerge(
     .slice(0, maxEvents)
 }
 
+export function dropEventsOlderThanRetention(events: TimelineEvent[], generatedAt: string): TimelineEvent[] {
+  const cutoffMs = new Date(generatedAt).getTime() - TIMELINE_RETENTION_DAYS * MS_PER_DAY
+  return events.filter((event) => new Date(event.date).getTime() >= cutoffMs)
+}
+
 export type TimelineUpdateResult = {
   snapshot: LeaderboardSnapshot,
   timeline: LeaderboardTimeline,
@@ -135,7 +144,10 @@ export function computeTimelineUpdate(input: {
   const newEvents = diffSnapshots(result.snapshot, previousSnapshot, result.userCharEntries, { maxRank: input.topNPublic })
     .filter((event) => event.characterId !== input.refreshCharacterId)
   const existingEvents = readTimeline(input.timelinePath)
-  const events = deduplicateAndMerge(newEvents, existingEvents, 100)
+  const events = dropEventsOlderThanRetention(
+    deduplicateAndMerge(newEvents, existingEvents, TIMELINE_MAX_EVENTS),
+    input.generatedAt,
+  )
 
   return {
     snapshot: result.snapshot,

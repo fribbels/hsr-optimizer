@@ -19,6 +19,7 @@ import {
   computeTimelineUpdate,
   deduplicateAndMerge,
   diffSnapshots,
+  dropEventsOlderThanRetention,
   displayScore,
 } from 'leaderboard/timeline/computeTimeline'
 import {
@@ -117,7 +118,8 @@ test('math refresh suppresses achievements and lowers only that character baseli
     refreshed: makeBoard(characterId, [{ score: 2.0, uidHash: 'old' }, { score: 1.6, uidHash: 'improved' }]),
     retained: makeBoard('1002', [{ score: 1.9, uidHash: 'other' }]),
   })
-  const previous = extractSnapshot(previousOutput, new Map(), null, '2026-09-06T00:00:00Z').snapshot
+  // Run dates stay within TIMELINE_RETENTION_DAYS of DEFAULT_FETCHED_AT so events are not aged out.
+  const previous = extractSnapshot(previousOutput, new Map(), null, '2026-06-24T06:00:00Z').snapshot
   const dir = joinPath(cwd(), 'plans', 'scratch')
   const suffix = `${Date.now()}-${Math.random()}`
   const snapshotPath = joinPath(dir, `refresh-snapshot-${suffix}.json`)
@@ -136,7 +138,7 @@ test('math refresh suppresses achievements and lowers only that character baseli
     const refresh = computeTimelineUpdate({
       privateOutput: output,
       totalCounts: new Map(),
-      generatedAt: '2026-09-07T00:00:00Z',
+      generatedAt: '2026-06-25T00:00:00Z',
       snapshotPath,
       timelinePath,
       refreshCharacterId: characterId,
@@ -153,7 +155,7 @@ test('math refresh suppresses achievements and lowers only that character baseli
     const subsequent = computeTimelineUpdate({
       privateOutput: output,
       totalCounts: new Map(),
-      generatedAt: '2026-09-08T00:00:00Z',
+      generatedAt: '2026-06-26T00:00:00Z',
       snapshotPath,
       timelinePath,
     })
@@ -693,6 +695,32 @@ describe('deduplicateAndMerge', () => {
     expect(merged).toHaveLength(3)
     expect(merged[0].date).toBe('2026-06-19')
     expect(merged[2].date).toBe('2026-06-17')
+  })
+})
+
+describe('dropEventsOlderThanRetention', () => {
+  test('keeps events within 7 days of the run and drops older ones', () => {
+    const makeEvent = (date: string, i: number) => ({
+      type: TimelineEventType.NEW_BEST as const,
+      characterId: '1001' as CharacterId,
+      configType: CONFIG_TYPE,
+      candidateId: i.toString(16).padStart(12, '0'),
+      date,
+      score: 2.0,
+      previousScore: 1.8,
+      rank: 1,
+      previousRank: 2,
+      buildId: `id-${i}`,
+    })
+    const events = [
+      makeEvent('2026-06-24T11:00:00.000Z', 0),
+      makeEvent('2026-06-17T12:00:00.000Z', 1),
+      makeEvent('2026-06-17T11:59:59.000Z', 2),
+      makeEvent('2026-06-01T00:00:00.000Z', 3),
+    ]
+    const kept = dropEventsOlderThanRetention(events, '2026-06-24T12:00:00.000Z')
+
+    expect(kept.map((event) => event.buildId)).toEqual(['id-0', 'id-1'])
   })
 })
 

@@ -127,6 +127,7 @@ export function generateConditionalResolverMetadata(request: BasicForm, dbMetada
     lightConeSuperimposition: request.lightConeSuperimposition,
     lightConePath: dbMetadata.lightCones[request.lightCone]?.path,
     element: dbMetadata.characters[request.characterId]?.element,
+    baseEnergy: dbMetadata.characters[request.characterId]?.max_sp,
   }
 }
 

@@ -1,4 +1,5 @@
 import {
+  exFlagsFromEidolonIds,
   getSupportedFlags,
   hasExEidolon,
   setExEidolon,
@@ -38,5 +39,20 @@ describe('EX eidolon flags', () => {
     expect(setExEidolon(3, ExEidolon.EX1, false)).toBe(2)
     expect(setExEidolon(1, ExEidolon.EX1, true)).toBe(1)
     expect(setExEidolon(2, ExEidolon.EX1, false)).toBe(2)
+  })
+})
+
+describe('exFlagsFromEidolonIds', () => {
+  test.each(
+    [
+      [1213, [121301], 1],
+      [1213, [], 0],
+      ['1213', [121301], 1],
+      ['1005b1', [100501], 1],
+      [1213, [121301, 121302], 3],
+      [1213, [130801], 0],
+    ] as const,
+  )('exFlagsFromEidolonIds(%s, %j) is %s', (characterId, exEidolonIds, expected) => {
+    expect(exFlagsFromEidolonIds(characterId, [...exEidolonIds])).toBe(expected)
   })
 })

@@ -61,7 +61,6 @@ export type UnconvertedCharacter = {
   relicList?: PreRelic[],
   equipment?: PreLightCone,
   rank?: number,
-  // TODO: Map EX from upstream profile data once its schema is verified.
   characterEx?: ExFlags,
   avatarId: number | string, // API sends number; dataProcessors may append enhancedId suffix
 }

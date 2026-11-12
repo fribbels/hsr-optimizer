@@ -2,6 +2,7 @@ import { ABILITY_LIMIT } from 'lib/constants/constants'
 import type {
   ComboBooleanConditional,
   ComboNumberConditional,
+  ComboSelectConditional,
   ComboState,
 } from 'lib/optimization/combo/comboTypes'
 import type { TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
@@ -11,6 +12,12 @@ export abstract class AbilityPreprocessorBase {
   abstract id: string
   abstract reset(): void
   abstract processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState): void
+}
+
+// The value a slider or select has at one rotation slot. Falls back to the default value.
+// The optimizer and preprocessors both use this, so they always agree.
+export function getComboPartitionValue(category: ComboNumberConditional | ComboSelectConditional | undefined, index: number): number {
+  return category?.partitions.find((p) => p.activations[index])?.value ?? category?.partitions[0]?.value ?? 0
 }
 
 export function setComboBooleanCategorySetActivation(comboState: ComboState, set: string, index: number, value: boolean) {

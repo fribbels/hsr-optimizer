@@ -10,11 +10,19 @@ import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
+import {
+  Ellen,
+  ELLEN_DIVE_MIN_CHARGES,
+} from 'lib/conditionals/character/1500/Ellen'
 import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
-import type { ComboState } from 'lib/optimization/combo/comboTypes'
+import type {
+  ComboNumberConditional,
+  ComboState,
+} from 'lib/optimization/combo/comboTypes'
 import { AbilityTriggeredStackPreprocessor } from 'lib/optimization/rotation/preprocessor/utils/abilityTriggeredStackPreprocessor'
 import {
   AbilityPreprocessorBase,
+  getComboPartitionValue,
   setComboBooleanCategoryCharacterActivation,
   setComboNumberCategoryCharacterActivation,
 } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
@@ -116,6 +124,29 @@ export class YunliPreprocessor extends AbilityTriggeredStackPreprocessor {
         key: 'blockActive',
       },
     )
+  }
+}
+
+// Ellen's Ult boosts only her next Ice Sea Diving. A Basic is only a dive with enough charges,
+// so each Basic checks that slot's charge count before using up the boost.
+export class EllenPreprocessor extends AbilityPreprocessorBase {
+  id = Ellen.id
+  defaultState = { ultBoostPending: false }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    const { kind } = turnAbility
+    const chargeCategory = comboState.comboCharacter.characterConditionals.sharkBiteCharges as ComboNumberConditional | undefined
+    const charges = getComboPartitionValue(chargeCategory, index)
+    const isDive = kind == AbilityKind.UNIQUE || (kind == AbilityKind.BASIC && charges >= ELLEN_DIVE_MIN_CHARGES)
+
+    setComboBooleanCategoryCharacterActivation(comboState, 'ultEnhancedBasicBuff', index, isDive && this.state.ultBoostPending)
+    if (isDive) this.state.ultBoostPending = false
+    if (kind == AbilityKind.ULT) this.state.ultBoostPending = true
   }
 }
 

@@ -18,6 +18,22 @@ export function getChangelogContent() {
     },
     {
       title: '',
+      date: '2026-11-12',
+      content: [
+        `Updated content to 4.8v1`,
+        `Added Ellen showcase`,
+        `ellen.webp`,
+        `Added Astra Yao showcase`,
+        `astra.webp`,
+        `Running Reliquary scanner during Relic Recon will now show a side-by-side comparison of the selected relics`,
+        `recon.webp`,
+        `Leaderboard timeline now shows all events from the past 7 days instead of only the latest 100`,
+        `Scanner imports and showcase profile lookups now read characters' EX Eidolons`,
+        `Fix: Tabs no longer occasionally skip loading in the background after startup`,
+      ],
+    },
+    {
+      title: '',
       date: '2026-11-10',
       content: [
         `Added EX1 Eidolon support for Acheron, Dan Heng • Imbibitor Lunae, and Jing Yuan`,

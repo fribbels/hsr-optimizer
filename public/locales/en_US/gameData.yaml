@@ -266,6 +266,12 @@ Characters:
   "1513":
     Name: Waveflair
     LongName: Aventurine • Waveflair
+  "1514":
+    Name: Ellen
+    LongName: Ellen
+  "1515":
+    Name: Astra Yao
+    LongName: Astra Yao
   "8001":
     Name: Caelus
     LongName: Caelus (Destruction)
@@ -549,10 +555,10 @@ RelicSets:
     Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, for every 1 excess point, increases the wearer's DMG dealt by 0.2%, up to a max increase of 32%.
   "329":
     Name: God's Moment of Joy
-    Description2pc: Increases the wearer's SPD by 6%. When the wearer's Elation reaches 40% or higher, the wearer's action advances by 40% immediately when entering combat.
+    Description2pc: Increases the wearer's SPD by 6%. When the wearer's Elation stat reaches 40% or higher, advances the wearer's action by 40% immediately upon entering combat.
   "330":
     Name: Subspace ASC Center
-    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD reaches 145 or higher, increases all allies' Break Effect by 15% after entering combat. This effect cannot stack.
+    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD reaches 145 or higher, increases all allies' Break Effect by 18% after entering combat. This effect cannot stack.
 Lightcones:
   "20000":
     Name: Arrows
@@ -884,6 +890,10 @@ Lightcones:
     Name: Summer Rides the Surf
   "23065":
     Name: Upon the First Echo of "Aha"
+  "23066":
+    Name: No Shifts on Rainy Days
+  "23067":
+    Name: Shine Bright Like Her
   "24000":
     Name: On the Fall of an Aeon
   "24001":

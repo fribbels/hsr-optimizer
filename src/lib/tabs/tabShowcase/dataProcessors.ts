@@ -1,5 +1,6 @@
 // @ts-nocheck
 // this is very much not ideal but unless the API response types can be properly downstreamed it will have to do
+import { exFlagsFromEidolonIds } from 'lib/conditionals/exEidolons'
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
 
 export function processMihomoData(data: MihomoApiResponse): UnconvertedCharacter[] {
@@ -28,6 +29,10 @@ export function processEnkaData(data: EnkaApiResponse): UnconvertedCharacter[] {
     .filter((item, index, array) => {
       return array.findIndex((i) => i.avatarId === item.avatarId) === index
     }).map((c) => {
+      // Read EX before the b1 suffix changes the id
+      if (c.exRankList) {
+        c.characterEx = exFlagsFromEidolonIds(c.avatarId, c.exRankList)
+      }
       if (c.enhancedId) {
         c.avatarId += `b${c.enhancedId}`
       }

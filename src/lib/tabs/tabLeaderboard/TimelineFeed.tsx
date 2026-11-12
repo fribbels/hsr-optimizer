@@ -1,5 +1,6 @@
 import type { TFunction } from 'i18next'
 import {
+  TIMELINE_MAX_EVENTS,
   TIMELINE_MIN_SCORE,
   TimelineEventType,
 } from 'leaderboard/timeline/timelineTypes'
@@ -13,7 +14,6 @@ import { truncate10ths } from 'lib/utils/mathUtils'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const MAX_FEED_ENTRIES = 100
 const MS_PER_HOUR = 1000 * 60 * 60
 
 type TimelineTFunction = TFunction<'leaderboardTab', 'Timeline'>
@@ -57,7 +57,7 @@ function getTimeColWidth(resolvedLanguage?: string) {
 export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
   const { t: tGame, i18n } = useTranslation('gameData')
   const { t } = useTranslation('leaderboardTab', { keyPrefix: 'Timeline' })
-  const displayed = events.slice(0, MAX_FEED_ENTRIES)
+  const displayed = events.slice(0, TIMELINE_MAX_EVENTS)
 
   document.documentElement.style.setProperty('--leaderboard-timeline-grid-width', getTimeColWidth(i18n.resolvedLanguage))
 

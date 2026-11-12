@@ -71,7 +71,7 @@ export const useRelicStore = createTabAwareStore<RelicStore>((set, get) => ({
     const { relicsById, reconRelicIdByPart } = get()
     const relic = relicsById[id]
     if (relic) {
-      reconRelicIdByPart[relic.part] = relic.id
+      set({ reconRelicIdByPart: { ...reconRelicIdByPart, [relic.part]: relic.id } })
     }
   },
 }))

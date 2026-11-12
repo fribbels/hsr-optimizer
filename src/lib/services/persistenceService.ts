@@ -365,7 +365,7 @@ export function mergeRelics(newRelics: Relic[], newCharacters: ImportedCharacter
     const part = useRelicStore.getState().relicsById[id]?.part
     if (part) map[part] = id
     return map
-  }, {} as Partial<Record<Parts, Relic['id']>>)
+  }, {} as Partial<Record<Parts, Relic['id']>>) ?? {}
   useRelicStore.setState({ reconRelicIdByPart })
 
   // Clean up any deleted relic ids that are still equipped

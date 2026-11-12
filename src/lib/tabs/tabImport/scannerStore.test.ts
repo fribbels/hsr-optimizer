@@ -268,7 +268,7 @@ describe('scannerStore', () => {
       expect(state().characters[CHAR_ID_2]).toBeDefined()
       expect(persistenceService.mergeRelics).toHaveBeenCalledWith([], [
         expect.objectContaining({ characterId: CHAR_ID_1 }),
-      ])
+      ], expect.toBeOneOf([[], undefined]))
     })
 
     it('initialScan keeps current character import behavior when restriction is off', () => {
@@ -292,7 +292,7 @@ describe('scannerStore', () => {
 
       expect(persistenceService.mergeRelics).toHaveBeenCalledWith([], [
         expect.objectContaining({ characterId: CHAR_ID_2 }),
-      ])
+      ], expect.toBeOneOf([[], undefined]))
     })
   })
 

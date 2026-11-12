@@ -1,5 +1,6 @@
 import { Group, Modal, Stack } from "@mantine/core"
 import { IconReplace } from "@tabler/icons-react"
+import { type Parts } from "lib/constants/constants"
 import { ReliquaryArchiverParser } from "lib/importer/importConfig"
 import type { V4ParserRelic } from "lib/importer/kelzFormatParser"
 import { ScoringType } from "lib/scoring/scoringTypes"
@@ -27,7 +28,8 @@ export function RelicReconModal({ relic, open, onClose }: RelicReconModalProps) 
     return null
   }
 
-  const slot = reconRelicIdByPart[relic.slot]
+  const part = relic.slot.replace(/\s+/g, '') as Parts
+  const slot = reconRelicIdByPart[part]
   if (!slot) return null
 
   const currentRelic = relicsById[slot]

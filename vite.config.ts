@@ -1,6 +1,9 @@
-import { readFileSync } from 'node:fs'
-import { join, resolve } from 'node:path'
 import react from '@vitejs/plugin-react'
+import { readFileSync } from 'node:fs'
+import {
+  join,
+  resolve,
+} from 'node:path'
 import type { Plugin } from 'vite'
 import { defineConfig } from 'vite'
 
@@ -36,7 +39,6 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
     alias: {
-      'cross-fetch': resolve(import.meta.dirname, 'src/lib/utils/nativeFetch.ts'),
       // colorthief/internals barrel includes WasmQuantizer with a broken wasm import.
       // Alias to the specific source modules we need, bypassing the barrel entirely.
       'colorthief-pipeline': resolve(import.meta.dirname, 'node_modules/colorthief/src/pipeline.ts'),

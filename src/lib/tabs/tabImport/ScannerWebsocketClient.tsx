@@ -19,6 +19,7 @@ import {
   scannerChannel,
   type ScannerEvent,
   usePrivateScannerState,
+  useScannerState,
 } from 'lib/tabs/tabImport/scannerStore'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { debounceEffect } from 'lib/utils/frontendUtils'
@@ -155,6 +156,7 @@ export function ScannerWebsocket() {
                 closeReconModal()
                 break
               case 'Add':
+                useScannerState.getState().addReconRelic(event.data.relic_id)
                 useRelicStore.getState().registerReconRelic(event.data.relic_id)
                 break
               case 'Open':

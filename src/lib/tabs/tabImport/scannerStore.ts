@@ -28,6 +28,7 @@ import { EventEmitter } from 'lib/utils/frontendUtils'
 import { objectHash } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
+import { type Relic } from 'types/relic'
 
 type ScannerState = {
   // The websocket url to connect to
@@ -72,6 +73,9 @@ type ScannerState = {
 
   // Map of character ids to their buffed version if activated
   activatedBuffs: Record<string, CharacterId>,
+
+  // Array of relic IDs for any ongoing relic recon, these IDs are stable throughout the event
+  reconRelics: Array<Relic['id']>,
 }
 
 type ScannerActions = {
@@ -129,6 +133,9 @@ type PrivateScannerActions = {
 
   // Delete a light cone from the state
   deleteLightCone: (lightConeId: string) => void,
+
+  // Add a relic id to the relicRecon id list
+  addReconRelic: (id: Relic['id']) => void,
 }
 
 export type ScannerStore =
@@ -160,6 +167,8 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
   characters: {},
 
   activatedBuffs: {},
+
+  reconRelics: [],
 
   setWebsocketUrl: (websocketUrl: string) => {
     set({ websocketUrl })
@@ -275,7 +284,7 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
     }),
 
   buildFullScanData: () => {
-    const { lastScanData, characters, lightCones, relics, materials, gachaFunds } = get()
+    const { lastScanData, characters, lightCones, relics, materials, gachaFunds, reconRelics } = get()
     if (!lastScanData) {
       return null
     }
@@ -289,6 +298,7 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
       relics: Object.values(relics),
       materials: Object.values(materials),
       gacha: gachaFunds ?? lastScanData.gacha,
+      recon_relics: reconRelics,
     } satisfies ScannerParserJson
   },
 
@@ -389,6 +399,9 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
         ),
       ),
     }),
+  addReconRelic: (id) => {
+    set({ reconRelics: [...get().reconRelics, id] })
+  },
 }))
 
 export const useScannerState = usePrivateScannerState
@@ -429,7 +442,7 @@ type RelicBoxEvent = {
 export type BoxRelic = {
   set_id: string,
   name: Sets,
-  slot: Parts,
+  slot: string,
   rarity: number,
   level: number,
   mainstat: MainStats,

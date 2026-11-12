@@ -7,8 +7,10 @@
   transform-origin: top left;
 }
 
+/* Fills the gaps between cards, on screen and in screenshots */
 .grid {
   display: grid;
+  background-color: var(--layer-inset);
 }
 
 /*

@@ -444,6 +444,10 @@ const simulation = (): SimulationMetadata => ({
   },
   substats: [Stats.ATK_P, Stats.ATK, Stats.CR, Stats.CD, Stats.HP_P],
   errRopeEidolon: 0,
+  // Trace CD conversion caps at 4000 ATK
+  softBreakpoints: [
+    { stat: Stats.ATK, threshold: 4000 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
@@ -570,9 +574,15 @@ const scoring = (): ScoringMetadata => ({
 })
 
 const display = {
+  imageCenter: {
+    x: 1129,
+    y: 746,
+    z: 1.23,
+  },
+  showcaseColor: '#f6987d',
   showcaseScoringOrder: [
-    ScoringType.BUFFER_SCORE,
     ScoringType.DPS_SCORE,
+    ScoringType.BUFFER_SCORE,
     ScoringType.SUBSTAT_SCORE,
     ScoringType.NONE,
   ],

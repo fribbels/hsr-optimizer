@@ -415,8 +415,14 @@ const scoring = (): ScoringMetadata => ({
   simulation: simulation(),
 })
 
-// TODO: Set portrait framing and showcase color after assets are supplied.
-const display = {}
+const display = {
+  imageCenter: {
+    x: 996,
+    y: 1051,
+    z: 1.4,
+  },
+  showcaseColor: '#8471c1',
+}
 
 export const Ellen: CharacterConfig = {
   id: '1514',

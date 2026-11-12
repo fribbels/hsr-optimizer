@@ -8705,6 +8705,202 @@
       },
       "unreleased": false
     },
+    "1514": {
+      "id": "1514",
+      "name": "Ellen",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Ice",
+      "max_sp": 240,
+      "stats": {
+        "HP": 1125,
+        "ATK": 757,
+        "DEF": 485,
+        "SPD": 96,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "traces": {
+        "SPD": 5,
+        "CRIT Rate": 0.187,
+        "Ice DMG Boost": 0.144
+      },
+      "traceTree": [
+        {
+          "id": "1514201",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1514204",
+              "stat": "SPD",
+              "value": 2,
+              "pre": "1514201",
+              "children": []
+            },
+            {
+              "id": "1514207",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1514201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1514202",
+          "stat": "Ice DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1514203",
+              "stat": "CRIT Rate",
+              "value": 0.027,
+              "pre": "1514202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1514205",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1514206",
+              "stat": "Ice DMG Boost",
+              "value": 0.048,
+              "pre": "1514205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1514208",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "1514209",
+              "stat": "Ice DMG Boost",
+              "value": 0.064,
+              "pre": "1514208",
+              "children": []
+            },
+            {
+              "id": "1514210",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1514208",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "unreleased": true
+    },
+    "1515": {
+      "id": "1515",
+      "name": "Astra Yao",
+      "rarity": 5,
+      "path": "Harmony",
+      "element": "Quantum",
+      "max_sp": 240,
+      "stats": {
+        "HP": 1242,
+        "ATK": 660,
+        "DEF": 461,
+        "SPD": 99,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "traces": {
+        "SPD": 5,
+        "Quantum DMG Boost": 0.224,
+        "ATK%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1515201",
+          "stat": "Quantum DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1515204",
+              "stat": "SPD",
+              "value": 2,
+              "pre": "1515201",
+              "children": []
+            },
+            {
+              "id": "1515207",
+              "stat": "Quantum DMG Boost",
+              "value": 0.048,
+              "pre": "1515201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1515202",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1515203",
+              "stat": "Quantum DMG Boost",
+              "value": 0.032,
+              "pre": "1515202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1515205",
+          "stat": "Quantum DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1515206",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1515205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1515208",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "1515209",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1515208",
+              "children": []
+            },
+            {
+              "id": "1515210",
+              "stat": "Quantum DMG Boost",
+              "value": 0.064,
+              "pre": "1515208",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "unreleased": true
+    },
     "8001": {
       "id": "8001",
       "name": "Trailblazer",
@@ -15463,6 +15659,84 @@
       },
       "unreleased": false
     },
+    "23066": {
+      "id": "23066",
+      "name": "No Shifts on Rainy Days",
+      "rarity": 5,
+      "path": "Destruction",
+      "stats": {
+        "HP": 953,
+        "ATK": 582,
+        "DEF": 529
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -168,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.24,
+          "SPRatioBase": 0.12
+        },
+        "2": {
+          "CriticalDamageBase": 0.28,
+          "SPRatioBase": 0.14
+        },
+        "3": {
+          "CriticalDamageBase": 0.32,
+          "SPRatioBase": 0.16
+        },
+        "4": {
+          "CriticalDamageBase": 0.36,
+          "SPRatioBase": 0.18
+        },
+        "5": {
+          "CriticalDamageBase": 0.4,
+          "SPRatioBase": 0.2
+        }
+      },
+      "unreleased": true
+    },
+    "23067": {
+      "id": "23067",
+      "name": "Shine Bright Like Her",
+      "rarity": 5,
+      "path": "Harmony",
+      "stats": {
+        "HP": 953,
+        "ATK": 582,
+        "DEF": 529
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -90,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.24,
+          "SPRatioBase": 0.12
+        },
+        "2": {
+          "AttackAddedRatio": 0.3,
+          "SPRatioBase": 0.13
+        },
+        "3": {
+          "AttackAddedRatio": 0.36,
+          "SPRatioBase": 0.14
+        },
+        "4": {
+          "AttackAddedRatio": 0.42,
+          "SPRatioBase": 0.15
+        },
+        "5": {
+          "AttackAddedRatio": 0.48,
+          "SPRatioBase": 0.16
+        }
+      },
+      "unreleased": true
+    },
     "24000": {
       "id": "24000",
       "name": "On the Fall of an Aeon",
@@ -16000,7 +16274,7 @@
     {
       "id": "329",
       "name": "God's Moment of Joy",
-      "skills": "Increases the wearer's SPD by 6%. When the wearer's Elation reaches 40% or higher, the wearer's action advances by 40% immediately when entering combat."
+      "skills": "Increases the wearer's SPD by 6%. When the wearer's Elation stat reaches 40% or higher, advances the wearer's action by 40% immediately upon entering combat."
     },
     {
       "id": "330",

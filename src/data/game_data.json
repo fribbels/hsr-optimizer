@@ -8713,9 +8713,9 @@
       "element": "Ice",
       "max_sp": 240,
       "stats": {
-        "HP": 1125,
-        "ATK": 757,
-        "DEF": 485,
+        "HP": 1125.432,
+        "ATK": 756.756,
+        "DEF": 485.1,
         "SPD": 96,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
@@ -8727,75 +8727,76 @@
       },
       "traceTree": [
         {
-          "id": "1514201",
+          "id": "1514201_4.8v1",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
-          "children": [
-            {
-              "id": "1514204",
-              "stat": "SPD",
-              "value": 2,
-              "pre": "1514201",
-              "children": []
-            },
-            {
-              "id": "1514207",
-              "stat": "CRIT Rate",
-              "value": 0.04,
-              "pre": "1514201",
-              "children": []
-            }
-          ]
+          "children": []
         },
         {
-          "id": "1514202",
+          "id": "1514202_4.8v1",
           "stat": "Ice DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": [
             {
-              "id": "1514203",
+              "id": "1514203_4.8v1",
               "stat": "CRIT Rate",
               "value": 0.027,
-              "pre": "1514202",
-              "children": []
+              "pre": "1514202_4.8v1",
+              "children": [
+                {
+                  "id": "1514204_4.8v1",
+                  "stat": "SPD",
+                  "value": 2,
+                  "pre": "1514203_4.8v1",
+                  "children": []
+                }
+              ]
             }
           ]
         },
         {
-          "id": "1514205",
+          "id": "1514205_4.8v1",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1514206",
+              "id": "1514206_4.8v1",
               "stat": "Ice DMG Boost",
               "value": 0.048,
-              "pre": "1514205",
-              "children": []
+              "pre": "1514205_4.8v1",
+              "children": [
+                {
+                  "id": "1514207_4.8v1",
+                  "stat": "CRIT Rate",
+                  "value": 0.04,
+                  "pre": "1514206_4.8v1",
+                  "children": []
+                }
+              ]
             }
           ]
         },
         {
-          "id": "1514208",
+          "id": "1514208_4.8v1",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": [
             {
-              "id": "1514209",
+              "id": "1514209_4.8v1",
               "stat": "Ice DMG Boost",
               "value": 0.064,
-              "pre": "1514208",
+              "pre": "1514208_4.8v1",
               "children": []
             },
             {
-              "id": "1514210",
+              "id": "1514210_4.8v1",
               "stat": "CRIT Rate",
               "value": 0.053,
-              "pre": "1514208",
+              "pre": "1514208_4.8v1",
               "children": []
             }
           ]
@@ -8811,9 +8812,9 @@
       "element": "Quantum",
       "max_sp": 240,
       "stats": {
-        "HP": 1242,
-        "ATK": 660,
-        "DEF": 461,
+        "HP": 1241.856,
+        "ATK": 659.736,
+        "DEF": 460.845,
         "SPD": 99,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
@@ -8825,75 +8826,75 @@
       },
       "traceTree": [
         {
-          "id": "1515201",
+          "id": "1515201_4.8v1",
           "stat": "Quantum DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": [
             {
-              "id": "1515204",
+              "id": "1515204_4.8v1",
               "stat": "SPD",
               "value": 2,
-              "pre": "1515201",
+              "pre": "1515201_4.8v1",
               "children": []
             },
             {
-              "id": "1515207",
+              "id": "1515207_4.8v1",
               "stat": "Quantum DMG Boost",
               "value": 0.048,
-              "pre": "1515201",
+              "pre": "1515201_4.8v1",
               "children": []
             }
           ]
         },
         {
-          "id": "1515202",
+          "id": "1515202_4.8v1",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1515203",
+              "id": "1515203_4.8v1",
               "stat": "Quantum DMG Boost",
               "value": 0.032,
-              "pre": "1515202",
+              "pre": "1515202_4.8v1",
               "children": []
             }
           ]
         },
         {
-          "id": "1515205",
+          "id": "1515205_4.8v1",
           "stat": "Quantum DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": [
             {
-              "id": "1515206",
+              "id": "1515206_4.8v1",
               "stat": "ATK%",
               "value": 0.06,
-              "pre": "1515205",
+              "pre": "1515205_4.8v1",
               "children": []
             }
           ]
         },
         {
-          "id": "1515208",
+          "id": "1515208_4.8v1",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": [
             {
-              "id": "1515209",
+              "id": "1515209_4.8v1",
               "stat": "ATK%",
               "value": 0.08,
-              "pre": "1515208",
+              "pre": "1515208_4.8v1",
               "children": []
             },
             {
-              "id": "1515210",
+              "id": "1515210_4.8v1",
               "stat": "Quantum DMG Boost",
               "value": 0.064,
-              "pre": "1515208",
+              "pre": "1515208_4.8v1",
               "children": []
             }
           ]
@@ -15665,9 +15666,9 @@
       "rarity": 5,
       "path": "Destruction",
       "stats": {
-        "HP": 953,
-        "ATK": 582,
-        "DEF": 529
+        "HP": 952.56,
+        "ATK": 582.12,
+        "DEF": 529.2
       },
       "imageOffset": {
         "x": 0,
@@ -15704,9 +15705,9 @@
       "rarity": 5,
       "path": "Harmony",
       "stats": {
-        "HP": 953,
-        "ATK": 582,
-        "DEF": 529
+        "HP": 952.56,
+        "ATK": 582.12,
+        "DEF": 529.2
       },
       "imageOffset": {
         "x": 0,

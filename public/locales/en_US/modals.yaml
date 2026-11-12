@@ -384,3 +384,7 @@ RelicReroll:
   Title: Relic Reroll Detected
   OriginalSubstats: Original Substats
   RerolledSubstats: Rerolled Substats
+RelicRecon:
+  Title: Relic Recon box detected
+  OriginalRelic: Current relic
+  BoxRelic: New relic

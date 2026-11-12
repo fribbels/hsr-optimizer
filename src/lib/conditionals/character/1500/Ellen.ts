@@ -60,6 +60,9 @@ import {
   type OptimizerContext,
 } from 'types/optimizer'
 
+// A Basic becomes Ice Sea Diving at this many charges
+export const ELLEN_DIVE_MIN_CHARGES = 3
+
 export const EllenEntities = createEnum('Ellen', 'Sharkboo')
 export const EllenAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -171,7 +174,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     const r = action.characterConditionals as Conditionals<typeof content>
 
     const charges = r.sharkBiteCharges
-    const enhanced = freeDive || charges >= 3
+    const enhanced = freeDive || charges >= ELLEN_DIVE_MIN_CHARGES
     const consumed = (enhanced && !freeDive) ? charges : 0
 
     const e6Active = e >= 6 && r.e6Buffs

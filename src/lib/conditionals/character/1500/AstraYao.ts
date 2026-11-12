@@ -25,14 +25,12 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
-  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -54,6 +52,7 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { ScoringType } from 'lib/scoring/scoringTypes'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
+import { floorSafe } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -303,13 +302,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CR, r.crBuff ? 0.50 : 0, x.source(SOURCE_TRACE))
 
       // E2 Additional DMG boost (+80%)
-      if (action.actionType === AbilityKind.BASIC || action.actionType === AbilityKind.UNIQUE) {
-        x.buff(
-          StatKey.BOOST,
-          (e >= 2 && r.e2AdditionalDmg && r.ultZone) ? 0.80 : 0,
-          x.target(AstraYaoEntities.AstraYao).damageType(DamageTag.ADDITIONAL).source(SOURCE_E2),
-        )
-      }
+      x.buff(
+        StatKey.BOOST,
+        (e >= 2 && r.e2AdditionalDmg && r.ultZone) ? 0.80 : 0,
+        x.target(AstraYaoEntities.AstraYao).damageType(DamageTag.ADDITIONAL).source(SOURCE_E2),
+      )
     },
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -403,8 +400,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           return r.atkToCdConversion
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-          // Includes ATK from her Skill
-          const totalAtk = x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX)
           dynamicStatConversionContainer(
             Stats.ATK,
             Stats.CD,
@@ -413,19 +408,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             action,
             context,
             SOURCE_TRACE,
-            () => Math.min(2.00, 0.20 * Math.floor(Math.max(0, totalAtk - 2000) / 200)),
+            (convertibleValue) => Math.min(2.00, 0.20 * floorSafe(Math.max(0, convertibleValue - 2000) / 200)),
           )
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          const totalAtk = containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)
           return gpuDynamicStatConversion(
             Stats.ATK,
             Stats.CD,
             this,
             action,
             context,
-            `min(2.00, 0.20 * floor(max(0.0, ${totalAtk} - 2000.0) / 200.0))`,
+            `min(2.00, 0.20 * floorSafe(max(0.0, convertibleValue - 2000.0) / 200.0))`,
             wgslTrue(r.atkToCdConversion),
           )
         },
@@ -444,10 +438,6 @@ const simulation = (): SimulationMetadata => ({
   },
   substats: [Stats.ATK_P, Stats.ATK, Stats.CR, Stats.CD, Stats.HP_P],
   errRopeEidolon: 0,
-  // Trace CD conversion caps at 4000 ATK
-  softBreakpoints: [
-    { stat: Stats.ATK, threshold: 4000 },
-  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,

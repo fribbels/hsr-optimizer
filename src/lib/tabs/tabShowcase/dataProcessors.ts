@@ -30,9 +30,7 @@ export function processEnkaData(data: EnkaApiResponse): UnconvertedCharacter[] {
       return array.findIndex((i) => i.avatarId === item.avatarId) === index
     }).map((c) => {
       // Read EX before the b1 suffix changes the id
-      if (c.exRankList) {
-        c.characterEx = exFlagsFromEidolonIds(c.avatarId, c.exRankList)
-      }
+      c.characterEx = exFlagsFromEidolonIds(c.avatarId, c.exRankList ?? [])
       if (c.enhancedId) {
         c.avatarId += `b${c.enhancedId}`
       }

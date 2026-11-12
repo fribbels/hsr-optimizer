@@ -13,6 +13,7 @@ import type {
 } from 'lib/optimization/combo/comboTypes'
 import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
 import { ComboType } from 'lib/optimization/rotation/comboType'
+import { getComboPartitionValue } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import {
   DEFAULT_BASIC,
   getAbilityKind,
@@ -247,15 +248,7 @@ function transformConditional(category: ComboConditionalCategory, actionIndex: n
     return booleanCategory.activations[actionIndex] ?? false
   }
 
-  const partitionCategory = category as ComboSelectConditional
-  for (let i = 0; i < partitionCategory.partitions.length; i++) {
-    const partition = partitionCategory.partitions[i]
-    if (partition.activations[actionIndex]) {
-      return partition.value
-    }
-  }
-
-  return partitionCategory.partitions[0]?.value ?? 0
+  return getComboPartitionValue(category as ComboSelectConditional, actionIndex)
 }
 
 function transformSetConditionals(actionIndex: number, conditionals: ComboConditionals): SetConditional {

@@ -21,13 +21,14 @@ export function getSupportedFlags(flags: ExFlags, supportedFlags: ExFlags): ExFl
 // Game EX eidolon ids are the base character id × 100 + the EX number, e.g. 121301 is EX1 for 1213
 const EX_EIDOLON_ID_MULTIPLIER = 100
 
-// Convert game EX eidolon ids into EX flags. Accepts suffixed ids like '1005b1'.
+// Convert game EX eidolon ids into EX flags, e.g. [121301] → EX1. Accepts suffixed ids like '1005b1'.
+// Ids that belong to another character are ignored.
 export function exFlagsFromEidolonIds(characterId: string | number, exEidolonIds: number[]): ExFlags {
   const baseId = parseInt(String(characterId), 10) * EX_EIDOLON_ID_MULTIPLIER
   let flags: ExFlags = 0
   for (const exEidolonId of exEidolonIds) {
     const exNumber = exEidolonId - baseId
-    if (exNumber >= 1 && exNumber <= 30) flags |= 1 << (exNumber - 1)
+    if (exNumber >= 1 && exNumber < EX_EIDOLON_ID_MULTIPLIER) flags |= 1 << (exNumber - 1)
   }
   return flags
 }

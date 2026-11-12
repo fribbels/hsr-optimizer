@@ -203,7 +203,7 @@ describe('EX import ownership', () => {
 
   it.each([undefined, 2])('scanner import characters with an affinitive_eidolon overwrite saved EX (%s)', (savedEx) => {
     if (savedEx != null) upsertCharacterFromForm({ ...getDefaultForm({ id: Acheron.id }), characterEx: savedEx })
-    const parsed = ReliquaryArchiverParser.parseCharacter(
+    let parsed = ReliquaryArchiverParser.parseCharacter(
       {
         id: Acheron.id,
         name: 'Acheron',
@@ -221,6 +221,25 @@ describe('EX import ownership', () => {
     mergeRelics([], [parsed])
     expect(getCharacters()[0].form.characterEx).toBe(1)
     expect(parsed.characterEx).toBe(1)
+
+    parsed = ReliquaryArchiverParser.parseCharacter(
+      {
+        id: Acheron.id,
+        name: 'Acheron',
+        path: 'Nihility',
+        level: 80,
+        ascension: 6,
+        eidolon: 0,
+        affinitive_eidolons: [],
+      },
+      {},
+      [],
+    )
+    if (!parsed) throw new Error('Scanner character was not parsed')
+    expect(parsed.characterEx).toBe(0)
+    mergeRelics([], [parsed])
+    expect(getCharacters()[0].form.characterEx).toBe(0)
+    expect(parsed.characterEx).toBe(0)
   })
 
   it.each([undefined, 0, 1])('Showcase imports copy the form EX setting (%s)', async (characterEx) => {

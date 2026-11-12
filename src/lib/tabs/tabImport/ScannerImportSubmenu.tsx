@@ -73,6 +73,7 @@ export function ScannerImportSubmenu() {
   const [currentStage, setCurrentStage] = useState<Stages>(Stages.LOAD_FILE)
   const [currentRelics, setCurrentRelics] = useState<Relic[] | undefined>([])
   const [currentCharacters, setCurrentCharacters] = useState<ParsedCharacter[] | undefined>([])
+  const [currentReconRelics, setCurrentReconRelics] = useState<Relic['id'][] | undefined>([])
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
   const [onlyImportExisting, setOnlyImportExisting] = useState(false)
@@ -135,6 +136,7 @@ export function ScannerImportSubmenu() {
         setTimeout(() => {
           setCurrentCharacters(characters)
           setCurrentRelics(relics)
+          setCurrentReconRelics(undefined)
           setCurrentStage(Stages.CONFIRM_DATA)
           setLoading1(false)
         }, importerTabSpinnerMs)
@@ -150,6 +152,7 @@ export function ScannerImportSubmenu() {
       const output = parser.parse(json as ScannerParserJson)
       const characters: ParsedCharacter[] = output.characters
       const relics: Relic[] = output.relics
+      const reconRelics = output.recon_relics
 
       characters.forEach((c) => {
         c.characterLevel = 80
@@ -160,6 +163,7 @@ export function ScannerImportSubmenu() {
         setLoading1(false)
         setCurrentRelics(relics)
         setCurrentCharacters(characters)
+        setCurrentReconRelics(reconRelics)
         setCurrentStage(Stages.CONFIRM_DATA)
         setOnlyImportExisting(false)
       }, importerTabSpinnerMs)
@@ -174,6 +178,7 @@ export function ScannerImportSubmenu() {
         setLoading1(false)
         setCurrentRelics(undefined)
         setCurrentCharacters(undefined)
+        setCurrentReconRelics(undefined)
         setCurrentStage(Stages.CONFIRM_DATA)
       }, importerTabSpinnerMs)
     }
@@ -182,7 +187,7 @@ export function ScannerImportSubmenu() {
   function mergeRelicsConfirmed() {
     setLoading2(true)
     setTimeout(() => {
-      persistenceService.mergeRelics(currentRelics ?? [], [])
+      persistenceService.mergeRelics(currentRelics ?? [], [], currentReconRelics)
       SaveState.delayedSave()
 
       setTimeout(() => {
@@ -199,7 +204,7 @@ export function ScannerImportSubmenu() {
         ? currentCharacters?.filter((char) => getCharacterById(char.characterId))
         : currentCharacters
 
-      persistenceService.mergeRelics(currentRelics ?? [], (charactersToImport ?? []) as Form[])
+      persistenceService.mergeRelics(currentRelics ?? [], (charactersToImport ?? []) as Form[], currentReconRelics)
       SaveState.delayedSave()
 
       setTimeout(() => {

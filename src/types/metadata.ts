@@ -69,7 +69,7 @@ export type ScoringMetadata = {
   /*   support score     */ supportSimulation?: SimulationMetadata,
   /*     heal score      */ healSimulation?: SimulationMetadata,
   /*    shield score     */ shieldSimulation?: SimulationMetadata,
-  /*    leaderboard     */ eidolonImage?: number,
+  /*    leaderboard     */ eidolonImage?: number, // 3 | 4 | 6
 }
 
 export type ScoringParts = Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>

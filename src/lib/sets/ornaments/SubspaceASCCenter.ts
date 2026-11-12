@@ -67,7 +67,7 @@ const SubspaceASCCenterConditional: DynamicConditional = {
       && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 145
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-    x.buffDynamic(StatKey.BE, 0.15, action, context, x.targets(TargetTag.FullTeam).source(Source.SubspaceASCCenter))
+    x.buffDynamic(StatKey.BE, 0.18, action, context, x.targets(TargetTag.FullTeam).source(Source.SubspaceASCCenter))
   },
   gpu: function(action: OptimizerAction, context: OptimizerContext) {
     const config = action.config
@@ -84,7 +84,7 @@ if (
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 145.0
 ) {
   (*p_state).SubspaceASCCenterConditional${action.actionIdentifier} = 1.0;
-  ${buff.action(StatKey.BE, 0.15).targets(TargetTag.FullTeam).wgsl(action)}
+  ${buff.action(StatKey.BE, 0.18).targets(TargetTag.FullTeam).wgsl(action)}
 }
     `,
     )
@@ -105,7 +105,7 @@ const conditionals: SetConditionals = {
     desc: () => i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     nonstackable: true,
     effect: ({ x }) => {
-      x.buff(StatKey.BE, 0.15, x.targets(TargetTag.FullTeam).source(Source.SubspaceASCCenter))
+      x.buff(StatKey.BE, 0.18, x.targets(TargetTag.FullTeam).source(Source.SubspaceASCCenter))
     },
   }],
 }

@@ -64,6 +64,7 @@ function makeCharacter(): ComboCharacter {
   return {
     metadata: {
       characterId: Kafka.id,
+      baseEnergy: 120,
       characterEidolon: 0,
       characterEx: 0,
       path: 'Destruction' as PathName,
@@ -116,6 +117,7 @@ function makeTeammate(): ComboTeammate {
   return {
     metadata: {
       characterId: DanHeng.id,
+      baseEnergy: 100,
       characterEidolon: 0,
       characterEx: 0,
       path: 'Hunt' as PathName,

@@ -1,5 +1,6 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import i18next from 'i18next'
+import { exFlagsFromEidolonIds } from 'lib/conditionals/exEidolons'
 import {
   Constants,
   PathNames,
@@ -50,6 +51,7 @@ export type V4ParserCharacter = {
   level: number,
   ascension: number,
   eidolon: number,
+  affinitive_eidolons?: Array<number>,
   ability_version?: number,
 }
 
@@ -117,6 +119,7 @@ export type ScannerParserJson = {
   characters: V4ParserCharacter[],
   light_cones: V4ParserLightCone[],
   relics: V4ParserRelic[],
+  recon_relics?: V4ParserRelic['_uid'][],
 }
 
 export class KelzFormatParser { // TODO abstract class
@@ -138,6 +141,7 @@ export class KelzFormatParser { // TODO abstract class
       },
       characters: [] as Character['form'][],
       relics: [] as Relic[],
+      recon_relics: [] as Relic['id'][],
     }
 
     if (json.source != this.config.sourceString) {
@@ -201,6 +205,8 @@ export class KelzFormatParser { // TODO abstract class
         .map((c) => this.parseCharacter(c, activatedBuffs, json.light_cones))
         .filter(filterNullWithWarn('character'))
     }
+
+    json.recon_relics?.forEach((id) => parsed.recon_relics.push(id))
 
     return parsed
   }
@@ -286,6 +292,7 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
     lightCone: lightCone?.id ?? null,
     lightConeLevel: lightCone?.level ?? 80,
     lightConeSuperimposition: lightCone?.superimposition ?? 1,
+    ...(character.affinitive_eidolons ? { characterEx: exFlagsFromEidolonIds(character.id, character.affinitive_eidolons) } : {}),
   }
 }
 

@@ -1,3 +1,4 @@
+import type { Parts } from 'lib/constants/constants'
 import { indexRelics } from 'lib/relics/relicUtils'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
@@ -7,6 +8,7 @@ import type { Relic } from 'types/relic'
 type RelicStoreState = {
   relics: Relic[],
   relicsById: Partial<Record<string, Relic>>,
+  reconRelicIdByPart: Partial<Record<Parts, Relic['id']>>,
 }
 
 type RelicStoreActions = {
@@ -14,6 +16,7 @@ type RelicStoreActions = {
   upsertRelic: (relic: Relic) => void,
   batchUpsertRelics: (relics: Relic[]) => void,
   deleteRelic: (id: string) => void,
+  registerReconRelic: (id: string) => void,
 }
 
 export type RelicStore = RelicStoreState & RelicStoreActions
@@ -28,6 +31,7 @@ function buildRelicsById(relics: Relic[]): Partial<Record<string, Relic>> {
 export const useRelicStore = createTabAwareStore<RelicStore>((set, get) => ({
   relics: [],
   relicsById: {},
+  reconRelicIdByPart: {},
 
   setRelics: (relics) => {
     indexRelics(relics)
@@ -61,6 +65,14 @@ export const useRelicStore = createTabAwareStore<RelicStore>((set, get) => ({
     delete relicsById[id]
     const relics = Object.values(relicsById).filter(ArrayFilters.nonNullable)
     set({ relicsById, relics })
+  },
+
+  registerReconRelic: (id) => {
+    const { relicsById, reconRelicIdByPart } = get()
+    const relic = relicsById[id]
+    if (relic) {
+      set({ reconRelicIdByPart: { ...reconRelicIdByPart, [relic.part]: relic.id } })
+    }
   },
 }))
 

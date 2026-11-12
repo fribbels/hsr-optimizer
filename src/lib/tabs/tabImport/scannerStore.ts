@@ -1,3 +1,8 @@
+import {
+  type MainStats,
+  type Parts,
+  type Sets,
+} from 'lib/constants/constants'
 import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
 import {
   getActivatedBuffs,
@@ -8,6 +13,7 @@ import {
   type V4ParserLightCone,
   type V4ParserMaterial,
   type V4ParserRelic,
+  type V4ParserSubstat,
 } from 'lib/importer/kelzFormatParser'
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
@@ -22,6 +28,7 @@ import { EventEmitter } from 'lib/utils/frontendUtils'
 import { objectHash } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
+import { type Relic } from 'types/relic'
 
 type ScannerState = {
   // The websocket url to connect to
@@ -66,6 +73,9 @@ type ScannerState = {
 
   // Map of character ids to their buffed version if activated
   activatedBuffs: Record<string, CharacterId>,
+
+  // Array of relic IDs for any ongoing relic recon, these IDs are stable throughout the event
+  reconRelics: Array<Relic['id']>,
 }
 
 type ScannerActions = {
@@ -123,6 +133,9 @@ type PrivateScannerActions = {
 
   // Delete a light cone from the state
   deleteLightCone: (lightConeId: string) => void,
+
+  // Add a relic id to the relicRecon id list
+  addReconRelic: (id: Relic['id']) => void,
 }
 
 export type ScannerStore =
@@ -154,6 +167,8 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
   characters: {},
 
   activatedBuffs: {},
+
+  reconRelics: [],
 
   setWebsocketUrl: (websocketUrl: string) => {
     set({ websocketUrl })
@@ -269,7 +284,7 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
     }),
 
   buildFullScanData: () => {
-    const { lastScanData, characters, lightCones, relics, materials, gachaFunds } = get()
+    const { lastScanData, characters, lightCones, relics, materials, gachaFunds, reconRelics } = get()
     if (!lastScanData) {
       return null
     }
@@ -283,6 +298,7 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
       relics: Object.values(relics),
       materials: Object.values(materials),
       gacha: gachaFunds ?? lastScanData.gacha,
+      recon_relics: reconRelics,
     } satisfies ScannerParserJson
   },
 
@@ -383,6 +399,9 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
         ),
       ),
     }),
+  addReconRelic: (id) => {
+    set({ reconRelics: [...get().reconRelics, id] })
+  },
 }))
 
 export const useScannerState = usePrivateScannerState
@@ -410,6 +429,26 @@ type PityUpdate =
     }
   )
 
+type RelicBoxEvent = {
+  kind: 'Confirmed',
+} | {
+  kind: 'Add',
+  relic_id: string,
+} | {
+  kind: 'Open',
+  relic: BoxRelic,
+}
+
+export type BoxRelic = {
+  set_id: string,
+  name: Sets,
+  slot: string,
+  rarity: number,
+  level: number,
+  mainstat: MainStats,
+  substats: Array<V4ParserSubstat>,
+}
+
 export type ScannerEvent =
   | { event: 'InitialScan', data: ScannerParserJson }
   | { event: 'GachaResult', data: GachaResult }
@@ -420,6 +459,7 @@ export type ScannerEvent =
   | { event: 'UpdateCharacters', data: V4ParserCharacter[] }
   | { event: 'DeleteRelics', data: string[] } // data: unique ids
   | { event: 'DeleteLightCones', data: string[] } // data: unique ids
+  | { event: 'RelicBox', data: RelicBoxEvent }
 
 type IngestFullScanOptions = {
   updateCharacters: boolean,
@@ -451,6 +491,7 @@ function ingestFullScan(data: ScannerParserJson, options: IngestFullScanOptions)
     persistenceService.mergeRelics(
       newScan.relics,
       options.updateCharacters ? newScan.characters : [],
+      newScan.recon_relics,
     )
     console.info('Ingested initial scan')
 

@@ -1,10 +1,14 @@
+import { Parts } from 'lib/constants/constants'
 import { type V4ParserRelic } from 'lib/importer/kelzFormatParser'
+import { RelicReconModal } from 'lib/overlays/modals/RelicReconModal'
 import { RelicRerollModal } from 'lib/overlays/modals/RelicRerollModal'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { gridStore } from 'lib/stores/gridStore'
+import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { AppPages } from 'lib/tabs/navigation/constants'
 import {
+  type BoxRelic,
   handleDeleteLightCone,
   handleDeleteRelic,
   handleUpdateCharacter,
@@ -15,6 +19,7 @@ import {
   scannerChannel,
   type ScannerEvent,
   usePrivateScannerState,
+  useScannerState,
 } from 'lib/tabs/tabImport/scannerStore'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { debounceEffect } from 'lib/utils/frontendUtils'
@@ -42,6 +47,8 @@ export function ScannerWebsocket() {
     relic: null,
   })
 
+  const [reconModal, setReconModal] = useState<{ isOpen: boolean, relic: BoxRelic | null }>({ isOpen: false, relic: null })
+
   // Function to handle displaying the reroll modal
   const showRerollModal = (relic: V4ParserRelic) => {
     setRerollModal({
@@ -56,6 +63,13 @@ export function ScannerWebsocket() {
       isOpen: false,
       relic: null,
     })
+  }
+
+  const showReconModal = (relic: BoxRelic) => {
+    setReconModal({ isOpen: true, relic })
+  }
+  const closeReconModal = () => {
+    setReconModal({ isOpen: false, relic: null })
   }
 
   const websocketUrl = usePrivateScannerState((s) => s.websocketUrl)
@@ -136,6 +150,19 @@ export function ScannerWebsocket() {
               handleDeleteLightCone(state, lightConeId)
             })
             break
+          case 'RelicBox':
+            switch (event.data.kind) {
+              case 'Confirmed':
+                closeReconModal()
+                break
+              case 'Add':
+                useScannerState.getState().addReconRelic(event.data.relic_id)
+                useRelicStore.getState().registerReconRelic(event.data.relic_id)
+                break
+              case 'Open':
+                showReconModal(event.data.relic)
+            }
+            break
           default:
             console.error(`Unknown event: ${JSON.stringify(event)}`)
             break
@@ -180,11 +207,8 @@ export function ScannerWebsocket() {
   return (
     <>
       {/* Render the reroll modal */}
-      <RelicRerollModal
-        open={rerollModal.isOpen}
-        onClose={closeRerollModal}
-        relic={rerollModal.relic}
-      />
+      <RelicRerollModal open={rerollModal.isOpen} relic={rerollModal.relic} onClose={closeRerollModal} />
+      <RelicReconModal open={reconModal.isOpen} relic={reconModal.relic} onClose={closeReconModal} />
     </>
   )
 }

@@ -50,6 +50,7 @@ export type V4ParserCharacter = {
   level: number,
   ascension: number,
   eidolon: number,
+  affinitive_eidolons?: Array<number>,
   ability_version?: number,
 }
 
@@ -117,6 +118,7 @@ export type ScannerParserJson = {
   characters: V4ParserCharacter[],
   light_cones: V4ParserLightCone[],
   relics: V4ParserRelic[],
+  recon_relics?: V4ParserRelic['_uid'][]
 }
 
 export class KelzFormatParser { // TODO abstract class
@@ -138,6 +140,7 @@ export class KelzFormatParser { // TODO abstract class
       },
       characters: [] as Character['form'][],
       relics: [] as Relic[],
+      recon_relics: [] as Relic['id'][]
     }
 
     if (json.source != this.config.sourceString) {
@@ -201,6 +204,8 @@ export class KelzFormatParser { // TODO abstract class
         .map((c) => this.parseCharacter(c, activatedBuffs, json.light_cones))
         .filter(filterNullWithWarn('character'))
     }
+
+    json.recon_relics?.forEach(id => parsed.recon_relics.push(id))
 
     return parsed
   }
@@ -279,6 +284,17 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
 
   const lightCone = lightCones?.find((x) => x.location === character.id)
 
+  let characterEx = 0b0
+
+  if (character.affinitive_eidolons) {
+    const numericId = Number(character.id) * 100
+    character.affinitive_eidolons.forEach((e) => {
+      const flagDecimal = e - numericId
+      const flagBinary = 1 << (flagDecimal - 1)
+      characterEx |= flagBinary
+    })
+  }
+
   return {
     characterId: character.id,
     characterLevel: character.level || 80,
@@ -286,6 +302,7 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
     lightCone: lightCone?.id ?? null,
     lightConeLevel: lightCone?.level ?? 80,
     lightConeSuperimposition: lightCone?.superimposition ?? 1,
+    ...(character.affinitive_eidolons ? { characterEx } : {}),
   }
 }
 

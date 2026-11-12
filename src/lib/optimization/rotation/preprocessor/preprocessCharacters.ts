@@ -10,6 +10,7 @@ import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
+import { Ellen } from 'lib/conditionals/character/1500/Ellen'
 import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
 import type { ComboState } from 'lib/optimization/combo/comboTypes'
 import { AbilityTriggeredStackPreprocessor } from 'lib/optimization/rotation/preprocessor/utils/abilityTriggeredStackPreprocessor'
@@ -114,6 +115,21 @@ export class YunliPreprocessor extends AbilityTriggeredStackPreprocessor {
         consumeKinds: [AbilityKind.FUA],
         activationFn: setComboBooleanCategoryCharacterActivation,
         key: 'blockActive',
+      },
+    )
+  }
+}
+
+// Ult boosts only the next Ice Sea Diving, whether a charged Basic or a free dive
+export class EllenPreprocessor extends AbilityTriggeredStackPreprocessor {
+  constructor() {
+    super(
+      Ellen.id,
+      {
+        triggerKinds: [AbilityKind.ULT],
+        consumeKinds: [AbilityKind.BASIC, AbilityKind.UNIQUE],
+        activationFn: setComboBooleanCategoryCharacterActivation,
+        key: 'ultEnhancedBasicBuff',
       },
     )
   }

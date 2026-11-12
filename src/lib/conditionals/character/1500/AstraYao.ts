@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Ellen } from 'lib/conditionals/character/1500/Ellen'
 import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
@@ -13,7 +13,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { NoShiftsOnRainyDays } from 'lib/conditionals/lightcone/5star/NoShiftsOnRainyDays'
 import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
 import { ShineBrightLikeHer } from 'lib/conditionals/lightcone/5star/ShineBrightLikeHer'
@@ -176,7 +176,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e4Buffs: {
       id: 'e4Buffs',
       formItem: 'switch',
-      text: 'E4 Buffs',
+      text: 'E4 buffs',
       content: betaContent,
       disabled: e < 4,
     },
@@ -483,8 +483,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Hyacine.id,
-      lightCone: MayRainbowsRemainInTheSky.id,
+      characterId: HuohuoB1.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -534,8 +534,8 @@ const supportSimulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Hyacine.id,
-      lightCone: MayRainbowsRemainInTheSky.id,
+      characterId: HuohuoB1.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

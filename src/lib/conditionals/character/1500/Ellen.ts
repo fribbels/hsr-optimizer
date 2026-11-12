@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { AstraYao } from 'lib/conditionals/character/1500/AstraYao'
 import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
@@ -14,7 +14,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { NoShiftsOnRainyDays } from 'lib/conditionals/lightcone/5star/NoShiftsOnRainyDays'
 import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
 import { ShineBrightLikeHer } from 'lib/conditionals/lightcone/5star/ShineBrightLikeHer'
@@ -160,7 +160,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 Buffs',
+      text: 'E6 buffs',
       content: betaContent,
       disabled: e < 6,
     },
@@ -378,8 +378,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Hyacine.id,
-      lightCone: MayRainbowsRemainInTheSky.id,
+      characterId: HuohuoB1.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

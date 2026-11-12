@@ -57,6 +57,7 @@ export type ComboCharacterMetadata = {
   lightConeSuperimposition: number,
   lightConePath: PathName,
   element: ElementName,
+  baseEnergy: number,
 }
 
 export type ComboCharacter = {

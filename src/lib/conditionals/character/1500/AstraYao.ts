@@ -1,4 +1,7 @@
 import i18next from 'i18next'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { Ellen } from 'lib/conditionals/character/1500/Ellen'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -10,12 +13,16 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { NoShiftsOnRainyDays } from 'lib/conditionals/lightcone/5star/NoShiftsOnRainyDays'
+import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
+import { ShineBrightLikeHer } from 'lib/conditionals/lightcone/5star/ShineBrightLikeHer'
 import {
   ConditionalActivation,
   ConditionalType,
   CURRENT_DATA_VERSION,
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
@@ -24,14 +31,29 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
-  DirectnessTag,
   ElementTag,
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_BASIC,
+  DEFAULT_UNIQUE,
+  END_BASIC,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_SUPPORT,
+} from 'lib/scoring/scoringConstants'
+import { ScoringType } from 'lib/scoring/scoringTypes'
+import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -45,7 +67,13 @@ import {
 } from 'types/optimizer'
 
 export const AstraYaoEntities = createEnum('AstraYao')
-export const AstraYaoAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.UNIQUE, AbilityKind.ULT, AbilityKind.BREAK, AbilityKind.BUFF]
+export const AstraYaoAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.UNIQUE,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+  AbilityKind.BUFF,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
@@ -62,96 +90,100 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultAdditionalScaling = ult(e, 0.40, 0.44)
   const talentDmgPerStack = talent(e, 0.05, 0.055)
 
-  // Source: saved 4.7.51 kit; empty duplicate Cadenza has no independent definition.
-  // Not modeled: Technique (house convention), Energy/SP recovery, CC dispel, and turn/stack timing.
-  // Joint attacks need separate actors/rotation slots; ally-triggered Zone DMG needs Astra's stats.
-  // Minor trace stats belong to future game metadata; benchmark/scoring are placeholders.
+  // Extra damage from teammates' Basics is not included.
 
   const defaults = {
-    skillAtkBuff: true,
     enhancedBasic: true,
+    skillAtkBuff: true,
     ultZone: true,
     syncopationStacks: 10,
-    fantasiaScale: true,
-    nevernightTour: true,
+    crBuff: true,
+    atkToCdConversion: true,
+    teamDmgBuff: true,
     e1Buffs: true,
     e2AtkBuff: true,
     e2AdditionalDmg: true,
-    e4Scaling: true,
+    e4Buffs: true,
     e6ResPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
+    enhancedBasic: {
+      id: 'enhancedBasic',
+      formItem: 'switch',
+      text: 'Enhanced Basic',
+      content: betaContent,
+    },
     skillAtkBuff: {
       id: 'skillAtkBuff',
       formItem: 'switch',
       text: 'Skill ATK buff',
       content: betaContent,
     },
-    enhancedBasic: {
-      id: 'enhancedBasic',
-      formItem: 'switch',
-      text: 'Enhanced Basic ATK',
-      content: betaContent,
-    },
     ultZone: {
       id: 'ultZone',
       formItem: 'switch',
-      text: 'Ultimate Zone',
+      text: 'Ult Zone',
       content: betaContent,
     },
     syncopationStacks: {
       id: 'syncopationStacks',
       formItem: 'slider',
-      text: 'Syncopation stacks',
+      text: 'Team DMG buff stacks',
       content: betaContent,
       min: 0,
       max: 10,
     },
-    fantasiaScale: {
-      id: 'fantasiaScale',
+    crBuff: {
+      id: 'crBuff',
       formItem: 'switch',
-      text: 'Fantasia Scale',
+      text: 'CR buff',
       content: betaContent,
     },
-    nevernightTour: {
-      id: 'nevernightTour',
+    atkToCdConversion: {
+      id: 'atkToCdConversion',
       formItem: 'switch',
-      text: 'Nevernight Tour',
+      text: 'ATK to CD conversion',
+      content: betaContent,
+    },
+    teamDmgBuff: {
+      id: 'teamDmgBuff',
+      formItem: 'switch',
+      text: 'Team DMG buff',
       content: betaContent,
     },
     e1Buffs: {
       id: 'e1Buffs',
       formItem: 'switch',
-      text: 'E1 Syncopation buffs',
+      text: 'E1 Buffs',
       content: betaContent,
       disabled: e < 1,
     },
     e2AtkBuff: {
       id: 'e2AtkBuff',
       formItem: 'switch',
-      text: 'E2 additional ATK buff',
+      text: 'E2 ATK buff',
       content: betaContent,
       disabled: e < 2,
     },
     e2AdditionalDmg: {
       id: 'e2AdditionalDmg',
       formItem: 'switch',
-      text: 'E2 Zone Additional DMG boost',
+      text: 'E2 Additional DMG buff',
       content: betaContent,
       disabled: e < 2,
     },
-    e4Scaling: {
-      id: 'e4Scaling',
+    e4Buffs: {
+      id: 'e4Buffs',
       formItem: 'switch',
-      text: 'E4 Cadenza and Ultimate multipliers',
+      text: 'E4 Buffs',
       content: betaContent,
       disabled: e < 4,
     },
     e6ResPen: {
       id: 'e6ResPen',
       formItem: 'switch',
-      text: 'E6 Zone All-Type RES PEN',
+      text: 'E6 RES PEN',
       content: betaContent,
       disabled: e < 6,
     },
@@ -162,7 +194,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateATKValue: 4500,
     ultZone: true,
     syncopationStacks: 10,
-    nevernightTour: true,
+    teamDmgBuff: true,
     e1Buffs: true,
     e2AtkBuff: true,
     e6ResPen: true,
@@ -173,14 +205,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateATKValue: {
       id: 'teammateATKValue',
       formItem: 'slider',
-      text: 'Astra ATK before her Skill buff',
+      text: 'Astra\'s combat ATK',
       content: betaContent,
       min: 0,
       max: 10000,
     },
     ultZone: content.ultZone,
     syncopationStacks: content.syncopationStacks,
-    nevernightTour: content.nevernightTour,
+    teamDmgBuff: content.teamDmgBuff,
     e1Buffs: content.e1Buffs,
     e2AtkBuff: content.e2AtkBuff,
     e6ResPen: content.e6ResPen,
@@ -193,12 +225,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateDefaults: () => teammateDefaults,
     entityDeclaration: () => Object.values(AstraYaoEntities),
     entityDefinition: () => ({
-      [AstraYaoEntities.AstraYao]: { primary: true, summon: false, memosprite: false, pet: false },
+      [AstraYaoEntities.AstraYao]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+        pet: false,
+      },
     }),
     actionDeclaration: () => [...AstraYaoAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const e4Active = e >= 4 && r.e4Scaling
+
+      // E4 enhanced Basic and Ult multipliers
+      const e4Active = e >= 4 && r.e4Buffs
 
       return {
         [AbilityKind.BASIC]: {
@@ -244,7 +283,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             HitDefinitionBuilder.linearBuff()
               .buffStat(StatKey.ATK)
               .sourceStat(StatKey.ATK)
-              .scaling(r.skillAtkBuff ? skillAtkScaling + (e >= 2 && r.e2AtkBuff ? 0.12 : 0) : 0)
+              .scaling(r.skillAtkBuff ? skillAtkScaling + ((e >= 2 && r.e2AtkBuff) ? 0.12 : 0) : 0)
               .flat(r.skillAtkBuff ? skillAtkFlat : 0)
               .build(),
           ],
@@ -255,15 +294,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Skill: exclude the flat portion from its own ATK-sharing feedback.
+      // Skill flat ATK buff
       const flatAtk = r.skillAtkBuff ? skillAtkFlat : 0
       x.buff(StatKey.ATK, flatAtk, x.source(SOURCE_SKILL))
       x.buff(StatKey.UNCONVERTIBLE_ATK_BUFF, flatAtk, x.source(SOURCE_SKILL))
-      x.buff(StatKey.CR, r.fantasiaScale ? 0.50 : 0, x.source(SOURCE_TRACE))
+
+      // Trace CR buff (+50%)
+      x.buff(StatKey.CR, r.crBuff ? 0.50 : 0, x.source(SOURCE_TRACE))
+
+      // E2 Additional DMG boost (+80%)
       if (action.actionType === AbilityKind.BASIC || action.actionType === AbilityKind.UNIQUE) {
         x.buff(
           StatKey.BOOST,
-          e >= 2 && r.e2AdditionalDmg && r.ultZone ? 0.80 : 0,
+          (e >= 2 && r.e2AdditionalDmg && r.ultZone) ? 0.80 : 0,
           x.target(AstraYaoEntities.AstraYao).damageType(DamageTag.ADDITIONAL).source(SOURCE_E2),
         )
       }
@@ -272,37 +315,58 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
       const syncopationBoost = talentDmgPerStack * m.syncopationStacks
 
+      // Ult vulnerability
       x.buff(StatKey.VULNERABILITY, m.ultZone ? ultVulnerability : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+
+      // Talent Basic DMG boost; E1 + Zone applies to all damage
       if (e >= 1 && m.e1Buffs && m.ultZone) {
-        // Directness is action-level; damage tags also exclude riding Additional DMG.
         x.buff(
           StatKey.BOOST,
           syncopationBoost,
-          x.targets(TargetTag.FullTeam)
-            .damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT | DamageTag.FUA | DamageTag.MEMO | DamageTag.ELATION | DamageTag.ASSIST)
-            .directness(DirectnessTag.Direct)
-            .source(SOURCE_TALENT),
+          x.targets(TargetTag.FullTeam).source(SOURCE_TALENT),
         )
       } else {
-        x.buff(StatKey.BOOST, syncopationBoost, x.targets(TargetTag.FullTeam).damageType(DamageTag.BASIC).source(SOURCE_TALENT))
+        x.buff(
+          StatKey.BOOST,
+          syncopationBoost,
+          x.targets(TargetTag.FullTeam).damageType(DamageTag.BASIC).source(SOURCE_TALENT),
+        )
       }
-      x.buff(StatKey.BOOST, m.nevernightTour && m.syncopationStacks > 0 ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-      // E1: DEF ignore has its own sentence, without the Zone prerequisite.
-      x.buff(StatKey.DEF_PEN, e >= 1 && m.e1Buffs ? m.syncopationStacks * 0.015 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
-      x.buff(StatKey.RES_PEN, e >= 6 && m.e6ResPen && m.ultZone ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
+
+      // Trace team DMG boost (+40%)
+      x.buff(
+        StatKey.BOOST,
+        (m.teamDmgBuff && m.syncopationStacks > 0) ? 0.40 : 0,
+        x.targets(TargetTag.FullTeam).source(SOURCE_TRACE),
+      )
+
+      // E1 team DEF PEN per stack (+1.5%)
+      x.buff(
+        StatKey.DEF_PEN,
+        (e >= 1 && m.e1Buffs) ? m.syncopationStacks * 0.015 : 0,
+        x.targets(TargetTag.FullTeam).source(SOURCE_E1),
+      )
+
+      // E6 team RES PEN (+20%)
+      x.buff(
+        StatKey.RES_PEN,
+        (e >= 6 && m.e6ResPen && m.ultZone) ? 0.20 : 0,
+        x.targets(TargetTag.FullTeam).source(SOURCE_E6),
+      )
     },
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
-      const derivedAtk = t.skillAtkBuff ? t.teammateATKValue * (skillAtkScaling + (e >= 2 && t.e2AtkBuff ? 0.12 : 0)) : 0
+      const derivedAtk = t.skillAtkBuff ? t.teammateATKValue * (skillAtkScaling + ((e >= 2 && t.e2AtkBuff) ? 0.12 : 0)) : 0
       const flatAtk = t.skillAtkBuff ? skillAtkFlat : 0
 
-      // Skill: exclude the full stat-sharing bonus from recipient conversions, matching Robin.
+      // Skill team ATK buff
       x.buff(StatKey.ATK, derivedAtk + flatAtk, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
       x.buff(StatKey.UNCONVERTIBLE_ATK_BUFF, derivedAtk + flatAtk, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
     },
     finalizeCalculations: () => {},
     newGpuFinalizeCalculations: () => '',
     dynamicConditionals: [
+      // Skill ATK conversion
       {
         id: 'AstraYaoSkillAtkShare',
         type: ConditionalType.ABILITY,
@@ -311,19 +375,23 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         chainsTo: [Stats.ATK],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
+
           return r.skillAtkBuff
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          const ratio = skillAtkScaling + (e >= 2 && r.e2AtkBuff ? 0.12 : 0)
+          const ratio = skillAtkScaling + ((e >= 2 && r.e2AtkBuff) ? 0.12 : 0)
+
           dynamicStatConversionContainer(Stats.ATK, Stats.ATK, this, x, action, context, SOURCE_SKILL, (convertibleValue) => convertibleValue * ratio)
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          const ratio = skillAtkScaling + (e >= 2 && r.e2AtkBuff ? 0.12 : 0)
+          const ratio = skillAtkScaling + ((e >= 2 && r.e2AtkBuff) ? 0.12 : 0)
+
           return gpuDynamicStatConversion(Stats.ATK, Stats.ATK, this, action, context, `convertibleValue * ${ratio}`, wgslTrue(r.skillAtkBuff))
         },
       },
+      // Trace ATK to CD conversion
       {
         id: 'AstraYaoFantasiaScale',
         type: ConditionalType.ABILITY,
@@ -332,10 +400,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         chainsTo: [Stats.CD],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          return r.fantasiaScale
+          return r.atkToCdConversion
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-          // Fantasia: total ATK includes her Skill; only the share excludes its own feedback.
+          // Includes ATK from her Skill
           const totalAtk = x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX)
           dynamicStatConversionContainer(
             Stats.ATK,
@@ -358,7 +426,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             action,
             context,
             `min(2.00, 0.20 * floor(max(0.0, ${totalAtk} - 2000.0) / 200.0))`,
-            wgslTrue(r.fantasiaScale),
+            wgslTrue(r.atkToCdConversion),
           )
         },
       },
@@ -366,37 +434,153 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-// TODO: benchmark rotation and teammates require human review.
-const simulation = (): SimulationMetadata | undefined => undefined
+const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
+  parts: {
+    [Parts.Body]: [Stats.ATK_P, Stats.CR, Stats.CD],
+    [Parts.Feet]: [Stats.ATK_P, Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.ATK_P, Stats.Quantum_DMG],
+    [Parts.LinkRope]: [Stats.ATK_P, Stats.ERR],
+  },
+  substats: [Stats.ATK_P, Stats.ATK, Stats.CR, Stats.CD, Stats.HP_P],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_BASIC,
+    DEFAULT_UNIQUE,
+    END_BASIC,
+    WHOLE_BASIC,
+    WHOLE_BASIC,
+  ],
+  relicSets: [
+    [Sets.TheEdaciousHeretic, Sets.TheEdaciousHeretic],
+    relics2pByStats(Stats.ATK_P, Stats.SPD_P),
+    ...SPREAD_RELICS_4P_SUPPORT,
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.RutilantArena,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  deprioritizeBuffs: true,
+  teammates: [
+    {
+      characterId: Ellen.id,
+      lightCone: NoShiftsOnRainyDays.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: RobinSummeretto.id,
+      lightCone: RiseAndSing.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
 
-// TODO: scoring weights and recommended main stats require human review.
+const supportSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
+  parts: {
+    [Parts.Body]: [Stats.ATK_P],
+    [Parts.Feet]: [Stats.ATK_P, Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.ATK_P],
+    [Parts.LinkRope]: [Stats.ATK_P],
+  },
+  substats: [
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+  ],
+  buffStat: StatKey.ATK,
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+  ],
+  relicSets: [
+    [Sets.PrisonerInDeepConfinement, Sets.TheWindSoaringValorous],
+    [Sets.TheEdaciousHeretic, Sets.TheEdaciousHeretic],
+    ...SPREAD_RELICS_4P_SUPPORT,
+  ],
+  ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Ellen.id,
+      lightCone: NoShiftsOnRainyDays.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: RobinSummeretto.id,
+      lightCone: RiseAndSing.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  deprioritizeBuffs: true,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
-    [Stats.ATK]: 0,
-    [Stats.ATK_P]: 0,
+    [Stats.ATK]: 1,
+    [Stats.ATK_P]: 1,
     [Stats.DEF]: 0,
     [Stats.DEF_P]: 0,
     [Stats.HP]: 0,
     [Stats.HP_P]: 0,
-    [Stats.SPD]: 0,
-    [Stats.CR]: 0,
-    [Stats.CD]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
     [Stats.EHR]: 0,
     [Stats.RES]: 0,
     [Stats.BE]: 0,
   },
-  parts: { [Parts.Body]: [], [Parts.Feet]: [], [Parts.PlanarSphere]: [], [Parts.LinkRope]: [] },
+  parts: {
+    [Parts.Body]: [Stats.ATK_P, Stats.CR, Stats.CD],
+    [Parts.Feet]: [Stats.ATK_P, Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.ATK_P, Stats.Quantum_DMG],
+    [Parts.LinkRope]: [Stats.ATK_P, Stats.ERR],
+  },
   presets: [],
+  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+  addedColumns: [SortOption.UNIQUE],
   simulation: simulation(),
+  supportSimulation: supportSimulation(),
 })
 
-const display = {} // TODO: portrait positioning and showcase color.
+const display = {
+  showcaseScoringOrder: [
+    ScoringType.BUFFER_SCORE,
+    ScoringType.DPS_SCORE,
+    ScoringType.SUBSTAT_SCORE,
+    ScoringType.NONE,
+  ],
+}
 
 export const AstraYao: CharacterConfig = {
   id: '1515',
-  defaultLightCone: DanceDanceDance.id,
+  defaultLightCone: ShineBrightLikeHer.id,
   display,
   conditionals,
   get scoring() {

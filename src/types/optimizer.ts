@@ -109,6 +109,7 @@ export type CharacterMetadata = {
   lightConePath: PathName,
   path: PathName,
   element: ElementName,
+  baseEnergy: number,
 }
 
 export type ShaderVariables = {
@@ -157,7 +158,6 @@ export type OptimizerContext = CharacterMetadata & {
   baseATK: number,
   baseDEF: number,
   baseSPD: number,
-  baseEnergy: number,
 
   // Enemy data
   enemyLevel: number,

@@ -7,11 +7,23 @@ import type { CharacterId } from 'types/character'
 import type { LightConeConditionalsController } from 'types/conditionals'
 import type { LightConeId } from 'types/lightCone'
 
-export type WearerMetadata = { element: ElementName, characterId: CharacterId }
+export type WearerMetadata = {
+  element: ElementName,
+  characterId: CharacterId,
+  maxEnergy: number,
+}
 
 export const LightConeConditionalsResolver = {
   get: (
-    request: { lightCone: string, lightConeSuperimposition: number, lightConePath: PathName, path: PathName, element: ElementName, characterId: CharacterId },
+    request: {
+      lightCone: string,
+      lightConeSuperimposition: number,
+      lightConePath: PathName,
+      path: PathName,
+      element: ElementName,
+      characterId: CharacterId,
+      baseEnergy: number,
+    },
     withContent = false,
   ): LightConeConditionalsController => {
     const lcFn = lightConeConfigRegistry.get(request.lightCone as LightConeId)?.conditionals
@@ -24,6 +36,10 @@ export const LightConeConditionalsResolver = {
         finalizeCalculations: () => {},
       }
     }
-    return lcFn(request.lightConeSuperimposition - 1, withContent, { element: request.element, characterId: request.characterId })
+    return lcFn(request.lightConeSuperimposition - 1, withContent, {
+      element: request.element,
+      characterId: request.characterId,
+      maxEnergy: request.baseEnergy,
+    })
   },
 }

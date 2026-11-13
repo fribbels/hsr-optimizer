@@ -39,6 +39,7 @@ function rowColorBackground(rank: number): string | undefined {
 const EIDOLON_COLORS: Record<number, string> = { 0: '#69f0ae', 1: '#81d4fa', 2: '#d4b0e0', 6: '#f2d49b' }
 const EIDOLON_BORDER_ALPHA = '26'
 const EIDOLON_FILL_ALPHA = '15'
+const EX1_LABEL = 'EX1'
 
 function RankListEntry({ entry, isSelected }: {
   entry: LeaderboardEntry,
@@ -56,6 +57,9 @@ function RankListEntry({ entry, isSelected }: {
   const ringColor = EIDOLON_COLORS[colorKey] ?? EIDOLON_COLORS[0]
   const borderColor = ringColor + EIDOLON_BORDER_ALPHA
   const fillColor = ringColor + EIDOLON_FILL_ALPHA
+  const hasEx1 = hasExEidolon(entry.characterEx, ExEidolon.EX1)
+  const baseLabel = `${tCommon('EidolonNShort', { eidolon })} ${tCommon('SuperimpositionNShort', { superimposition: lcSuperimpose })}`
+  const exLabel = `${baseLabel} ${EX1_LABEL}`
 
   return (
     <div
@@ -73,10 +77,10 @@ function RankListEntry({ entry, isSelected }: {
         <span className={classes.scoreValue}>{percentageToLocaleString(truncate10ths(scorePercent), 1)}</span>
       </span>
 
-      <span className={classes.eidolonTag}>
-        {`${tCommon('EidolonNShort', { eidolon })} ${tCommon('SuperimpositionNShort', { superimposition: lcSuperimpose })}${
-          hasExEidolon(entry.characterEx, ExEidolon.EX1) ? ' · EX1' : ''
-        }`}
+      <span className={classes.colEidolon}>
+        <span className={classes.eidolonTag}>{hasEx1 ? exLabel : baseLabel}</span>
+        {/* Invisible EX1 pill reserves the widest tag width outside the visible pill so columns line up across rows */}
+        {!hasEx1 && <span className={`${classes.eidolonTag} ${classes.eidolonSizer}`} aria-hidden>{exLabel}</span>}
       </span>
 
       <span className={classes.colLightCone}>

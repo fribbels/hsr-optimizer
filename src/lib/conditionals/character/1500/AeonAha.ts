@@ -1,4 +1,5 @@
 import i18next from 'i18next'
+import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
 import { Pearl } from 'lib/conditionals/character/1500/Pearl'
 import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
 import {
@@ -14,6 +15,7 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
 import { UponTheFirstEchoOfAha } from 'lib/conditionals/lightcone/5star/UponTheFirstEchoOfAha'
+import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -452,6 +454,22 @@ const simulation = (): SimulationMetadata => ({
       lightCone: Pearl.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
+    },
+  ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Evanescia.id, lightCones: [Evanescia.defaultLightCone] },
+        { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
+        { characterId: Pearl.id, lightCones: [Pearl.defaultLightCone] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: SilverWolfLv999.id, lightCones: [SilverWolfLv999.defaultLightCone] },
+        { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
+        { characterId: Pearl.id, lightCones: [Pearl.defaultLightCone] },
+      ],
     },
   ],
 })

@@ -129,7 +129,14 @@
 
 /* ── Default Hidden: Eidolon tag ── */
 
+/* Visible pill and invisible sizer pill share one grid cell; the column takes the wider of the two. */
+.colEidolon {
+  display: grid;
+  place-items: center;
+}
+
 .eidolonTag {
+  grid-area: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -142,4 +149,8 @@
   color: var(--eidolon-ring, rgba(255, 255, 255, 0.4));
   background: var(--eidolon-fill, transparent);
   border: 1px solid var(--eidolon-border, rgba(255, 255, 255, 0.1));
+}
+
+.eidolonSizer {
+  visibility: hidden;
 }

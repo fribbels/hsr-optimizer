@@ -304,6 +304,7 @@ const simulation = (): SimulationMetadata => ({
     Stats.ATK_P,
     Stats.ATK,
   ],
+  errRopeEidolon: 0,
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
@@ -386,6 +387,7 @@ const scoring = (): ScoringMetadata => ({
     ],
     [Parts.LinkRope]: [
       Stats.ATK_P,
+      Stats.ERR,
     ],
   },
   presets: [

@@ -8,6 +8,10 @@ import {
   gunzipBase64Text,
   gzipTextToBase64,
 } from 'leaderboard/shared/nodeFacade'
+import {
+  AEON_SCORE,
+  resolvePublicTopN,
+} from 'leaderboard/shared/publicBoardLimits'
 import type {
   PrivateRankedOutput,
   PublicBoardData,
@@ -18,8 +22,6 @@ import type {
   PublicTeamMeta,
 } from 'leaderboard/shared/types'
 import type { CharacterId } from 'types/character'
-
-export const MIN_PUBLIC_SCORE = 1.50
 
 export function buildPublicOutputFromPrivate(input: {
   privateOutput: PrivateRankedOutput,
@@ -71,9 +73,8 @@ export function buildPublicOutputFromPrivate(input: {
       const teamsById: Record<string, PublicBoardData> = {}
 
       for (const [teamId, board] of teamMap) {
-        // Temporarily disabled — including all scores while iterating on the leaderboard
-        // const qualified = board.entries.filter((e) => e.score >= MIN_PUBLIC_SCORE)
-        const topEntries = board.entries.slice(0, topNPublic)
+        // Publish aeons only
+        const topEntries = board.entries.slice(0, topNPublic).filter((e) => e.score >= AEON_SCORE)
         const publicEntries: PublicLeaderboardEntry[] = topEntries.map((entry) => ({
           rank: entry.rank,
           characterId: entry.characterId as CharacterId,
@@ -104,8 +105,17 @@ export function buildPublicOutputFromPrivate(input: {
 
   return {
     generatedAt,
+    topNPublic,
     characters,
   }
+}
+
+type StoredPublicLeaderboardOutput = Omit<PublicLeaderboardOutputV3, 'topNPublic'> & { topNPublic?: number }
+
+// Older output has no topNPublic
+export function parsePublicLeaderboardOutput(json: string): PublicLeaderboardOutputV3 {
+  const stored = JSON.parse(json) as StoredPublicLeaderboardOutput
+  return { ...stored, topNPublic: resolvePublicTopN(stored) }
 }
 
 export function validateNoUidInPublicOutput(output: PublicLeaderboardOutputV3): void {

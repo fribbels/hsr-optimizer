@@ -1,6 +1,9 @@
 import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
 import { Assets } from 'lib/rendering/assets'
-import { loadCharacterData } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
+import {
+  getPublicTopN,
+  loadCharacterData,
+} from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
 import { getLeaderboardRankColor } from 'lib/tabs/tabLeaderboard/leaderboardRankColor'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
@@ -93,7 +96,7 @@ export function LeaderboardUserRanksCard() {
 
     let cancelled = false
     setState({ status: UserRanksStatus.LOADING })
-    void lookupUserLeaderboardRanks(uid, loadedCharacters)
+    void lookupUserLeaderboardRanks(uid, loadedCharacters, getPublicTopN())
       .then((ranks) => {
         if (!cancelled) setState({ status: UserRanksStatus.READY, ranks })
       })

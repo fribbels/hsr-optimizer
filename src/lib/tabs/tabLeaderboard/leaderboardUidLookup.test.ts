@@ -22,6 +22,7 @@ const UID = '601069336'
 const UID_HASH = '31050e4f5f4bb895ba7ba9326e6dead67ca90d494d548632db2f4b0cab5436a3'
 const CHARACTER_ID = '1001' as CharacterId
 const CANDIDATE_ID = '6de86cffb601'
+const TOP_N_PUBLIC = 104
 
 function makeEntry(candidateId: string, score: number, buildId: string, teamId: string): PublicLeaderboardEntry {
   return {
@@ -124,7 +125,7 @@ describe('lookupUserLeaderboardRanks', () => {
     const ranks = await lookupUserLeaderboardRanks(UID, [{
       characterId: CHARACTER_ID,
       characterData: makeCharacterData(),
-    }])
+    }], TOP_N_PUBLIC)
 
     expect(ranks).toEqual([
       {
@@ -150,7 +151,8 @@ describe('lookupUserLeaderboardRanks', () => {
     const bestTeamId = 'best-team'
     const otherTeamId = 'other-team'
     const strongerTeamId = 'stronger-team'
-    const strongerEntries = Array.from({ length: 100 }, (_, index) => {
+    // Push the candidate past the depth
+    const strongerEntries = Array.from({ length: TOP_N_PUBLIC }, (_, index) => {
       const id = String(index).padStart(12, '0')
       return makeEntry(id, 2.5 - index * 0.001, id, strongerTeamId)
     })
@@ -178,11 +180,11 @@ describe('lookupUserLeaderboardRanks', () => {
                 totalEntries: strongerEntries.length,
               },
             },
-            totalEntries: 103,
+            totalEntries: TOP_N_PUBLIC + 3,
           },
         },
       },
-    }])
+    }], TOP_N_PUBLIC)
 
     expect(ranks).toEqual([{
       characterId: CHARACTER_ID,

@@ -3,6 +3,7 @@ import {
   homeDir,
   resolvePath,
 } from 'leaderboard/shared/nodeFacade'
+import { PUBLIC_TOP_N } from 'leaderboard/shared/publicBoardLimits'
 
 const FLAG_EXPORT_PATH = '--export-path'
 const FLAG_PRIVATE_OUTPUT_PATH = '--private-output-path'
@@ -48,7 +49,7 @@ function defaultLeaderboardCliOptions(): MutableLeaderboardCliOptions {
     privateOutputPath: resolvePath(homeDir(), 'leaderboard-cache/private-ranked-output'),
     publicOutputPath: './public/leaderboard/leaderboard.json',
     topN: 100,
-    topNPublic: 100,
+    topNPublic: PUBLIC_TOP_N,
     workerThreads: 12,
     buildScoreCacheDbPath: resolvePath(homeDir(), 'leaderboard-cache/leaderboard-build-score-cache.sqlite'),
     pruneBuildScoreCache: false,

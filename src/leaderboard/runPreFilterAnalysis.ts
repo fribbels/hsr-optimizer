@@ -5,7 +5,6 @@ import {
   extractPreFilterSubstats,
 } from 'leaderboard/ingest/preFilterExtractor'
 import { readPrivateRankedOutput } from 'leaderboard/output/privateOutput'
-import { MIN_PUBLIC_SCORE } from 'leaderboard/output/publicOutput'
 import { findLatestServerExport } from 'leaderboard/shared/exportResolution'
 import {
   computeBuildId,
@@ -17,6 +16,7 @@ import {
   resolvePath,
   setExitCode,
 } from 'leaderboard/shared/nodeFacade'
+import { AEON_SCORE } from 'leaderboard/shared/publicBoardLimits'
 import type {
   LeaderboardScoringCharacter,
   PrivateRankedEntry,
@@ -410,7 +410,7 @@ async function runAnalysis(): Promise<void> {
     }
   }
 
-  const SCORE_THRESHOLD = MIN_PUBLIC_SCORE
+  const SCORE_THRESHOLD = AEON_SCORE
 
   const boards = Object.entries(privateOutput.boards)
   console.log(`\n--- Safety Check (vs top ${SAFETY_CUTOFF} per board, score >= ${(SCORE_THRESHOLD * 100).toFixed(0)}%) ---`)
@@ -509,7 +509,7 @@ async function runAnalysis(): Promise<void> {
 
   const BATCH_SIZE = 500
   const TOP_K = 100
-  const BATCH_SCORE_THRESHOLD = MIN_PUBLIC_SCORE
+  const BATCH_SCORE_THRESHOLD = AEON_SCORE
   const MAX_BATCHES = Math.ceil(TOP_N / BATCH_SIZE)
 
   console.log(`\n--- Iterative Batching: Empty-Batch-Stops (batch=${BATCH_SIZE}, top-${TOP_K}, >= ${(BATCH_SCORE_THRESHOLD * 100).toFixed(0)}%) ---`)

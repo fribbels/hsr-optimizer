@@ -35,6 +35,7 @@ import {
   getBuildIndex,
   getLeaderboardCharacterIds,
   getLeaderboardTopScores,
+  getPublicTopN,
   loadCharacterData,
   loadLeaderboardData,
   loadLeaderboardTimeline,
@@ -111,6 +112,7 @@ function deriveAndUpdateEntries() {
     activeTeamId: state.activeTeamId,
     filterCharacterEidolon: state.filterCharacterEidolon,
     filterCharacterEx: state.filterCharacterEx,
+    topNPublic: getPublicTopN(),
   })
 
   const currentBuildId = state.selectedBuildId
@@ -234,6 +236,7 @@ function resolveBoardTeamId(buildId: string, match: BuildIndexEntry): string {
     activeTeamId: LEADERBOARD_FILTER_ALL,
     filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
     filterCharacterEx: LeaderboardExFilter.All,
+    topNPublic: getPublicTopN(),
   })
 
   return visibleAllTeams.some((entry) => entry.buildId === buildId)

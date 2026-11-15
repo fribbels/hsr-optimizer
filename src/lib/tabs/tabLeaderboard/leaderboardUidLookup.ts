@@ -29,6 +29,7 @@ export type UserLeaderboardRank = {
 export async function lookupUserLeaderboardRanks(
   uid: string,
   characters: readonly LoadedLeaderboardCharacter[],
+  topNPublic: number,
 ): Promise<UserLeaderboardRank[]> {
   const uidHash = await hashLeaderboardUid(uid)
   const candidateIds = await Promise.all(
@@ -59,6 +60,7 @@ export async function lookupUserLeaderboardRanks(
         activeTeamId: LEADERBOARD_FILTER_ALL,
         filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
         filterCharacterEx: LeaderboardExFilter.All,
+        topNPublic,
       }).find((candidate) => candidate.candidateId === candidateId)
 
       if (!entry) {
@@ -69,6 +71,7 @@ export async function lookupUserLeaderboardRanks(
             activeTeamId: candidateTeamId,
             filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
             filterCharacterEx: LeaderboardExFilter.All,
+            topNPublic,
           }).find((candidate) => candidate.candidateId === candidateId)
           if (!candidateEntry) continue
 

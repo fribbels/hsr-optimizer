@@ -15,6 +15,7 @@ import {
 } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import {
   getPublicEntryCount,
+  getPublicTopN,
   loadCharacterData,
 } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
@@ -138,6 +139,7 @@ export function CharacterListPanel() {
             activeTeamId: LEADERBOARD_FILTER_ALL,
             filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
             filterCharacterEx: LeaderboardExFilter.All,
+            topNPublic: getPublicTopN(),
           })
           topScore = entries[0]?.score ?? 0
           publicEntryCount = entries.length

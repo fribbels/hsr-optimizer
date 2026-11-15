@@ -4,6 +4,7 @@ import {
   resolvePath,
   writeTextFile,
 } from 'leaderboard/shared/nodeFacade'
+import { AEON_SCORE } from 'leaderboard/shared/publicBoardLimits'
 import type { MinifiedCharacter } from 'leaderboard/shared/profileCompression'
 import type {
   ExportParseSummary,
@@ -78,14 +79,14 @@ export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, to
     stats.scored += board.completeness.totalScoredEntries
 
     for (const entry of board.entries) {
-      if (entry.score >= MIN_AEON_SCORE) {
+      if (entry.score >= AEON_SCORE) {
         stats.aeonUids.add(entry.uidHash)
       }
     }
 
     const publicEntries = board.entries.slice(0, topNPublic)
     for (const entry of publicEntries) {
-      if (entry.score >= MIN_AEON_SCORE) {
+      if (entry.score >= AEON_SCORE) {
         stats.topNAeonUids.add(entry.uidHash)
         if (entry.preFilterRank > stats.maxRankTopNAeons) {
           stats.maxRankTopNAeons = entry.preFilterRank
@@ -198,7 +199,6 @@ function getBuildSummary(char: MinifiedCharacter): { body: string, feet: string,
   }
 }
 
-const MIN_AEON_SCORE = 1.50
 const DIAGNOSTIC_LIMIT = 20
 
 function printEntryTable(entries: PrivateRankedEntry[], title: string): void {
@@ -225,7 +225,7 @@ function printDeepAeonDiagnostic(charId: string, charName: string, privateOutput
     if (board.characterId !== charId) continue
     const publicEntries = board.entries.slice(0, topNPublic)
     for (const entry of publicEntries) {
-      if (entry.score >= MIN_AEON_SCORE) {
+      if (entry.score >= AEON_SCORE) {
         aeonEntries.push(entry)
       } else {
         nonAeonEntries.push(entry)

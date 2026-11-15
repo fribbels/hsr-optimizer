@@ -66,8 +66,10 @@ export function mergePublicCharacterRefresh(
 ): PublicLeaderboardOutputV3 {
   // Reading private boards from disk changes iteration order. Preserve the
   // untouched public payloads, including their team ordering, byte for byte.
+  // Kept characters are only exact to the previous depth
   return {
     ...refreshed,
+    topNPublic: Math.min(previous.topNPublic, refreshed.topNPublic),
     characters: { ...previous.characters, [characterId]: refreshed.characters[characterId] },
   }
 }

@@ -1,4 +1,5 @@
 import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
+import { PUBLIC_TOP_N } from 'leaderboard/shared/publicBoardLimits'
 import type { PrivateRankedOutput } from 'leaderboard/shared/types'
 import type {
   LeaderboardSnapshot,
@@ -35,7 +36,7 @@ export function extractSnapshot(
   topNPublic?: number,
   refreshCharacterId?: CharacterId,
 ): SnapshotExtractionResult {
-  const maxBoardRank = topNPublic ?? 100
+  const maxBoardRank = topNPublic ?? PUBLIC_TOP_N
   const topScores = new Map<string, number>()
   const userCharEntries = new Map<string, UserCharCurrentEntry>()
 

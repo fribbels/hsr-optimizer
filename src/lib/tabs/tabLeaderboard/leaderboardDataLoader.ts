@@ -1,4 +1,9 @@
 import { eidolonToGroup } from 'leaderboard/shared/eidolonConfig'
+import {
+  PUBLIC_TOP_N,
+  AEON_SCORE,
+  resolvePublicTopN,
+} from 'leaderboard/shared/publicBoardLimits'
 import type {
   PublicCharacterData,
   PublicLeaderboardEntry,
@@ -33,11 +38,18 @@ export type LeaderboardTopScoresResult = {
 }
 
 type RawLeaderboardOutput = {
+  topNPublic?: number,
   characters: Record<string, string>,
 }
 
 let buildIndex: Map<string, BuildIndexEntry> | null = null
 const decompressedCache = new Map<CharacterId, PublicCharacterData>()
+let publicTopN = PUBLIC_TOP_N
+
+// Depth of the loaded data
+export function getPublicTopN(): number {
+  return publicTopN
+}
 
 export function getBuildIndex(): Map<string, BuildIndexEntry> | null {
   return buildIndex
@@ -75,6 +87,10 @@ let cachedPromise: Promise<RawLeaderboardOutput> | null = null
 export async function loadLeaderboardData(): Promise<RawLeaderboardOutput> {
   if (!cachedPromise) {
     cachedPromise = fetchJsonWithFallback<RawLeaderboardOutput>('leaderboard.json')
+      .then((output) => {
+        publicTopN = resolvePublicTopN(output)
+        return output
+      })
       .catch((e) => {
         cachedPromise = null
         throw e
@@ -155,13 +171,13 @@ export function getPublicEntryCount(characterId: CharacterId): number {
     if (!configData) continue
     for (const boardData of Object.values(configData.teamsById)) {
       for (const entry of boardData.entries) {
-        if (entry.score >= 1.50) {
+        if (entry.score >= AEON_SCORE) {
           seen.add(entry.candidateId)
         }
       }
     }
   }
-  return Math.min(seen.size, 100)
+  return Math.min(seen.size, publicTopN)
 }
 
 export function getLeaderboardCharacterIds(output: RawLeaderboardOutput): CharacterId[] {

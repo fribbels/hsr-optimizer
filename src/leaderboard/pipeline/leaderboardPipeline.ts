@@ -14,6 +14,7 @@ import {
 } from 'leaderboard/output/privateOutput'
 import {
   buildPublicOutputFromPrivate,
+  parsePublicLeaderboardOutput,
   validateNoUidInPublicOutput,
   writePublicLeaderboardOutput,
 } from 'leaderboard/output/publicOutput'
@@ -235,7 +236,8 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       generatedAt,
       snapshotPath: deriveSnapshotPath(options.buildScoreCacheDbPath),
       timelinePath: deriveTimelinePath(publicOutputPath),
-      topNPublic,
+      // A refresh publishes the smaller of the old and new depths
+      topNPublic: artifacts.publicOutput.topNPublic,
       refreshCharacterId,
       allowedCharacterIds,
     })
@@ -334,7 +336,7 @@ function readRefreshBaseline(privateOutputPath: string, publicOutputPath: string
   }
   assertPrivateOutputPublishable(privateOutput)
 
-  const publicOutput = JSON.parse(readTextFile(publicOutputPath)) as PublicLeaderboardOutputV3
+  const publicOutput = parsePublicLeaderboardOutput(readTextFile(publicOutputPath))
   validateNoUidInPublicOutput(publicOutput)
 
   return { privateOutput, publicOutput }

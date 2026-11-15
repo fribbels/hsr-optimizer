@@ -22,6 +22,8 @@ import {
 const CHARACTER_ID = '1405' as CharacterId
 const TEAM_A = 'team-a'
 const TEAM_B = 'team-b'
+// Not 100, so a hardcoded cap fails
+const TOP_N_PUBLIC = 104
 
 // The build under test: #3 on its own team board, #6 across all teams.
 const TARGET_BUILD_ID = 'target-build'
@@ -45,6 +47,14 @@ function makeEntry(candidateId: string, score: number, buildId: string, teamId: 
       fetchedAt: 1782259200,
     },
   }
+}
+
+// Builds stronger than every fixture build
+function makeCrowd(count: number, teamId: string): PublicLeaderboardEntry[] {
+  return Array.from(
+    { length: count },
+    (_, i) => makeEntry(`cand-${teamId}-${i}`, 1.9 - i * 0.001, `${teamId}-${i}`, teamId),
+  )
 }
 
 // TEAM_A holds the target plus 2 stronger builds -> team rank #3.
@@ -132,6 +142,7 @@ describe('leaderboard board selection', () => {
       activeConfigType: LeaderboardConfigType.DPS,
       activeTeamId: LEADERBOARD_FILTER_ALL,
       filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+      topNPublic: TOP_N_PUBLIC,
     }
     const on = deriveVisibleEntries({ ...input, filterCharacterEx: LeaderboardExFilter.On })
     expect(on.map((entry) => [entry.buildId, entry.rank])).toEqual([['b2', 3]])
@@ -140,21 +151,51 @@ describe('leaderboard board selection', () => {
     expect(off.every((entry) => entry.characterEx === 0)).toBe(true)
   })
 
-  test('EX filtering cannot pull a build past the mixed top-100 cutoff', () => {
+  test('EX filtering cannot pull a build past the mixed top-N cutoff', () => {
     const data = makeCharacterData()
     const target = data.configs.dps!.teamsById[TEAM_A].entries[2]
     target.data.character.ex = 1
-    data.configs.dps!.teamsById[TEAM_B].entries = Array.from(
-      { length: 100 },
-      (_, index) => makeEntry(`crowd-${index}`, 1.9 - index * 0.001, `crowd-${index}`, TEAM_B),
-    )
+    data.configs.dps!.teamsById[TEAM_B].entries = makeCrowd(TOP_N_PUBLIC, TEAM_B)
     expect(deriveVisibleEntries({
       characterData: data,
       activeConfigType: LeaderboardConfigType.DPS,
       activeTeamId: LEADERBOARD_FILTER_ALL,
       filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
       filterCharacterEx: LeaderboardExFilter.On,
+      topNPublic: TOP_N_PUBLIC,
     })).toEqual([])
+  })
+
+  test('caps a team board at the data depth, not a fixed 100', () => {
+    const data = makeCharacterData()
+    data.configs.dps!.teamsById[TEAM_B].entries = makeCrowd(TOP_N_PUBLIC + 5, TEAM_B)
+    const visible = deriveVisibleEntries({
+      characterData: data,
+      activeConfigType: LeaderboardConfigType.DPS,
+      activeTeamId: TEAM_B,
+      filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+      filterCharacterEx: LeaderboardExFilter.All,
+      topNPublic: TOP_N_PUBLIC,
+    })
+    expect(visible).toHaveLength(TOP_N_PUBLIC)
+    expect(visible.at(-1)?.rank).toBe(TOP_N_PUBLIC)
+  })
+
+  test('all-teams merge never shows more ranks than the data depth', () => {
+    const data = makeCharacterData()
+    // Two full boards merge into 2N builds
+    data.configs.dps!.teamsById[TEAM_A].entries = makeCrowd(TOP_N_PUBLIC, TEAM_A)
+    data.configs.dps!.teamsById[TEAM_B].entries = makeCrowd(TOP_N_PUBLIC, TEAM_B)
+    const visible = deriveVisibleEntries({
+      characterData: data,
+      activeConfigType: LeaderboardConfigType.DPS,
+      activeTeamId: LEADERBOARD_FILTER_ALL,
+      filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+      filterCharacterEx: LeaderboardExFilter.All,
+      topNPublic: TOP_N_PUBLIC,
+    })
+    expect(visible).toHaveLength(TOP_N_PUBLIC)
+    expect(visible.map((entry) => entry.rank)).toEqual(Array.from({ length: TOP_N_PUBLIC }, (_, i) => i + 1))
   })
 
   test('linked builds clear EX filter and use compressed character EX in preview', () => {
@@ -173,6 +214,7 @@ describe('leaderboard board selection', () => {
       selectedBuildId: null,
       characterData: null,
       visibleEntries: [],
+      topNPublic: TOP_N_PUBLIC,
     })
   })
 
@@ -185,6 +227,7 @@ describe('leaderboard board selection', () => {
         activeTeamId,
         filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
         filterCharacterEx: LeaderboardExFilter.All,
+        topNPublic: TOP_N_PUBLIC,
       }).find((e) => e.buildId === TARGET_BUILD_ID)?.rank
 
     expect(rankOn(TEAM_A)).toBe(3)
@@ -201,12 +244,8 @@ describe('leaderboard board selection', () => {
   })
 
   test('falls back to the team board when the build is outside the all-teams cutoff', () => {
-    // 100 stronger builds on TEAM_B push the target past LEADERBOARD_DISPLAY_TOP_N on all-teams,
-    // while it stays reachable at the top of TEAM_A.
-    characterDataFixture.configs.dps!.teamsById[TEAM_B].entries = Array.from(
-      { length: 100 },
-      (_, i) => makeEntry(`cand-crowd-${i}`, 1.9 - i * 0.001, `crowd-${i}`, TEAM_B),
-    )
+    // Push the target past the all-teams depth; it stays on top of TEAM_A
+    characterDataFixture.configs.dps!.teamsById[TEAM_B].entries = makeCrowd(TOP_N_PUBLIC, TEAM_B)
 
     selectLeaderboardBuild(TARGET_BUILD_ID)
 

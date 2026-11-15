@@ -23,13 +23,21 @@ const JINGLIU = '1212' as CharacterId
 
 describe('character refresh rotation', () => {
   test('preserves untouched compressed public data and team order exactly', () => {
-    const previous = { generatedAt: 'before', characters: { [ARCHER]: 'old-archer', [SEELE]: 'original-team-order' } }
-    const refreshed = { generatedAt: 'after', characters: { [ARCHER]: 'new-archer', [SEELE]: 'different-team-order' } }
+    const previous = { generatedAt: 'before', topNPublic: 104, characters: { [ARCHER]: 'old-archer', [SEELE]: 'original-team-order' } }
+    const refreshed = { generatedAt: 'after', topNPublic: 104, characters: { [ARCHER]: 'new-archer', [SEELE]: 'different-team-order' } }
     expect(mergePublicCharacterRefresh(previous, refreshed, ARCHER)).toEqual({
       generatedAt: 'after',
+      topNPublic: 104,
       characters: { [ARCHER]: 'new-archer', [SEELE]: 'original-team-order' },
     })
     expect(previous.characters[ARCHER]).toBe('old-archer')
+  })
+
+  test('merged public output is only as deep as its shallower input', () => {
+    const shallow = { generatedAt: 'before', topNPublic: 104, characters: { [SEELE]: 'seele' } }
+    const deep = { generatedAt: 'after', topNPublic: 200, characters: { [ARCHER]: 'archer' } }
+    expect(mergePublicCharacterRefresh(shallow, deep, ARCHER).topNPublic).toBe(104)
+    expect(mergePublicCharacterRefresh(deep, shallow, SEELE).topNPublic).toBe(104)
   })
   test('prioritizes never refreshed characters, then oldest successful completion', () => {
     const now = new Date(2026, 8, 7, 4)

@@ -202,6 +202,8 @@ export type PrivateRankedEntry = {
 
 export type PublicLeaderboardOutputV3 = {
   generatedAt: string,
+  // Depth every board was searched to
+  topNPublic: number,
   characters: Record<string, string>,
 }
 

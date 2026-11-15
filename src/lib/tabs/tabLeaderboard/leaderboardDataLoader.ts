@@ -1,4 +1,5 @@
 import { eidolonToGroup } from 'leaderboard/shared/eidolonConfig'
+import { AEON_SCORE } from 'leaderboard/shared/publicBoardLimits'
 import type {
   PublicCharacterData,
   PublicLeaderboardEntry,
@@ -33,6 +34,7 @@ export type LeaderboardTopScoresResult = {
 }
 
 type RawLeaderboardOutput = {
+  topNPublic?: number,
   characters: Record<string, string>,
 }
 
@@ -147,7 +149,7 @@ export function loadCharacterData(characterId: CharacterId): PublicCharacterData
   return decompressedCache.get(characterId) ?? null
 }
 
-export function getPublicEntryCount(characterId: CharacterId): number {
+export function getPublicEntryCount(characterId: CharacterId, topNPublic: number): number {
   const charData = decompressedCache.get(characterId)
   if (!charData) return 0
   const seen = new Set<string>()
@@ -155,13 +157,13 @@ export function getPublicEntryCount(characterId: CharacterId): number {
     if (!configData) continue
     for (const boardData of Object.values(configData.teamsById)) {
       for (const entry of boardData.entries) {
-        if (entry.score >= 1.50) {
+        if (entry.score >= AEON_SCORE) {
           seen.add(entry.candidateId)
         }
       }
     }
   }
-  return Math.min(seen.size, 100)
+  return Math.min(seen.size, topNPublic)
 }
 
 export function getLeaderboardCharacterIds(output: RawLeaderboardOutput): CharacterId[] {

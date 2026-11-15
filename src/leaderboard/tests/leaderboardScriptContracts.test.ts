@@ -17,6 +17,7 @@ import {
 } from 'leaderboard/output/privateOutput'
 import {
   buildPublicOutputFromPrivate,
+  parsePublicLeaderboardOutput,
   validateNoUidInPublicOutput,
 } from 'leaderboard/output/publicOutput'
 import {
@@ -43,6 +44,7 @@ import {
   type MinifiedCharacter,
   type MinifiedProfile,
 } from 'leaderboard/shared/profileCompression'
+import { PUBLIC_TOP_N } from 'leaderboard/shared/publicBoardLimits'
 import {
   type LeaderboardBuildScore,
   type LeaderboardDependencyNamespace,
@@ -552,6 +554,7 @@ describe('leaderboard script contracts', () => {
     })
 
     validateNoUidInPublicOutput(output)
+    expect(output.topNPublic).toBe(1)
 
     const compressedData = Object.values(output.characters)[0]
     const charData = JSON.parse(gunzipBase64Text(compressedData)) as PublicCharacterData
@@ -573,8 +576,20 @@ describe('leaderboard script contracts', () => {
     expect(publicEntry).not.toHaveProperty('uidHash')
   })
 
-  // MIN_PUBLIC_SCORE filter is temporarily disabled — all scores pass through
-  test('public output includes all entries while MIN_PUBLIC_SCORE filter is disabled', () => {
+  test('public output records its depth, and output predating the field reads as the default depth', () => {
+    const output = buildPublicOutputFromPrivate({
+      privateOutput: privateOutput([makeEntry('uid-first', 900, { rank: 1 })]),
+      topNPublic: 104,
+      totalCounts: new Map([[CHARACTER_ID, 1]]),
+      generatedAt: '2026-06-24T00:00:00.000Z',
+    })
+    expect(parsePublicLeaderboardOutput(JSON.stringify(output)).topNPublic).toBe(104)
+
+    const legacy = { generatedAt: output.generatedAt, characters: output.characters }
+    expect(parsePublicLeaderboardOutput(JSON.stringify(legacy))).toEqual({ ...legacy, topNPublic: PUBLIC_TOP_N })
+  })
+
+  test('public output publishes only entries at or above AEON_SCORE', () => {
     const output = buildPublicOutputFromPrivate({
       privateOutput: privateOutput([
         makeEntry('uid-above', 1.51, { rank: 1 }),
@@ -590,7 +605,8 @@ describe('leaderboard script contracts', () => {
     const charData = JSON.parse(gunzipBase64Text(compressedData)) as PublicCharacterData
     const boardData = charData.configs.dps?.teamsById[TEAM_ID]
 
-    expect(boardData?.entries).toHaveLength(3)
+    expect(boardData?.entries.map((entry) => entry.score)).toEqual([1.51, 1.50])
+    expect(boardData?.totalEntries).toBe(3)
   })
 
   test('public output validator rejects forbidden identity fields in compressed entries', () => {
@@ -615,6 +631,7 @@ describe('leaderboard script contracts', () => {
     }
     const output = {
       generatedAt: '2026-06-06T00:00:00.000Z',
+      topNPublic: 1,
       characters: {
         [CHARACTER_ID]: gzipTextToBase64(JSON.stringify(charData)),
       },
@@ -649,6 +666,7 @@ describe('leaderboard script contracts', () => {
     }
     const output = {
       generatedAt: '2026-06-06T00:00:00.000Z',
+      topNPublic: 1,
       characters: {
         [CHARACTER_ID]: gzipTextToBase64(JSON.stringify(charData)),
       },

@@ -4,6 +4,7 @@ import {
   resolvePath,
   writeTextFile,
 } from 'leaderboard/shared/nodeFacade'
+import { AEON_SCORE } from 'leaderboard/shared/publicBoardLimits'
 import type { MinifiedCharacter } from 'leaderboard/shared/profileCompression'
 import type {
   ExportParseSummary,
@@ -78,14 +79,14 @@ export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, to
     stats.scored += board.completeness.totalScoredEntries
 
     for (const entry of board.entries) {
-      if (entry.score >= MIN_AEON_SCORE) {
+      if (entry.score >= AEON_SCORE) {
         stats.aeonUids.add(entry.uidHash)
       }
     }
 
     const publicEntries = board.entries.slice(0, topNPublic)
     for (const entry of publicEntries) {
-      if (entry.score >= MIN_AEON_SCORE) {
+      if (entry.score >= AEON_SCORE) {
         stats.topNAeonUids.add(entry.uidHash)
         if (entry.preFilterRank > stats.maxRankTopNAeons) {
           stats.maxRankTopNAeons = entry.preFilterRank
@@ -110,7 +111,7 @@ export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, to
   const globalMaxRank = sorted.reduce((max, s) => Math.max(max, s.need), 0)
 
   console.log('\n========== TOP-N COVERAGE ANALYSIS ==========')
-  console.log('Question: what --top-n covers the best 100 aeons (>=150%) per board?')
+  console.log(`Question: what --top-n covers the best ${topNPublic} aeons (>=${AEON_SCORE * 100}%) per board?`)
   console.log()
   console.log(`${'Character'.padEnd(20)} ${'Aeons'.padStart(5)} ${'TopN'.padStart(5)} ${'k'.padStart(2)} ${'Surv'.padStart(5)} ${'Scored'.padStart(6)} ${'Need'.padStart(5)}`)
   console.log('-'.repeat(50))
@@ -198,7 +199,6 @@ function getBuildSummary(char: MinifiedCharacter): { body: string, feet: string,
   }
 }
 
-const MIN_AEON_SCORE = 1.50
 const DIAGNOSTIC_LIMIT = 20
 
 function printEntryTable(entries: PrivateRankedEntry[], title: string): void {
@@ -225,7 +225,7 @@ function printDeepAeonDiagnostic(charId: string, charName: string, privateOutput
     if (board.characterId !== charId) continue
     const publicEntries = board.entries.slice(0, topNPublic)
     for (const entry of publicEntries) {
-      if (entry.score >= MIN_AEON_SCORE) {
+      if (entry.score >= AEON_SCORE) {
         aeonEntries.push(entry)
       } else {
         nonAeonEntries.push(entry)
@@ -357,7 +357,7 @@ type CoverageCharStat = { charId: string, name: string, aeons: number, topN: num
 
 function printWeightAnalysisSummary(chars: CoverageCharStat[], privateOutput: PrivateRankedOutput, topNPublic: number): void {
 
-  console.log('\n========== SUBSTAT ANALYSIS: top-100 substat allocation (normalized to 1.00) ==========')
+  console.log(`\n========== SUBSTAT ANALYSIS: top-${topNPublic} substat allocation (normalized to 1.00) ==========`)
 
   const boardsByCharId = new Map<string, PrivateBoard[]>()
   for (const board of Object.values(privateOutput.boards)) {

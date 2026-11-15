@@ -35,7 +35,7 @@ export type PreFilterResult = {
 
 export function preFilterProfiles(
   profiles: ParsedProfile[],
-  topN: number = 100,
+  topN: number,
 ): PreFilterResult {
   const candidatesByChar = new Map<string, PreFilterCandidate[]>()
   const totalCountsByChar = new Map<string, number>()

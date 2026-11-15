@@ -5,7 +5,6 @@ import {
   extractPreFilterSubstats,
 } from 'leaderboard/ingest/preFilterExtractor'
 import { readPrivateRankedOutput } from 'leaderboard/output/privateOutput'
-import { MIN_PUBLIC_SCORE } from 'leaderboard/output/publicOutput'
 import { findLatestServerExport } from 'leaderboard/shared/exportResolution'
 import {
   computeBuildId,
@@ -17,6 +16,7 @@ import {
   resolvePath,
   setExitCode,
 } from 'leaderboard/shared/nodeFacade'
+import { AEON_SCORE, PUBLIC_TOP_N } from 'leaderboard/shared/publicBoardLimits'
 import type {
   LeaderboardScoringCharacter,
   PrivateRankedEntry,
@@ -279,7 +279,7 @@ function charName(charId: string): string {
 
 async function runAnalysis(): Promise<void> {
   const TOP_N = 2000
-  const SAFETY_CUTOFF = 100
+  const SAFETY_CUTOFF = PUBLIC_TOP_N
 
   console.log('Initializing metadata...')
   Metadata.initialize()
@@ -410,7 +410,7 @@ async function runAnalysis(): Promise<void> {
     }
   }
 
-  const SCORE_THRESHOLD = MIN_PUBLIC_SCORE
+  const SCORE_THRESHOLD = AEON_SCORE
 
   const boards = Object.entries(privateOutput.boards)
   console.log(`\n--- Safety Check (vs top ${SAFETY_CUTOFF} per board, score >= ${(SCORE_THRESHOLD * 100).toFixed(0)}%) ---`)
@@ -495,7 +495,7 @@ async function runAnalysis(): Promise<void> {
       console.log(`      rank #${pad(String(f.rank), 4)} score ${f.score.toFixed(1)}%  — ${detail}`)
     }
   } else {
-    console.log('\n  ✓ No top-100 entries would be incorrectly filtered')
+    console.log(`\n  ✓ No top-${SAFETY_CUTOFF} entries would be incorrectly filtered`)
   }
 
   // -----------------------------------------------------------------------
@@ -503,13 +503,13 @@ async function runAnalysis(): Promise<void> {
   //
   // Heuristic: process candidates in production qualityOrder order.
   // After each batch, check whether it contributed any public-threshold
-  // top-100 entries. Once a character/board has already produced public
+  // top-K entries. Once a character/board has already produced public
   // output, an empty public batch means the remaining candidates are skipped.
   // -----------------------------------------------------------------------
 
   const BATCH_SIZE = 500
-  const TOP_K = 100
-  const BATCH_SCORE_THRESHOLD = MIN_PUBLIC_SCORE
+  const TOP_K = PUBLIC_TOP_N
+  const BATCH_SCORE_THRESHOLD = AEON_SCORE
   const MAX_BATCHES = Math.ceil(TOP_N / BATCH_SIZE)
 
   console.log(`\n--- Iterative Batching: Empty-Batch-Stops (batch=${BATCH_SIZE}, top-${TOP_K}, >= ${(BATCH_SCORE_THRESHOLD * 100).toFixed(0)}%) ---`)
@@ -812,7 +812,7 @@ async function runAnalysis(): Promise<void> {
   // Detail on missed entries
   const withMisses = fixedCharacterSummary.results.filter((r) => r.missedEntries.length > 0)
   if (withMisses.length === 0) {
-    console.log('\n  ✓ No entries missed — character-level empty-batch heuristic covers all top-100 150%+ entries')
+    console.log(`\n  ✓ No entries missed — character-level empty-batch heuristic covers all top-${TOP_K} ${AEON_SCORE * 100}%+ entries`)
   } else {
     console.log(`\n  ⚠ ${withMisses.length} characters have missed entries:`)
     for (const r of withMisses) {

@@ -3,6 +3,7 @@ import {
   LEADERBOARD_FILTER_ALL,
   type LeaderboardEidolonFilter,
 } from 'leaderboard/shared/eidolonConfig'
+import { PUBLIC_TOP_N } from 'leaderboard/shared/publicBoardLimits'
 import type {
   PublicCharacterData,
   PublicTeamMeta,
@@ -32,6 +33,8 @@ export interface LeaderboardTabState {
   filterCharacterEx: LeaderboardExFilter
 
   characterData: PublicCharacterData | null
+  // Depth every board was searched to
+  topNPublic: number
 
   visibleEntries: LeaderboardEntry[]
   availableTeams: PublicTeamMeta[]
@@ -63,6 +66,7 @@ export const useLeaderboardTabStore = createTabAwareStore<LeaderboardTabState>((
   filterCharacterEx: LeaderboardExFilter.All,
 
   characterData: null,
+  topNPublic: PUBLIC_TOP_N,
 
   visibleEntries: [],
   availableTeams: [],

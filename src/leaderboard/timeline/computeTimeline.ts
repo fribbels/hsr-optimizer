@@ -2,6 +2,10 @@ import {
   computeBuildId,
   computeCandidateId,
 } from 'leaderboard/shared/hash'
+import {
+  AEON_SCORE,
+  PUBLIC_TOP_N,
+} from 'leaderboard/shared/publicBoardLimits'
 import type { PrivateRankedOutput } from 'leaderboard/shared/types'
 import {
   extractSnapshot,
@@ -18,7 +22,6 @@ import type {
 } from 'leaderboard/timeline/timelineTypes'
 import {
   TIMELINE_MAX_EVENTS,
-  TIMELINE_MIN_SCORE,
   TIMELINE_RETENTION_DAYS,
   TIMELINE_SCHEMA_VERSION,
   TimelineEventType,
@@ -47,12 +50,12 @@ export function diffSnapshots(
 ): TimelineEvent[] {
   if (!previous) return []
 
-  const maxRank = options?.maxRank ?? 100
+  const maxRank = options?.maxRank ?? PUBLIC_TOP_N
   const prevUserBests = previous.userBests ?? {}
   const events: TimelineEvent[] = []
 
   for (const [key, entry] of userCharEntries) {
-    if (entry.score < TIMELINE_MIN_SCORE || entry.rank > maxRank) continue
+    if (entry.score < AEON_SCORE || entry.rank > maxRank) continue
 
     const prev = prevUserBests[key]
     if (prev && displayScore(entry.score) <= displayScore(prev.highWatermark)) continue

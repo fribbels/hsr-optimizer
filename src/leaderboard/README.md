@@ -120,7 +120,7 @@ Use `--fresh-run` when you want a fully fresh rebuild. It clears the selected SQ
 ## Outputs
 
 - Private output: top `--top-n` entries per board with full metadata, dependency versions, and payload index. Used for incremental runs and auditing.
-- Public output: compressed top `--top-n-public` entries per board. UIDs and UID hashes are stripped.
+- Public output: compressed top `--top-n-public` entries per board, keeping only aeons (`AEON_SCORE`, 1.50+). The depth is recorded as `topNPublic`. UIDs and UID hashes are stripped.
 
 Boards are keyed by character, config type, and team. Eidolon is a frontend filter.
 

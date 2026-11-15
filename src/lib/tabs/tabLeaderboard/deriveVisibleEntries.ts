@@ -3,6 +3,7 @@ import {
   LEADERBOARD_FILTER_ALL,
   type LeaderboardEidolonFilter,
 } from 'leaderboard/shared/eidolonConfig'
+import { AEON_SCORE } from 'leaderboard/shared/publicBoardLimits'
 import type { PublicCharacterData } from 'leaderboard/shared/types'
 import { hasExEidolon } from 'lib/conditionals/exEidolons'
 import { IS_LOCALHOST } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
@@ -13,18 +14,18 @@ import {
 } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import { ExEidolon } from 'types/character'
 
-export const LEADERBOARD_DISPLAY_TOP_N = 100
-
 export interface DeriveVisibleEntriesInput {
   characterData: PublicCharacterData | null
   activeConfigType: LeaderboardConfigType | null
   activeTeamId: string
   filterCharacterEidolon: LeaderboardEidolonFilter
   filterCharacterEx: LeaderboardExFilter
+  // Boards are only exact to this depth
+  topNPublic: number
 }
 
 export function deriveVisibleEntries(input: DeriveVisibleEntriesInput): LeaderboardEntry[] {
-  const { characterData, activeConfigType, activeTeamId, filterCharacterEidolon, filterCharacterEx } = input
+  const { characterData, activeConfigType, activeTeamId, filterCharacterEidolon, filterCharacterEx, topNPublic } = input
 
   if (!characterData || !activeConfigType) return []
 
@@ -56,10 +57,10 @@ export function deriveVisibleEntries(input: DeriveVisibleEntriesInput): Leaderbo
     .sort((a, b) => b.score - a.score || a.buildId.localeCompare(b.buildId))
     .map((entry, i) => ({ ...entry, rank: i + 1 }))
 
-  const qualified = IS_LOCALHOST ? ranked : ranked.filter((e) => e.score >= 1.50)
+  const qualified = IS_LOCALHOST ? ranked : ranked.filter((e) => e.score >= AEON_SCORE)
 
   // Cap by overall rank before the eidolon filter so nothing past the cutoff shows.
-  const topRanked = qualified.slice(0, LEADERBOARD_DISPLAY_TOP_N)
+  const topRanked = qualified.slice(0, topNPublic)
 
   return topRanked.filter((entry) => {
     if (

@@ -1,7 +1,7 @@
 import type { TFunction } from 'i18next'
+import { AEON_SCORE } from 'leaderboard/shared/publicBoardLimits'
 import {
   TIMELINE_MAX_EVENTS,
-  TIMELINE_MIN_SCORE,
   TimelineEventType,
 } from 'leaderboard/timeline/timelineTypes'
 import type { TimelineEvent } from 'leaderboard/timeline/timelineTypes'
@@ -33,7 +33,7 @@ function renderScoreDelta(event: TimelineEvent, t: TimelineTFunction) {
   if (event.type === TimelineEventType.NEW_CHARACTER) {
     return <span>{t('New')}</span>
   }
-  const clampedPrevious = Math.max(event.previousScore, TIMELINE_MIN_SCORE)
+  const clampedPrevious = Math.max(event.previousScore, AEON_SCORE)
   const delta = (event.score - clampedPrevious) * 100
   return <span>+{percentageToLocaleString(delta, 1)}</span>
 }

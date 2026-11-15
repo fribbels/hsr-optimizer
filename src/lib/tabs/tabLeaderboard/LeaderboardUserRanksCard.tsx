@@ -55,9 +55,10 @@ const STATUS_MESSAGE_KEYS: Partial<Record<UserRanksStatus, StatusKey>> = {
 
 export function LeaderboardUserRanksCard() {
   const scorerId = useShowcaseTabStore((state) => state.savedSession.scorerId)
-  const { availableCharacters, loading } = useLeaderboardTabStore(useShallow((state) => ({
+  const { availableCharacters, loading, topNPublic } = useLeaderboardTabStore(useShallow((state) => ({
     availableCharacters: state.availableCharacters,
     loading: state.loading,
+    topNPublic: state.topNPublic,
   })))
   const [state, setState] = useState<UserRanksState>({ status: UserRanksStatus.LOADING })
   const { t: tGame } = useTranslation('gameData')
@@ -93,7 +94,7 @@ export function LeaderboardUserRanksCard() {
 
     let cancelled = false
     setState({ status: UserRanksStatus.LOADING })
-    void lookupUserLeaderboardRanks(uid, loadedCharacters)
+    void lookupUserLeaderboardRanks(uid, loadedCharacters, topNPublic)
       .then((ranks) => {
         if (!cancelled) setState({ status: UserRanksStatus.READY, ranks })
       })
@@ -104,7 +105,7 @@ export function LeaderboardUserRanksCard() {
     return () => {
       cancelled = true
     }
-  }, [availableCharacters, loading, scorerId])
+  }, [availableCharacters, loading, scorerId, topNPublic])
 
   if (state.status === UserRanksStatus.READY && state.ranks.length === 0) return null
 

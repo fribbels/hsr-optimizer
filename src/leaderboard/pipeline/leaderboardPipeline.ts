@@ -236,7 +236,8 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       generatedAt,
       snapshotPath: deriveSnapshotPath(options.buildScoreCacheDbPath),
       timelinePath: deriveTimelinePath(publicOutputPath),
-      topNPublic,
+      // A refresh publishes the smaller of the old and new depths
+      topNPublic: artifacts.publicOutput.topNPublic,
       refreshCharacterId,
       allowedCharacterIds,
     })

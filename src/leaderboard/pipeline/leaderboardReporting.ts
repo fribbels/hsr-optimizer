@@ -111,7 +111,7 @@ export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, to
   const globalMaxRank = sorted.reduce((max, s) => Math.max(max, s.need), 0)
 
   console.log('\n========== TOP-N COVERAGE ANALYSIS ==========')
-  console.log('Question: what --top-n covers the best 100 aeons (>=150%) per board?')
+  console.log(`Question: what --top-n covers the best ${topNPublic} aeons (>=${AEON_SCORE * 100}%) per board?`)
   console.log()
   console.log(`${'Character'.padEnd(20)} ${'Aeons'.padStart(5)} ${'TopN'.padStart(5)} ${'k'.padStart(2)} ${'Surv'.padStart(5)} ${'Scored'.padStart(6)} ${'Need'.padStart(5)}`)
   console.log('-'.repeat(50))
@@ -357,7 +357,7 @@ type CoverageCharStat = { charId: string, name: string, aeons: number, topN: num
 
 function printWeightAnalysisSummary(chars: CoverageCharStat[], privateOutput: PrivateRankedOutput, topNPublic: number): void {
 
-  console.log('\n========== SUBSTAT ANALYSIS: top-100 substat allocation (normalized to 1.00) ==========')
+  console.log(`\n========== SUBSTAT ANALYSIS: top-${topNPublic} substat allocation (normalized to 1.00) ==========`)
 
   const boardsByCharId = new Map<string, PrivateBoard[]>()
   for (const board of Object.values(privateOutput.boards)) {

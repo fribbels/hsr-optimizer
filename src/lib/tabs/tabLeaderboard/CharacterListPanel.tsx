@@ -15,7 +15,6 @@ import {
 } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import {
   getPublicEntryCount,
-  getPublicTopN,
   loadCharacterData,
 } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
@@ -106,6 +105,7 @@ export function CharacterListPanel() {
   const selectedId = useLeaderboardTabStore((s) => s.selectedCharacterId)
   const topScores = useLeaderboardTabStore((s) => s.topScores)
   const totalEntries = useLeaderboardTabStore((s) => s.totalEntries)
+  const topNPublic = useLeaderboardTabStore((s) => s.topNPublic)
   const { t } = useTranslation('gameData')
   const { t: tList } = useTranslation('leaderboardTab', { keyPrefix: 'CharacterList' })
   const { t: tConfig } = useTranslation('leaderboardTab', { keyPrefix: 'ConfigTypes' })
@@ -130,7 +130,7 @@ export function CharacterListPanel() {
       .filter((id) => selectedType == null || getCharacterLeaderboardConfigTypes(id).includes(selectedType))
       .map((id) => {
         let topScore = topScores[id] ?? 0
-        let publicEntryCount = getPublicEntryCount(id)
+        let publicEntryCount = getPublicEntryCount(id, topNPublic)
 
         if (selectedType != null) {
           const entries = deriveVisibleEntries({
@@ -139,7 +139,7 @@ export function CharacterListPanel() {
             activeTeamId: LEADERBOARD_FILTER_ALL,
             filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
             filterCharacterEx: LeaderboardExFilter.All,
-            topNPublic: getPublicTopN(),
+            topNPublic,
           })
           topScore = entries[0]?.score ?? 0
           publicEntryCount = entries.length
@@ -172,7 +172,7 @@ export function CharacterListPanel() {
     growing.sort((a, b) => b.entryCount - a.entryCount)
 
     return { activeRows: active, growingRows: growing }
-  }, [characters, search, selectedType, topScores, totalEntries, t])
+  }, [characters, search, selectedType, topScores, totalEntries, topNPublic, t])
 
   return (
     <div className={classes.container}>

@@ -1,9 +1,5 @@
 import { eidolonToGroup } from 'leaderboard/shared/eidolonConfig'
-import {
-  AEON_SCORE,
-  PUBLIC_TOP_N,
-  resolvePublicTopN,
-} from 'leaderboard/shared/publicBoardLimits'
+import { AEON_SCORE } from 'leaderboard/shared/publicBoardLimits'
 import type {
   PublicCharacterData,
   PublicLeaderboardEntry,
@@ -44,12 +40,6 @@ type RawLeaderboardOutput = {
 
 let buildIndex: Map<string, BuildIndexEntry> | null = null
 const decompressedCache = new Map<CharacterId, PublicCharacterData>()
-let publicTopN = PUBLIC_TOP_N
-
-// Depth of the loaded data
-export function getPublicTopN(): number {
-  return publicTopN
-}
 
 export function getBuildIndex(): Map<string, BuildIndexEntry> | null {
   return buildIndex
@@ -87,10 +77,6 @@ let cachedPromise: Promise<RawLeaderboardOutput> | null = null
 export async function loadLeaderboardData(): Promise<RawLeaderboardOutput> {
   if (!cachedPromise) {
     cachedPromise = fetchJsonWithFallback<RawLeaderboardOutput>('leaderboard.json')
-      .then((output) => {
-        publicTopN = resolvePublicTopN(output)
-        return output
-      })
       .catch((e) => {
         cachedPromise = null
         throw e
@@ -163,7 +149,7 @@ export function loadCharacterData(characterId: CharacterId): PublicCharacterData
   return decompressedCache.get(characterId) ?? null
 }
 
-export function getPublicEntryCount(characterId: CharacterId): number {
+export function getPublicEntryCount(characterId: CharacterId, topNPublic: number): number {
   const charData = decompressedCache.get(characterId)
   if (!charData) return 0
   const seen = new Set<string>()
@@ -177,7 +163,7 @@ export function getPublicEntryCount(characterId: CharacterId): number {
       }
     }
   }
-  return Math.min(seen.size, publicTopN)
+  return Math.min(seen.size, topNPublic)
 }
 
 export function getLeaderboardCharacterIds(output: RawLeaderboardOutput): CharacterId[] {

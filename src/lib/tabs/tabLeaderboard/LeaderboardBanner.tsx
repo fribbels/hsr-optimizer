@@ -2,6 +2,7 @@ import { Flex } from '@mantine/core'
 import { IconRosette } from '@tabler/icons-react'
 import chroma from 'chroma-js'
 import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
+import { AEON_SCORE } from 'leaderboard/shared/publicBoardLimits'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/color/showcaseColorService'
 import { RollCountDisplay } from 'lib/characterPreview/scoring/RollCountDisplay'
@@ -135,7 +136,7 @@ function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt, isAllTeams }: {
       <span className={classes.score}>
         {scorePercent != null ? percentageToLocaleString(scorePercent, 1) : '--'}
       </span>
-      {scorePercent != null && scorePercent >= 150 && (
+      {scorePercent != null && scorePercent >= AEON_SCORE * 100 && (
         <span className={classes.aeonBadge} style={aeonStyle}>
           <IconRosette size={15} />
           AEON

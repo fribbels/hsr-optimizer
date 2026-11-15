@@ -108,7 +108,6 @@ vi.mock('lib/tabs/tabLeaderboard/leaderboardDataLoader', async (importOriginal) 
   return {
     ...actual,
     getBuildIndex: () => buildIndex,
-    getPublicTopN: () => TOP_N_PUBLIC,
     loadCharacterData: (characterId: CharacterId) => (characterId === CHARACTER_ID ? characterDataFixture : null),
   }
 })
@@ -215,6 +214,7 @@ describe('leaderboard board selection', () => {
       selectedBuildId: null,
       characterData: null,
       visibleEntries: [],
+      topNPublic: TOP_N_PUBLIC,
     })
   })
 

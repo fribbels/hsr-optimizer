@@ -1,9 +1,6 @@
 import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
 import { Assets } from 'lib/rendering/assets'
-import {
-  getPublicTopN,
-  loadCharacterData,
-} from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
+import { loadCharacterData } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
 import { getLeaderboardRankColor } from 'lib/tabs/tabLeaderboard/leaderboardRankColor'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
@@ -58,9 +55,10 @@ const STATUS_MESSAGE_KEYS: Partial<Record<UserRanksStatus, StatusKey>> = {
 
 export function LeaderboardUserRanksCard() {
   const scorerId = useShowcaseTabStore((state) => state.savedSession.scorerId)
-  const { availableCharacters, loading } = useLeaderboardTabStore(useShallow((state) => ({
+  const { availableCharacters, loading, topNPublic } = useLeaderboardTabStore(useShallow((state) => ({
     availableCharacters: state.availableCharacters,
     loading: state.loading,
+    topNPublic: state.topNPublic,
   })))
   const [state, setState] = useState<UserRanksState>({ status: UserRanksStatus.LOADING })
   const { t: tGame } = useTranslation('gameData')
@@ -96,7 +94,7 @@ export function LeaderboardUserRanksCard() {
 
     let cancelled = false
     setState({ status: UserRanksStatus.LOADING })
-    void lookupUserLeaderboardRanks(uid, loadedCharacters, getPublicTopN())
+    void lookupUserLeaderboardRanks(uid, loadedCharacters, topNPublic)
       .then((ranks) => {
         if (!cancelled) setState({ status: UserRanksStatus.READY, ranks })
       })
@@ -107,7 +105,7 @@ export function LeaderboardUserRanksCard() {
     return () => {
       cancelled = true
     }
-  }, [availableCharacters, loading, scorerId])
+  }, [availableCharacters, loading, scorerId, topNPublic])
 
   if (state.status === UserRanksStatus.READY && state.ranks.length === 0) return null
 

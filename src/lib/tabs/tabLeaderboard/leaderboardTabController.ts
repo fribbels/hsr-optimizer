@@ -10,6 +10,7 @@ import {
   type LeaderboardEidolonFilter,
 } from 'leaderboard/shared/eidolonConfig'
 import { expandCharacter } from 'leaderboard/shared/profileCompression'
+import { resolvePublicTopN } from 'leaderboard/shared/publicBoardLimits'
 import type {
   PublicCharacterData,
   PublicTeamMeta,
@@ -35,7 +36,6 @@ import {
   getBuildIndex,
   getLeaderboardCharacterIds,
   getLeaderboardTopScores,
-  getPublicTopN,
   loadCharacterData,
   loadLeaderboardData,
   loadLeaderboardTimeline,
@@ -112,7 +112,7 @@ function deriveAndUpdateEntries() {
     activeTeamId: state.activeTeamId,
     filterCharacterEidolon: state.filterCharacterEidolon,
     filterCharacterEx: state.filterCharacterEx,
-    topNPublic: getPublicTopN(),
+    topNPublic: state.topNPublic,
   })
 
   const currentBuildId = state.selectedBuildId
@@ -236,7 +236,7 @@ function resolveBoardTeamId(buildId: string, match: BuildIndexEntry): string {
     activeTeamId: LEADERBOARD_FILTER_ALL,
     filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
     filterCharacterEx: LeaderboardExFilter.All,
-    topNPublic: getPublicTopN(),
+    topNPublic: useLeaderboardTabStore.getState().topNPublic,
   })
 
   return visibleAllTeams.some((entry) => entry.buildId === buildId)
@@ -320,6 +320,7 @@ export async function initializeLeaderboardTab() {
 
   useLeaderboardTabStore.setState({
     loading: false,
+    topNPublic: resolvePublicTopN(output),
     availableCharacters: merged,
     sortedCharacters: sorted,
     topScores,

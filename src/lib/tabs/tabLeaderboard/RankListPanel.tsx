@@ -13,6 +13,7 @@ import {
   type OverlayScrollbarsComponentRef,
 } from 'overlayscrollbars-react'
 import {
+  memo,
   useCallback,
   useEffect,
   useRef,
@@ -40,7 +41,8 @@ const EIDOLON_COLORS: Record<number, string> = { 0: '#69f0ae', 1: '#81d4fa', 2: 
 const EIDOLON_BORDER_ALPHA = '26'
 const EIDOLON_FILL_ALPHA = '15'
 
-function RankListEntry({ entry, isSelected }: {
+// Selection changes only re-render the two affected rows
+const RankListEntry = memo(function RankListEntry({ entry, isSelected }: {
   entry: LeaderboardEntry,
   isSelected: boolean,
 }) {
@@ -88,7 +90,7 @@ function RankListEntry({ entry, isSelected }: {
       </span>
     </div>
   )
-}
+})
 
 export function RankListPanel() {
   const entries = useLeaderboardTabStore((s) => s.visibleEntries)

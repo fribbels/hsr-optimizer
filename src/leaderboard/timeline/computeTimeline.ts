@@ -3,8 +3,8 @@ import {
   computeCandidateId,
 } from 'leaderboard/shared/hash'
 import {
-  PUBLIC_TOP_N,
   AEON_SCORE,
+  PUBLIC_TOP_N,
 } from 'leaderboard/shared/publicBoardLimits'
 import type { PrivateRankedOutput } from 'leaderboard/shared/types'
 import {

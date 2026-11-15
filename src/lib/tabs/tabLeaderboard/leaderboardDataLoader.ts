@@ -1,7 +1,7 @@
 import { eidolonToGroup } from 'leaderboard/shared/eidolonConfig'
 import {
-  PUBLIC_TOP_N,
   AEON_SCORE,
+  PUBLIC_TOP_N,
   resolvePublicTopN,
 } from 'leaderboard/shared/publicBoardLimits'
 import type {

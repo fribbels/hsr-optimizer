@@ -466,7 +466,6 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnPioneerSet(4),
     PresetEffects.fnAshblazingSet(8),
-    PresetEffects.fnMortenaxAshblazingSet(8),
   ],
   defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,

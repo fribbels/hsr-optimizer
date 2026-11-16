@@ -397,7 +397,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.WASTELANDER_SET,
     PresetEffects.TENGOKU_SET,
-    PresetEffects.fnMortenaxAshblazingSet(8),
+    PresetEffects.fnAshblazingSet(8),
   ],
   defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,

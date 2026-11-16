@@ -115,7 +115,11 @@ const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterC
     blast(0.30),
     blast(0.40),
   ])
-  const fuaHitMulti = ashblazingMulti([aoe(1.00)])
+  // EX1 FUA hit splits
+  const fuaHitMulti = ashblazingMulti([
+    ...Array(5).fill(aoe(0.16)),
+    aoe(0.20),
+  ])
 
   const defaults = {
     basicEnhanced: 3,

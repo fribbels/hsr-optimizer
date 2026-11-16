@@ -377,6 +377,7 @@ const simulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+    [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
@@ -464,6 +465,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.fnPioneerSet(4),
+    PresetEffects.fnAshblazingSet(8),
     PresetEffects.fnMortenaxAshblazingSet(8),
   ],
   defaultDamageType: DamageTag.ULT,

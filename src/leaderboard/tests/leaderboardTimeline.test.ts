@@ -38,6 +38,7 @@ import type {
   LeaderboardSnapshot,
   LeaderboardSnapshotEntry,
   LeaderboardTimeline,
+  TimelineEvent,
   UserCharacterWatermark,
 } from 'leaderboard/timeline/timelineTypes'
 import type { CharacterId } from 'types/character'
@@ -161,6 +162,54 @@ test('math refresh suppresses achievements and lowers only that character baseli
     })
     expect(subsequent.timeline.events).toHaveLength(1)
     expect(subsequent.timeline.events[0]).toMatchObject({ type: TimelineEventType.NEW_BEST, previousScore: 1.7, score: 1.75 })
+  } finally {
+    if (fileExists(snapshotPath)) deleteFile(snapshotPath)
+    if (fileExists(timelinePath)) deleteFile(timelinePath)
+  }
+})
+
+test('public timeline only keeps events ranked within the top 100, even with deeper boards', () => {
+  const previous = extractSnapshot(
+    makePrivateOutput({ other: makeBoard('1002', [{ score: 1.9 }]) }),
+    new Map(),
+    null,
+    '2026-06-24T06:00:00Z',
+  ).snapshot
+  const existingEvent = (rank: number): TimelineEvent => ({
+    type: TimelineEventType.NEW_CHARACTER,
+    characterId: '1002' as CharacterId,
+    configType: CONFIG_TYPE,
+    candidateId: computeCandidateId(`existing-${rank}`, '1002'),
+    date: '2026-06-24T00:00:00.000Z',
+    score: 1.6,
+    rank,
+    entryCount: 0,
+    buildId: '111111111111',
+  })
+  const dir = joinPath(cwd(), 'plans', 'scratch')
+  const suffix = `${Date.now()}-${Math.random()}`
+  const snapshotPath = joinPath(dir, `rank-cap-snapshot-${suffix}.json`)
+  const timelinePath = joinPath(dir, `rank-cap-timeline-${suffix}.json`)
+  try {
+    writeTimelineArtifacts({
+      snapshot: previous,
+      timeline: { schemaVersion: 2, generatedAt: previous.generatedAt, events: [existingEvent(100), existingEvent(300)] },
+      snapshotPath,
+      timelinePath,
+    })
+    const deepBoard = makeBoard('1001', Array.from({ length: 150 }, (_, i) => ({ score: 2.0 - i * 0.001 })))
+    const update = computeTimelineUpdate({
+      privateOutput: makePrivateOutput({ deep: deepBoard, other: makeBoard('1002', [{ score: 1.9 }]) }),
+      totalCounts: new Map(),
+      generatedAt: '2026-06-25T00:00:00Z',
+      snapshotPath,
+      timelinePath,
+      topNPublic: 600,
+    })
+    const newEvents = update.timeline.events.filter((event) => event.characterId === '1001')
+    expect(newEvents).toHaveLength(100)
+    expect(Math.max(...newEvents.map((event) => event.rank))).toBe(100)
+    expect(update.timeline.events.filter((event) => event.characterId === '1002').map((event) => event.rank)).toEqual([100])
   } finally {
     if (fileExists(snapshotPath)) deleteFile(snapshotPath)
     if (fileExists(timelinePath)) deleteFile(timelinePath)

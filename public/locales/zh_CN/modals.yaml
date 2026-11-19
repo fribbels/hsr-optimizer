@@ -384,3 +384,7 @@ RelicReroll:
   Title: 检测到遗器重掷
   OriginalSubstats: 原始副词条
   RerolledSubstats: 重掷副词条
+RelicRecon:
+  Title: 检测到奇库寻遗宝箱
+  OriginalRelic: 当前遗器
+  BoxRelic: 新遗器

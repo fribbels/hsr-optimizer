@@ -6,6 +6,8 @@ export const TIMELINE_SCHEMA_VERSION = 2
 export const TIMELINE_RETENTION_DAYS = 7
 // Safety cap on the public timeline size for unusually busy windows like patch days.
 export const TIMELINE_MAX_EVENTS = 1000
+// The public activity feed only shows events whose resulting rank is within this, even when boards publish deeper.
+export const TIMELINE_MAX_RANK = 100
 
 export enum TimelineEventType {
   NEW_BEST = 'new_best',

@@ -22,6 +22,7 @@ import type {
 } from 'leaderboard/timeline/timelineTypes'
 import {
   TIMELINE_MAX_EVENTS,
+  TIMELINE_MAX_RANK,
   TIMELINE_RETENTION_DAYS,
   TIMELINE_SCHEMA_VERSION,
   TimelineEventType,
@@ -144,9 +145,11 @@ export function computeTimelineUpdate(input: {
     input.topNPublic,
     input.refreshCharacterId,
   )
-  const newEvents = diffSnapshots(result.snapshot, previousSnapshot, result.userCharEntries, { maxRank: input.topNPublic })
+  const maxRank = Math.min(input.topNPublic ?? TIMELINE_MAX_RANK, TIMELINE_MAX_RANK)
+  const newEvents = diffSnapshots(result.snapshot, previousSnapshot, result.userCharEntries, { maxRank })
     .filter((event) => event.characterId !== input.refreshCharacterId)
-  const existingEvents = readTimeline(input.timelinePath)
+  // Also prunes events from runs before the rank cap
+  const existingEvents = readTimeline(input.timelinePath).filter((event) => event.rank <= maxRank)
   const events = dropEventsOlderThanRetention(
     deduplicateAndMerge(newEvents, existingEvents, TIMELINE_MAX_EVENTS),
     input.generatedAt,

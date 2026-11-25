@@ -3,7 +3,6 @@ import {
   type Conditionals,
   type ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { type WearerMetadata } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -17,7 +16,7 @@ import {
   type OptimizerContext,
 } from 'types/optimizer'
 
-const conditionals = (s: SuperImpositionLevel, withContent: boolean, { maxEnergy }: WearerMetadata): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { SOURCE_LC } = Source.lightCone(ShineBrightLikeHer.id)
   const sValuesCd = [0.40, 0.50, 0.60, 0.70, 0.80]

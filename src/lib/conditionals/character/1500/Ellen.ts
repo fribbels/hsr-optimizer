@@ -171,11 +171,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     const consumed = (enhanced && !freeDive) ? charges : 0
 
     const e6Active = e >= 6 && r.e6Buffs
-    const randomHits = freeDive
+    const randomHits = (e6Active ? 3 : 0) + (freeDive
       ? 3
       : (enhanced
-        ? Math.max(0, consumed - 3) + (e6Active ? 3 : 0)
-        : 0)
+        ? Math.max(0, consumed - 3)
+        : 0))
 
     return { enhanced, randomHits }
   }
@@ -271,21 +271,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CD, buffProviders * 0.64, x.source(SOURCE_TRACE))
       x.buff(StatKey.BOOST, (buffProviders >= 2) ? 0.48 : 0, x.source(SOURCE_TRACE))
 
-      // E1 Basic DEF PEN at 6 charges
+      // E1 Basic DEF PEN
       x.buff(
         StatKey.DEF_PEN,
         (e >= 1 && enhanced && r.e1DefPen) ? 0.36 : 0,
         x.target(EllenEntities.Ellen).damageType(DamageTag.BASIC).source(SOURCE_E1),
       )
 
-      // E2 Basic CD buff (+50%)
+      // E2 Basic CD buff (+40%)
       x.buff(
         StatKey.CD,
         (e >= 2 && enhanced && r.e2CritDmg) ? 0.40 : 0,
         x.target(EllenEntities.Ellen).damageType(DamageTag.BASIC).source(SOURCE_E2),
       )
 
-      // E4 Basic RES PEN per charge (+2%)
+      // E4 Basic RES PEN (12%)
       x.buff(
         StatKey.RES_PEN,
         (e >= 4 && enhanced && r.e4ResPen) ? 0.12 : 0,

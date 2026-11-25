@@ -88,20 +88,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const basicScaling = basic(e, 1.00, 1.10)
   const enhancedBasicScaling = basic(e, 4.00, 4.40)
-  const enhancedBasicRandomScaling = basic(e, 3.20, 3.52)
+  const enhancedBasicRandomScaling = basic(e, 2.00, 2.20)
   const skillScaling = skill(e, 4.00, 4.40)
-  const skillVulnerability = skill(e, 0.50, 0.55)
+  const skillVulnerability = skill(e, 0.20, 0.22)
   const ultScaling = ult(e, 4.00, 4.40)
-  const ultMarkedScaling = ult(e, 3.20, 3.52)
-  const ultEnhancedBasicBoost = ult(e, 4.00, 4.40)
+  const ultMarkedScaling = ult(e, 2.40, 2.64)
   const fuaScaling = talent(e, 6.00, 6.60)
+  const jointBounceScaling = talent(e, 2.00, 2.20)
 
   // Joint attacks and extra turns are not triggered automatically.
 
   const defaults = {
     sharkBiteCharges: 6,
     biteMark: true,
-    ultEnhancedBasicBuff: true,
     roamingModeBuffProviders: 2,
     e1DefPen: true,
     e2CritDmg: true,
@@ -123,12 +122,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'biteMark',
       formItem: 'switch',
       text: 'Bite Mark',
-      content: betaContent,
-    },
-    ultEnhancedBasicBuff: {
-      id: 'ultEnhancedBasicBuff',
-      formItem: 'switch',
-      text: 'Ult enhanced Basic boost',
       content: betaContent,
     },
     roamingModeBuffProviders: {
@@ -178,9 +171,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     const consumed = (enhanced && !freeDive) ? charges : 0
 
     const e6Active = e >= 6 && r.e6Buffs
-    const randomHits = enhanced ? Math.max(0, consumed - 3) + (e6Active ? 3 : 0) : 0
+    const randomHits = freeDive
+      ? 3
+      : (enhanced
+        ? Math.max(0, consumed - 3) + (e6Active ? 3 : 0)
+        : 0)
 
-    return { enhanced, consumed, randomHits }
+    return { enhanced, randomHits }
   }
 
   return {
@@ -226,7 +223,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Ice)
-              .atkScaling(enhancedBasicScaling + enhancedBasicRandomScaling * freeDiveRandomHits / randomTargetPool)
+              .atkScaling(enhancedBasicScaling + jointBounceScaling * freeDiveRandomHits / randomTargetPool)
               .toughnessDmg(20)
               .build(),
           ],
@@ -267,38 +264,31 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionModifiers: () => [],
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const { enhanced, consumed } = getBasicState(action)
+      const { enhanced } = getBasicState(action)
       const buffProviders = r.roamingModeBuffProviders
 
       // Trace CD and DMG buffs
       x.buff(StatKey.CD, buffProviders * 0.64, x.source(SOURCE_TRACE))
       x.buff(StatKey.BOOST, (buffProviders >= 2) ? 0.48 : 0, x.source(SOURCE_TRACE))
 
-      // Ult enhanced Basic DMG boost
-      x.buff(
-        StatKey.BOOST,
-        (enhanced && r.ultEnhancedBasicBuff) ? ultEnhancedBasicBoost : 0,
-        x.target(EllenEntities.Ellen).damageType(DamageTag.BASIC).source(SOURCE_ULT),
-      )
-
       // E1 Basic DEF PEN at 6 charges
       x.buff(
         StatKey.DEF_PEN,
-        (e >= 1 && enhanced && consumed === 6 && r.e1DefPen) ? 0.30 : 0,
+        (e >= 1 && enhanced && r.e1DefPen) ? 0.36 : 0,
         x.target(EllenEntities.Ellen).damageType(DamageTag.BASIC).source(SOURCE_E1),
       )
 
       // E2 Basic CD buff (+50%)
       x.buff(
         StatKey.CD,
-        (e >= 2 && enhanced && r.e2CritDmg) ? 0.50 : 0,
+        (e >= 2 && enhanced && r.e2CritDmg) ? 0.40 : 0,
         x.target(EllenEntities.Ellen).damageType(DamageTag.BASIC).source(SOURCE_E2),
       )
 
       // E4 Basic RES PEN per charge (+2%)
       x.buff(
         StatKey.RES_PEN,
-        (e >= 4 && enhanced && r.e4ResPen) ? consumed * 0.02 : 0,
+        (e >= 4 && enhanced && r.e4ResPen) ? 0.12 : 0,
         x.target(EllenEntities.Ellen).damageType(DamageTag.BASIC).elements(ElementTag.Ice).source(SOURCE_E4),
       )
 

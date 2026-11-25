@@ -8713,9 +8713,9 @@
       "element": "Ice",
       "max_sp": 240,
       "stats": {
-        "HP": 1125.432,
+        "HP": 1203.04802,
         "ATK": 756.756,
-        "DEF": 485.1,
+        "DEF": 533.61,
         "SPD": 96,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5

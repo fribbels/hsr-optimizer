@@ -99,7 +99,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     crBuff: true,
     atkToCdConversion: true,
     teamDmgBuff: true,
-    e1Buffs: true,
+    e1TrueDmg: true,
     e2AtkBuff: true,
     e2AdditionalDmg: true,
     e4Buffs: true,
@@ -151,8 +151,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Team DMG buff',
       content: betaContent,
     },
-    e1Buffs: {
-      id: 'e1Buffs',
+    e1TrueDmg: {
+      id: 'e1TrueDmg',
       formItem: 'switch',
       text: 'E1 Buffs',
       content: betaContent,
@@ -194,7 +194,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultZone: true,
     syncopationStacks: 10,
     teamDmgBuff: true,
-    e1Buffs: true,
+    e1TrueDmg: true,
     e2AtkBuff: true,
     e6ResPen: true,
   }
@@ -212,7 +212,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultZone: content.ultZone,
     syncopationStacks: content.syncopationStacks,
     teamDmgBuff: content.teamDmgBuff,
-    e1Buffs: content.e1Buffs,
+    e1TrueDmg: content.e1TrueDmg,
     e2AtkBuff: content.e2AtkBuff,
     e6ResPen: content.e6ResPen,
   }
@@ -315,8 +315,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Ult vulnerability
       x.buff(StatKey.VULNERABILITY, m.ultZone ? ultVulnerability : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
-      // Talent Basic DMG boost; E1 + Zone applies to all damage
-      if (e >= 1 && m.e1Buffs && m.ultZone) {
+      // Talent Basic DMG boost; E2 + Zone applies to all damage
+      if (e >= 2 && m.e2AtkBuff && m.ultZone) {
         x.buff(
           StatKey.BOOST,
           syncopationBoost,
@@ -337,11 +337,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         x.targets(TargetTag.FullTeam).source(SOURCE_TRACE),
       )
 
-      // E1 team DEF PEN per stack (+1.5%)
+      // E1 True damage (+24% for basic attack damage)
       x.buff(
-        StatKey.DEF_PEN,
-        (e >= 1 && m.e1Buffs) ? m.syncopationStacks * 0.015 : 0,
-        x.targets(TargetTag.FullTeam).source(SOURCE_E1),
+        StatKey.TRUE_DMG_MODIFIER,
+        (e >= 1 && m.e1TrueDmg) ? 0.24 : 0,
+        x.targets(TargetTag.FullTeam).damageType(DamageTag.BASIC).source(SOURCE_E1),
       )
 
       // E6 team RES PEN (+20%)

@@ -43,6 +43,7 @@ import {
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_FUA,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
@@ -400,7 +401,7 @@ const scoring = (): ScoringMetadata => ({
     [Parts.PlanarSphere]: [Stats.ATK_P, Stats.Ice_DMG],
     [Parts.LinkRope]: [Stats.ATK_P, Stats.ERR],
   },
-  presets: [],
+  presets: [PresetEffects.BANANA_SET],
   defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.DOT],

@@ -99,8 +99,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     crBuff: true,
     atkToCdConversion: true,
     teamDmgBuff: true,
-    e1Buffs: true,
-    e2AtkBuff: true,
+    e1TrueDmg: true,
+    e2Buffs: true,
     e2AdditionalDmg: true,
     e4Buffs: true,
     e6ResPen: true,
@@ -151,17 +151,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Team DMG buff',
       content: betaContent,
     },
-    e1Buffs: {
-      id: 'e1Buffs',
+    e1TrueDmg: {
+      id: 'e1TrueDmg',
       formItem: 'switch',
-      text: 'E1 Buffs',
+      text: 'E1 Basic True DMG',
       content: betaContent,
       disabled: e < 1,
     },
-    e2AtkBuff: {
-      id: 'e2AtkBuff',
+    e2Buffs: {
+      id: 'e2Buffs',
       formItem: 'switch',
-      text: 'E2 ATK buff',
+      text: 'E2 Buffs',
       content: betaContent,
       disabled: e < 2,
     },
@@ -194,8 +194,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultZone: true,
     syncopationStacks: 10,
     teamDmgBuff: true,
-    e1Buffs: true,
-    e2AtkBuff: true,
+    e1TrueDmg: true,
+    e2Buffs: true,
     e6ResPen: true,
   }
 
@@ -212,8 +212,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultZone: content.ultZone,
     syncopationStacks: content.syncopationStacks,
     teamDmgBuff: content.teamDmgBuff,
-    e1Buffs: content.e1Buffs,
-    e2AtkBuff: content.e2AtkBuff,
+    e1TrueDmg: content.e1TrueDmg,
+    e2Buffs: content.e2Buffs,
     e6ResPen: content.e6ResPen,
   }
 
@@ -282,7 +282,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             HitDefinitionBuilder.linearBuff()
               .buffStat(StatKey.ATK)
               .sourceStat(StatKey.ATK)
-              .scaling(r.skillAtkBuff ? skillAtkScaling + ((e >= 2 && r.e2AtkBuff) ? 0.12 : 0) : 0)
+              .scaling(r.skillAtkBuff ? skillAtkScaling + ((e >= 2 && r.e2Buffs) ? 0.12 : 0) : 0)
               .flat(r.skillAtkBuff ? skillAtkFlat : 0)
               .build(),
           ],
@@ -315,8 +315,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Ult vulnerability
       x.buff(StatKey.VULNERABILITY, m.ultZone ? ultVulnerability : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
-      // Talent Basic DMG boost; E1 + Zone applies to all damage
-      if (e >= 1 && m.e1Buffs && m.ultZone) {
+      // Talent Basic DMG boost; E2 + Zone applies to all damage
+      if (e >= 2 && m.e2Buffs && m.ultZone) {
         x.buff(
           StatKey.BOOST,
           syncopationBoost,
@@ -337,11 +337,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         x.targets(TargetTag.FullTeam).source(SOURCE_TRACE),
       )
 
-      // E1 team DEF PEN per stack (+1.5%)
+      // E1 True damage (+24% for basic attack damage)
       x.buff(
-        StatKey.DEF_PEN,
-        (e >= 1 && m.e1Buffs) ? m.syncopationStacks * 0.015 : 0,
-        x.targets(TargetTag.FullTeam).source(SOURCE_E1),
+        StatKey.TRUE_DMG_MODIFIER,
+        (e >= 1 && m.e1TrueDmg) ? 0.24 : 0,
+        x.targets(TargetTag.FullTeam).damageType(DamageTag.BASIC).source(SOURCE_E1),
       )
 
       // E6 team RES PEN (+20%)
@@ -353,7 +353,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
-      const derivedAtk = t.skillAtkBuff ? t.teammateATKValue * (skillAtkScaling + ((e >= 2 && t.e2AtkBuff) ? 0.12 : 0)) : 0
+      const derivedAtk = t.skillAtkBuff ? t.teammateATKValue * (skillAtkScaling + ((e >= 2 && t.e2Buffs) ? 0.12 : 0)) : 0
       const flatAtk = t.skillAtkBuff ? skillAtkFlat : 0
 
       // Skill team ATK buff
@@ -377,13 +377,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          const ratio = skillAtkScaling + ((e >= 2 && r.e2AtkBuff) ? 0.12 : 0)
+          const ratio = skillAtkScaling + ((e >= 2 && r.e2Buffs) ? 0.12 : 0)
 
           dynamicStatConversionContainer(Stats.ATK, Stats.ATK, this, x, action, context, SOURCE_SKILL, (convertibleValue) => convertibleValue * ratio)
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          const ratio = skillAtkScaling + ((e >= 2 && r.e2AtkBuff) ? 0.12 : 0)
+          const ratio = skillAtkScaling + ((e >= 2 && r.e2Buffs) ? 0.12 : 0)
 
           return gpuDynamicStatConversion(Stats.ATK, Stats.ATK, this, action, context, `convertibleValue * ${ratio}`, wgslTrue(r.skillAtkBuff))
         },

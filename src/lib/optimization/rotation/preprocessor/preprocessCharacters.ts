@@ -127,29 +127,6 @@ export class YunliPreprocessor extends AbilityTriggeredStackPreprocessor {
   }
 }
 
-// Ellen's Ult boosts only her next Ice Sea Diving. A Basic is only a dive with enough charges,
-// so each Basic checks that slot's charge count before using up the boost.
-export class EllenPreprocessor extends AbilityPreprocessorBase {
-  id = Ellen.id
-  defaultState = { ultBoostPending: false }
-  state = { ...this.defaultState }
-
-  reset() {
-    this.state = { ...this.defaultState }
-  }
-
-  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
-    const { kind } = turnAbility
-    const chargeCategory = comboState.comboCharacter.characterConditionals.sharkBiteCharges as ComboNumberConditional | undefined
-    const charges = getComboPartitionValue(chargeCategory, index)
-    const isDive = kind == AbilityKind.UNIQUE || (kind == AbilityKind.BASIC && charges >= ELLEN_DIVE_MIN_CHARGES)
-
-    setComboBooleanCategoryCharacterActivation(comboState, 'ultEnhancedBasicBuff', index, isDive && this.state.ultBoostPending)
-    if (isDive) this.state.ultBoostPending = false
-    if (kind == AbilityKind.ULT) this.state.ultBoostPending = true
-  }
-}
-
 export class HookPreprocessor extends AbilityTriggeredStackPreprocessor {
   constructor() {
     super(

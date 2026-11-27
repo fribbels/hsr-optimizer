@@ -172,7 +172,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     const consumed = (enhanced && !freeDive) ? charges : 0
 
     const e6Active = e >= 6 && r.e6Buffs
-    const randomHits = (e6Active ? 3 : 0) + (freeDive
+    const randomHits = ((e6Active && enhanced) ? 3 : 0) + (freeDive
       ? 3
       : (enhanced
         ? Math.max(0, consumed - 3)

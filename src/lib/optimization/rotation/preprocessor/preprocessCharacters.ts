@@ -10,10 +10,6 @@ import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
-import {
-  Ellen,
-  ELLEN_DIVE_MIN_CHARGES,
-} from 'lib/conditionals/character/1500/Ellen'
 import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
 import type {
   ComboNumberConditional,

@@ -8713,9 +8713,9 @@
       "element": "Ice",
       "max_sp": 240,
       "stats": {
-        "HP": 1125.432,
+        "HP": 1203.04802,
         "ATK": 756.756,
-        "DEF": 485.1,
+        "DEF": 533.61,
         "SPD": 96,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
@@ -15716,24 +15716,19 @@
       },
       "superimpositions": {
         "1": {
-          "AttackAddedRatio": 0.24,
-          "SPRatioBase": 0.12
+          "AttackAddedRatio": 0.36
         },
         "2": {
-          "AttackAddedRatio": 0.3,
-          "SPRatioBase": 0.13
+          "AttackAddedRatio": 0.45
         },
         "3": {
-          "AttackAddedRatio": 0.36,
-          "SPRatioBase": 0.14
+          "AttackAddedRatio": 0.54
         },
         "4": {
-          "AttackAddedRatio": 0.42,
-          "SPRatioBase": 0.15
+          "AttackAddedRatio": 0.63
         },
         "5": {
-          "AttackAddedRatio": 0.48,
-          "SPRatioBase": 0.16
+          "AttackAddedRatio": 0.72
         }
       },
       "unreleased": true

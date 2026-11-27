@@ -56,7 +56,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       x.buff(StatKey.ATK_P, r.atkBuff ? sValuesAtk[s] : 0, x.source(SOURCE_LC))
       x.buff(
         StatKey.DEF_PEN,
-        (r.basicUltDefPen && context.baseEnergy >= 200) ? sValuesDefPen[s] * (r.atkBuff ? 2 : 1) : 0,
+        (r.basicUltDefPen) ? sValuesDefPen[s] * (r.atkBuff ? 2 : 1) : 0,
         x.targets(TargetTag.Self).damageType(DamageTag.BASIC | DamageTag.ULT).source(SOURCE_LC),
       )
     },
